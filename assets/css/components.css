@@ -213,6 +213,11 @@
 }
 
 /* CORPO DA PÁGINA */
-.products{
+.products, .inicio{
     scroll-margin-top: 70px;
+}
+
+/* RODAPÉ */
+.copyrights .button:active{
+    transform: scale(.8);
 }

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300&display=swap');
+
 /* HEADER */
 .header{
     position: fixed;
@@ -131,3 +133,69 @@
     padding-top: 20px;
     color: #4DAF50;
 }
+
+/* RODAPÉ */
+.footer-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 70vh;
+    padding: 25px 0 40px;
+    background-color: #1E1E1E;
+    color: #fff;
+}
+
+.top-footer-icons{
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.address{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.local{
+    text-align: center;
+    line-height: 30px;
+}
+
+.address .author span{
+    font-weight: bold;
+    font-size: 20px;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.copyrights{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.copyrights span{
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.button{
+    font-size: 12px;
+    border-radius: 5px;
+    box-shadow: 0 0 8px;
+    padding: 5px 10px;
+    font-weight: bold;
+    transition: .5s;
+}
+
+.button:hover{
+    background-color: rgba(255, 255, 255, .3);
+    box-shadow: 0 0 8px #000;
+}
+
