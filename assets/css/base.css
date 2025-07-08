@@ -1,0 +1,10 @@
+body{
+    font-family: 'Segoe UI', sans-serif;
+    /* color: #333; */
+    background-color: #f9f9f9;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}

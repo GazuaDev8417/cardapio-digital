@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laccazo</title>
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsivity.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header__menu-logo">
+            <button id="menuIcon" class="header__menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="header__logo">
+                <img src="" alt="logo">
+            </div>
+        </div>
+        <div class="search-container">
+            <div id="inputContainer">
+                <input type="text" id="search">
+                <label for="search">Pesquise por um produto</label>
+            </div>
+            <button class="header__search-btn" id="searchBtn">
+                <i class="fas fa-search" id="searchIcon"></i>
+                <i class="fa-solid fa-xmark" id="closeIcon"></i>
+            </button>
+        </div>
+    </header>
+    <!-- MENU LATERAL -->
+     <aside id="sidebar" class="sidebar">
+        <nav class="sidebar__nav">
+            <div>
+                <a href="#inicio" class="link-inicio">Início</a>
+            </div>
+            <a href="#pizza" class="link-pizza">Pizzas <span>🍕</span></a>
+            <a href="#acai" class="link-acai">Açaí <span>🧋</span></a>
+            <a href="#lanche" class="link-lanche">Lanches <span>🍔</span></a>
+            <a href="#porcao" class="link-porcao">Porções <span>🍟</span></a>
+            <a href="#pirao" class="link-pirao">PIRÕES <span>🍲</span></a>
+            <a href="#bebida" class="link-bebida">Bebidas <span>🥤</span></a>
+        </nav>
+     </aside>
+     <!-- FUNDO ESCURECIDO -->
+    <div id="overlay" class="overlay"></div>
+    <!-- INICIO -->
+    <div class="inicio">
+        <img src="" alt="logo da página">
+        <div class="alert">FECHADO HOJE</div>
+        <div class="entrega-retirada">
+            <div class="entrega">
+                <i class="fas fa-clock"></i>
+                <span>Entrega<br>20min à 40min</span>
+            </div>
+            <div class="retirada">
+                <i class="fas fa-clock"></i>
+                <span>Retirada<br>20min à 40min</span>
+            </div>
+        </div>
+        <div class="horarios" id="horariosBtn">
+            <i class="fas fa-circle-info"></i>
+            <span>Horários</span>
+        </div>
+    </div>
+    <div class="popup" id="popup">
+        <div class="close-contrainer" id="close-popup">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+        <h2>Horários de funcionamento</h2>
+        <div class="day-row">
+            <div class="day-name">SEGUNDA</div>
+            <div class="day-status">17:00 - 23:59</div>
+        </div>
+        <div class="day-row">
+            <div class="day-name">TERCA</div>
+            <div class="day-status">FECHADO</div>
+        </div>
+        <div class="day-row">
+            <div class="day-name">QUARTA</div>
+            <div class="day-status">17:00 - 23:59</div>
+        </div>
+        <div class="day-row">
+            <div class="day-name">QUINTA</div>
+            <div class="day-status">17:00 - 23:59</div>
+        </div>
+        <div class="day-row">
+            <div class="day-name">SEXTA</div>
+            <div class="day-status">FECHADO</div>
+        </div>
+        <div class="day-row">
+            <div class="day-name">SÁBADO</div>
+            <div class="day-status">17:00 - 23:59</div>
+        </div>
+        <div class="day-row">
+            <div class="day-name">DOMINGO</div>
+            <div class="day-status">17:00 - 23:59</div>
+        </div>
+    </div>
+    <!-- CORPO DA PÁGINA -->
+    <main class="main-content">
+        <section class="products" id="pizza">
+            <h2>Pizzas</h2>
+            <div class="menu-container">
+                <div class="card">
+                    <img src="" alt="Imagem do produto">
+                    <div class="card-content">
+                        <div class="card-title">PRODUTO</div>
+                        <div class="card-desc">Descrição</div>
+                        <div class="card-price">R$ 0,00</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="" alt="Imagem do produto">
+                    <div class="card-content">
+                        <div class="card-title">PRODUTO</div>
+                        <div class="card-desc">Descrição</div>
+                        <div class="card-price">R$ 0,00</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="" alt="Imagem do produto">
+                    <div class="card-content">
+                        <div class="card-title">PRODUTO</div>
+                        <div class="card-desc">Descrição</div>
+                        <div class="card-price">R$ 0,00</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="" alt="Imagem do produto">
+                    <div class="card-content">
+                        <div class="card-title">PRODUTO</div>
+                        <div class="card-desc">Descrição</div>
+                        <div class="card-price">R$ 0,00</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="" alt="Imagem do produto">
+                    <div class="card-content">
+                        <div class="card-title">PRODUTO</div>
+                        <div class="card-desc">Descrição</div>
+                        <div class="card-price">R$ 0,00</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="" alt="Imagem do produto">
+                    <div class="card-content">
+                        <div class="card-title">PRODUTO</div>
+                        <div class="card-desc">Descrição</div>
+                        <div class="card-price">R$ 0,00</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="products" id="acai">
+            <h2>Acaí</h2>
+            <div class="menu-container">
+                <div class="card">
+                    <img src="" alt="Imagem do produto">
+                    <div class="card-content">
+                        <div class="card-title">PRODUTO</div>
+                        <div class="card-desc">Descrição</div>
+                        <div class="card-price">R$ 0,00</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="products" id="lanche">
+            <h2>Lanches</h2>
+            <div class="menu-container">
+                <div class="card">
+                    <img src="" alt="Imagem do produto">
+                    <div class="card-content">
+                        <div class="card-title">PRODUTO</div>
+                        <div class="card-desc">Descrição</div>
+                        <div class="card-price">R$ 0,00</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="products" id="porcao">
+            <h2>Porções</h2>
+            <div class="menu-container">
+                <div class="card">
+                    <img src="" alt="Imagem do produto">
+                    <div class="card-content">
+                        <div class="card-title">PRODUTO</div>
+                        <div class="card-desc">Descrição</div>
+                        <div class="card-price">R$ 0,00</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="products" id="pirao">
+            <h2>PIRÕES</h2>
+            <div class="menu-container">
+                <div class="card">
+                    <img src="" alt="Imagem do produto">
+                    <div class="card-content">
+                        <div class="card-title">PRODUTO</div>
+                        <div class="card-desc">Descrição</div>
+                        <div class="card-price">R$ 0,00</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="products" id="bebida">
+            <h2>Bebidas</h2>
+            <div class="menu-container">
+                <div class="card">
+                    <img src="" alt="Imagem do produto">
+                    <div class="card-content">
+                        <div class="card-title">PRODUTO</div>
+                        <div class="card-desc">Descrição</div>
+                        <div class="card-price">R$ 0,00</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- RODAPÉ -->
+    <footer id="footer-content"></footer>
+
+    <script src="assets/js/menu.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/products.js"></script>
+</body>
+</html>

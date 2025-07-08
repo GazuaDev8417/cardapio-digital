@@ -1,0 +1,133 @@
+/* HEADER */
+.header{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 .3rem 0 1rem;
+    box-shadow: 0  2px 4px rgba(0, 0, 0, .2);
+}
+
+.header .header__menu-logo{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header__logo img{
+    height: 32px;
+}
+
+.header__menu-btn,
+.header__search-btn{
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.header__menu-btn{
+    font-size: 20px;
+}
+
+/* INICIO */
+.inicio{
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.inicio .alert{
+    background-color: #F85556;
+    font-size: 13px;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: default;
+}
+
+.entrega-retirada i,
+.inicio .horarios i{
+    color: #808080;
+}
+
+.entrega-retirada{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.entrega, .retirada{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.entrega span, 
+.retirada span,
+.inicio .horarios span{
+    text-align: center;
+    line-height: 25px;
+    font-weight: bold;
+}
+
+.inicio .horarios span{
+    cursor: pointer;
+}
+
+/* CORPO DA PÁGINA */
+.main-content{
+    margin-top: 50px;
+    padding: 0 0 50px 50px;
+}
+
+.main-content section h2{
+    margin-top: 50px;
+    color: #808080;
+}
+
+.main-content .menu-container{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.menu-container .card{
+    box-shadow: 2px 2px 4px #808080;
+    border-radius: 8px;
+}
+
+.card img{
+    width: 200px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.card .card-content .card-title{
+    margin: 5px;
+}
+
+.card .card-content .card-desc{
+    font-size: 15px;
+    padding-top: 10px;
+    margin: 5px;
+}
+
+.card .card-content .card-price{
+    margin: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 20px;
+    color: #4DAF50;
+}
