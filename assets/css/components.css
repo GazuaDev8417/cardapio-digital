@@ -186,7 +186,7 @@
     opacity: 1;
 }
 
-.popup .close-contrainer{
+.popup .close-container{
     position: absolute;
     top: 5px;
     right: 5px;
@@ -197,7 +197,7 @@
     transition: .1s;
 }
 
-.popup .close-contrainer:active{
+.popup .close-container:active{
     transform: scale(.7);
 }
 

@@ -55,6 +55,7 @@
     padding: 10px;
     border-radius: 5px;
     cursor: default;
+    display: none;
 }
 
 .entrega-retirada i,
@@ -108,6 +109,7 @@
 .menu-container .card{
     box-shadow: 2px 2px 4px #808080;
     border-radius: 8px;
+    width: 200px;
 }
 
 .card img{
