@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 alert.style.display = 'block'
                 row.style.fontWeight = 'bold'
                 row.style.color = 'red'
-                alert.textContent = 'AINDA NÃO ESTAMOS FUNCIONANDO'
+                alert.textContent = 'ABRIMOS ÀS 17:00'
             }
         }
         

@@ -96,7 +96,7 @@
 }
 
 .main-content section h2{
-    margin-top: 50px;
+    margin: 50px 0 0 20px;
     color: #808080;
 }
 
@@ -177,6 +177,7 @@
 
 .card .card-content .card-title{
     margin: 5px;
+    text-transform: uppercase;
 }
 
 .card .card-content .card-desc{
@@ -211,6 +212,10 @@
     align-items: center;
     justify-content: space-between;
     font-size: 20px;
+}
+
+.top-footer-icons i{
+    cursor: pointer;
 }
 
 .address{
