@@ -152,6 +152,31 @@
     padding: 0 4px;
 }
 
+/* POPUP ALERT */
+.popup-alert-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-alert{
+    text-align: center;
+    background-color: #FF5252;
+    padding: 15px;
+    color: #fff;
+    width: 530px;
+    border-radius: 5px;
+    transform: scale(0);
+    position: fixed;
+    top: 5px;
+    transition: .3s ease-in-out;
+    z-index: 3;
+}
+
+.popup-alert.active{
+    transform: scale(1);
+}
+
 /* INICIO */
 .inicio .horarios{
     border-radius: 10px;

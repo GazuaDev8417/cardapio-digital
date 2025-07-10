@@ -13,6 +13,7 @@
     justify-content: space-between;
     padding: 0 .3rem 0 1rem;
     box-shadow: 0  2px 4px rgba(0, 0, 0, .2);
+    z-index: 3;
 }
 
 .header .header__menu-logo{
@@ -91,7 +92,7 @@
 /* CORPO DA PÁGINA */
 .main-content{
     margin-top: 50px;
-    padding: 0 0 50px 50px;
+    padding: 0 0 50px 0;
 }
 
 .main-content section h2{
@@ -99,17 +100,73 @@
     color: #808080;
 }
 
+.carousel-wrapper{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.nav-btn{
+    background-color: #fff;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 2;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0,0,0,0.2);
+    transition: background 0.2s;
+}
+
+.nav-btn:hover{
+    background-color: #d3d3d3;
+}
+
 .main-content .menu-container{
     margin-top: 10px;
     display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
     align-items: center;
     gap: 15px;
+    scrollbar-width: none;
+}
+
+.main-content .menu-container::-webkit-scrollbar{
+    display: none;
 }
 
 .menu-container .card{
+    position: relative;
+    overflow: hidden;
     box-shadow: 2px 2px 4px #808080;
     border-radius: 8px;
-    width: 200px;
+    min-width: 200px;
+    text-align: center;
+    flex-shrink: 0;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.menu-container .card::before{
+    content: '';
+    position: absolute;
+    top: var(--ripple-y, 50%);
+    left: var(--ripple-x, 50%);
+    border-radius: 50%;
+    transform: scale(0);
+    background-color: rgba(128, 128, 128, .6);
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .5s ease, opacity .5s ease;
+
+}
+
+.menu-container .card.effect::before{
+    transform: scale(5);
+    opacity: 1;
 }
 
 .card img{
