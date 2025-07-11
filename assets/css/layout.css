@@ -24,6 +24,8 @@
 
 .header__logo img{
     height: 32px;
+    box-shadow: 0 0 8px #fff;
+    border-radius: 50px;
 }
 
 .header__menu-btn,
