@@ -1,3 +1,6 @@
+
+
+
 const inputTerm = document.getElementById('search')
 
 

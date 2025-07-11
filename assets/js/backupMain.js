@@ -1,22 +1,8 @@
 const horariosBtn = document.getElementById('horariosBtn')
 const popup = document.getElementById('popup')
 const closePopup = document.getElementById('close-popup')
-/* VARIAVEIS DE HORÁRIOS E DIAS */
-const days = ['DOMINGO', 'SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO']
-const now = new Date()
-const dayWeek = days[now.getDay()]
-const currentHour = now.getHours()
-const currenttMinute = now.getMinutes()
-const totalMinutes = currentHour * 60 + currenttMinute
-const horarios = {
-    'SEGUNDA': [1020, 1439],   
-    'TERCA': [1020, 1439],             
-    'QUARTA': [1020, 1439],
-    'QUINTA': [1020, 1439],
-    'SEXTA': [1020, 1439],
-    'SÁBADO': [1020, 1439],
-    'DOMINGO': [1020, 1439],
-}
+
+
 
 
 
@@ -32,9 +18,25 @@ closePopup.addEventListener('click', ()=>{
 })
 
 
-/* ALERT - SE ESTÁ OU NÃO FUNCIONANDO */
+
 document.addEventListener('DOMContentLoaded', ()=>{
+    const days = ['DOMINGO', 'SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO']
+    const now = new Date()
+    const dayWeek = days[now.getDay()]
+    const currentHour = now.getHours()
+    const currenttMinute = now.getMinutes()
+    const totalMinutes = currentHour * 60 + currenttMinute
+    const horarios = {
+        'SEGUNDA': [1020, 1439],   
+        'TERCA': null,             
+        'QUARTA': [1020, 1439],
+        'QUINTA': [1020, 1439],
+        'SEXTA': null,
+        'SÁBADO': [1020, 1439],
+        'DOMINGO': [1020, 1439],
+    }
     
+
     document.querySelectorAll('.day-row').forEach(row=>{
         const alert = document.getElementById('alert')
         const dayName = row.querySelector('.day-name').textContent.trim().toUpperCase()
@@ -42,7 +44,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         
 
         if(dayName === dayWeek){
-            if(totalMinutes >= time[0] && totalMinutes < time[1]){
+            if(time && totalMinutes >= time[0] && totalMinutes <= time[1]){
                 alert.style.display = 'block'
                 row.style.fontWeight = 'bold'
                 row.style.color = 'green'
@@ -56,12 +58,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }
         }
         
-        /* if(dayName === dayWeek && !time){
+        if(dayName === dayWeek && !time){
             alert.style.display = 'block'
             row.style.fontWeight = 'bold'
             row.style.color = 'red'
             alert.textContent = 'FECHADO HOJE'
-        } */
+        }
     })
 })
 
@@ -109,34 +111,12 @@ cards.forEach(card=>{
         
         
         /* POPUP - FECHADO. CONSULTAR HORÁRIOS */
-        document.querySelectorAll('.day-row').forEach(row=>{
-            const dayName = row.querySelector('.day-name').textContent.trim().toUpperCase()
-            const time = horarios[dayName]
-            const title = card.querySelector('.card-title').textContent.toUpperCase()
-            const encodedTitle = encodeURIComponent(title)
-            
-            if(dayName === dayWeek){
-                if(totalMinutes >= time[0] && totalMinutes < time[1]){
-                    window.location.href = `assets/pages/pedidos/index.html?title=${encodedTitle}`
-                }else{
-                    const popupAlert = document.querySelector('.popup-alert')
-                    popupAlert.classList.add('active')
+        const popupAlert = document.querySelector('.popup-alert')
+        popupAlert.classList.add('active')
 
-                    setTimeout(()=>{
-                        popupAlert.classList.remove('active')
-                    }, 5000)
-                }
-            }
-            
-            if(dayName === dayWeek && !time){
-                const popupAlert = document.querySelector('.popup-alert')
-                popupAlert.classList.add('active')
-
-                setTimeout(()=>{
-                    popupAlert.classList.remove('active')
-                }, 5000)
-            }
-        })        
+        setTimeout(()=>{
+            popupAlert.classList.remove('active')
+        }, 5000)
     })
 })
 

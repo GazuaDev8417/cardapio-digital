@@ -32,31 +32,32 @@
             </button>
         </div>
     </header>
-    <!-- POPUP ALERT -->
-     <div class="popup-alert-container">
-        <div class="popup-alert">
-            Estamos fechados agora, consulte nossos horários de atendimento
-        </div>
-     </div>
+    <!-- POPUP ALERTA QUANDO FECHADO -->
+    <div class="popup-alert-container">
+    <div class="popup-alert">
+        Estamos fechado agora, consulte nossos horários de atendimento
+    </div>
+    </div>
     <!-- MENU LATERAL -->
-     <aside id="sidebar" class="sidebar">
-        <nav class="sidebar__nav">
-            <div>
-                <a href="#inicio" class="link-inicio">Início</a>
-            </div>
-            <a href="#pizza" class="link-pizza">Pizzas <span>🍕</span></a>
-            <a href="#acai" class="link-acai">Açaí <span>🧋</span></a>
-            <a href="#lanche" class="link-lanche">Lanches <span>🍔</span></a>
-            <a href="#porcao" class="link-porcao">Porções <span>🍟</span></a>
-            <a href="#pirao" class="link-pirao">PIRÕES <span>🍲</span></a>
-            <a href="#bebida" class="link-bebida">Bebidas <span>🥤</span></a>
-        </nav>
-     </aside>
+    <aside id="sidebar" class="sidebar">
+    <nav class="sidebar__nav">
+        <div>
+            <a href="#inicio" class="link-inicio">Início</a>
+        </div>
+        <a href="#pizza" class="link-pizza">Pizzas <span>🍕</span></a>
+        <a href="#acai" class="link-acai">Açaí <span>🧋</span></a>
+        <a href="#lanche" class="link-lanche">Lanches <span>🍔</span></a>
+        <a href="#porcao" class="link-porcao">Porções <span>🍟</span></a>
+        <a href="#pirao" class="link-pirao">PIRÕES <span>🍲</span></a>
+        <a href="#bebida" class="link-bebida">Bebidas <span>🥤</span></a>
+    </nav>
+    </aside>
      <!-- FUNDO ESCURECIDO -->
     <div id="overlay" class="overlay"></div>
+    
     <!-- INICIO -->
     <div class="inicio" id="inicio">
-        <img src="" alt="logo da página">
+        <img src="assets/imgs/logo.jpeg" alt="logo da página">
         <div class="alert" id="alert"></div>
         <div class="entrega-retirada">
             <div class="entrega">
@@ -72,41 +73,42 @@
             <i class="fas fa-circle-info"></i>
             <span>Horários</span>
         </div>
-    </div>
-    <div class="popup" id="popup">
-        <div class="close-container" id="close-popup">
-            <i class="fa-solid fa-xmark"></i>
+        <!-- POPUP HORARIO DE FUNCIONAMENTP-->
+        <div class="popup" id="popup">
+            <div class="close-container" id="close-popup">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            <h2>Horários de funcionamento</h2>
+            <div class="day-row">
+                <div class="day-name">SEGUNDA</div>
+                <div class="day-status">17:00 - 23:59</div>
+            </div>
+            <div class="day-row">
+                <div class="day-name">TERCA</div>
+                <div class="day-status">17:00 - 23:59</div>
+            </div>
+            <div class="day-row">
+                <div class="day-name">QUARTA</div>
+                <div class="day-status">17:00 - 23:59</div>
+            </div>
+            <div class="day-row">
+                <div class="day-name">QUINTA</div>
+                <div class="day-status">17:00 - 23:59</div>
+            </div>
+            <div class="day-row">
+                <div class="day-name">SEXTA</div>
+                <div class="day-status">17:00 - 23:59</div>
+            </div>
+            <div class="day-row">
+                <div class="day-name">SÁBADO</div>
+                <div class="day-status">17:00 - 23:59</div>
+            </div>
+            <div class="day-row">
+                <div class="day-name">DOMINGO</div>
+                <div class="day-status">17:00 - 23:59</div>
+            </div>
         </div>
-        <h2>Horários de funcionamento</h2>
-        <div class="day-row">
-            <div class="day-name">SEGUNDA</div>
-            <div class="day-status">17:00 - 23:59</div>
-        </div>
-        <div class="day-row">
-            <div class="day-name">TERCA</div>
-            <div class="day-status">FECHADO</div>
-        </div>
-        <div class="day-row">
-            <div class="day-name">QUARTA</div>
-            <div class="day-status">17:00 - 23:59</div>
-        </div>
-        <div class="day-row">
-            <div class="day-name">QUINTA</div>
-            <div class="day-status">17:00 - 23:59</div>
-        </div>
-        <div class="day-row">
-            <div class="day-name">SEXTA</div>
-            <div class="day-status">FECHADO</div>
-        </div>
-        <div class="day-row">
-            <div class="day-name">SÁBADO</div>
-            <div class="day-status">17:00 - 23:59</div>
-        </div>
-        <div class="day-row">
-            <div class="day-name">DOMINGO</div>
-            <div class="day-status">17:00 - 23:59</div>
-        </div>
-    </div>
+    </div>    
     <!-- CORPO DA PÁGINA -->
     <main class="main-content">
         <section class="products" id="pizza">
