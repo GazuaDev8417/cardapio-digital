@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const overlay = document.getElementById('overlay')
     const submenuItems = document.querySelectorAll('.submenu li')
     const arraySubmenu = Array.from(submenuItems)
-    const popupAlert = document.querySelector('.popup-alert')
+
     
     
     /* MENU LATERAL E OVERLAY */
@@ -40,78 +40,34 @@ document.addEventListener('DOMContentLoaded', ()=>{
     /* CARREGAR NOME DO PRODUTO NO TÍTULO DA PÁGINA ATUAL */
     headerTitle.textContent = title
 
-    /* ALTERAR LEGENDA "MÍNIMO: X" AO ALTERAR QUANTIDADE */
-    let currentStep = 0
-
-    const updateOverallMinDisplay = ()=>{
-        let totalSelectedItems = 0
-        document.querySelectorAll('#flavors-list .item .quantity span')
-            .forEach(span=>{
-                totalSelectedItems += parseInt(span.textContent)
-        })
-        
-        const currentStepData = productsData[title].steps[currentStep]
-        let displayMin = currentStepData.min
-console.log({currentStep, 'minimo': currentStepData.min})
-        if(currentStep === 0){
-            if(totalSelectedItems === 0){
-                displayMin = 1
-            }else if(totalSelectedItems >= 1){
-                displayMin = Math.min(totalSelectedItems, currentStepData.max)
-            }
-        }else{
-            displayMin = Math.min(totalSelectedItems, currentStepData.max)
-
-            if(totalSelectedItems === 0){
-                displayMin = 0
-            }
-        }
-
-        document.getElementById('min-max-container')
-            .innerHTML = `<span>Mínimo: ${displayMin}</span><span>Máximo: ${currentStepData.max}</span>`
-    }
-
     /* ALTERAR QUANTIDADE */
+    let minCount = 0
+
     const updateQuantity = (btn, itemMaxLimit)=>{
         const span = btn.parentElement.querySelector('span')
         let value = parseInt(span.textContent)
-        const currentStepData = productsData[title].steps[currentStep]
+        const container = document.getElementById('min-max-container')
+        const min = container.querySelector('span')
+        
 
-        if(btn.textContent === '+'){
-            let totalSelectedItems = 0
-            document.querySelectorAll('#flavors-list .item .quantity span').forEach(span=>{
-                totalSelectedItems += parseInt(span.textContent)
-            })
+        
+        if(btn.textContent === '+' && minCount < 2){
+            minCount++
+            span.textContent = value + 1
+        }else if(btn.textContent === '-' && minCount > 0){
+            minCount--
+            span.textContent = value - 1
+        }        
 
-            if(value < itemMaxLimit && totalSelectedItems < currentStepData.max){
-                span.textContent = value + 1
-                updateOverallMinDisplay()
-            }else if(totalSelectedItems >= currentStepData.max){
-                popupAlert.textContent = `A quantidade máxima são ${currentStepData.max} sabores adicionais por pedido`
-                popupAlert.classList.add('active')
-                setTimeout(() => popupAlert.classList.remove('active'), 3000)
-            }else if(value >= itemMaxLimit){
-                popupAlert.textContent = `Você pode selecionar no máximo ${itemMaxLimit} de cada sabor`
-                popupAlert.classList.add('active')
-                setTimeout(() => popupAlert.classList.remove('active'), 3000)
-            }
-        }else if(btn.textContent === '-'){
-            if(value > 0){
-                span.textContent = value - 1
-                updateOverallMinDisplay()
-            }
-        }
+        min.textContent = `Mínimo: ${minCount > 0 ? minCount : 1}`
     }
 
     /* RENDERIZAR ETAPAS */
+    let currentStep = 0
+
     const stepRender = (productName)=>{
         headerTitle.textContent = productName
         const product = productsData[productName]
-        if(!product || !product.steps){
-            console.error(`Dados ou etapas do produto ${productName} não foram encontradas!`)
-            return
-        }
-
         const step = product.steps[currentStep]
         
         if(!step) return
@@ -145,10 +101,9 @@ console.log({currentStep, 'minimo': currentStepData.min})
 
             const minusBtn = div.querySelector('.minus')
             const plusBtn = div.querySelector('.plus')
-            const itemSpecificMax = item.max_quantity !== undefined ? item.max_quantity : 10
 
-            minusBtn.addEventListener('click', () => updateQuantity(minusBtn, itemSpecificMax))
-            plusBtn.addEventListener('click', () => updateQuantity(plusBtn, itemSpecificMax))
+            minusBtn.addEventListener('click', () => updateQuantity(minusBtn))
+            plusBtn.addEventListener('click', () => updateQuantity(plusBtn))
         })
     }
 
@@ -180,34 +135,19 @@ console.log({currentStep, 'minimo': currentStepData.min})
         if(currentStep < 1) secondStep.style.backgroundColor = ''
     })
 
-    
+    console.log(document.querySelectorAll('#flavors-list .item .quantity span'))
     /* AÇÃO DO BOTÃO CONTINUAR */
     document.getElementById('continue').addEventListener('click', ()=>{
-        const currentStepData = productsData[title].steps[currentStep]
-        let totalSelectedItems = 0
-
-        document.querySelectorAll('#flavors-list .item .quantity span').forEach(span=>{
-            totalSelectedItems += parseInt(span.textContent)
-        })
+        const popupAlert = document.querySelector('.popup-alert')
         
-        if(totalSelectedItems < currentStepData.min){
-            popupAlert.textContent = `É preciso selecionar no mínimo ${currentStepData.min} item, por favor`
+        if(minCount === 0){
             popupAlert.classList.add('active')
-
+            
             setTimeout(()=>{
                 popupAlert.classList.remove('active')
             }, 5000)
 
             return
-        }
-
-        if(totalSelectedItems > currentStepData.max){
-            popupAlert.textContent = `Você pode selecionar no máximo ${currentStepData.max} item(s)`
-            popupAlert.classList.add('active')
-
-            setTimeout(() => {
-                popupAlert.classList.remove('active')
-            }, 5000);
         }
 
         const steps = productsData[title].steps
@@ -223,6 +163,7 @@ console.log({currentStep, 'minimo': currentStepData.min})
 
             if(currentStep === 2){
                 thirdStep.style.backgroundColor = 'red'
+
             }
         }else{
             window.location.href = '../carrinho/index.html'
