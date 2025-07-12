@@ -116,7 +116,7 @@ cards.forEach(card=>{
             const encodedTitle = encodeURIComponent(title)
             
             if(dayName === dayWeek){
-                if(totalMinutes >= time[0] && totalMinutes < time[1]){
+                if(totalMinutes <= time[0] /* && totalMinutes < time[1] */){
                     window.location.href = `assets/pages/pedidos/index.html?title=${encodedTitle}`
                 }else{
                     const popupAlert = document.querySelector('.popup-alert')

@@ -39,6 +39,40 @@ a{
     font-weight: bold;
 }
 
+.header__menu-btn{
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/* POPUP ALERT */
+.popup-alert-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-alert{
+    text-align: center;
+    background-color: #FF5252;
+    padding: 15px;
+    color: #fff;
+    width: 530px;
+    border-radius: 5px;
+    transform: scale(0);
+    position: fixed;
+    top: 5px;
+    transition: .3s ease-in-out;
+    z-index: 3;
+}
+
+.popup-alert.active{
+    transform: scale(1);
+}
+
 /* SUB-HEADER */
 .sub-header{
     padding-top: 8vh;
@@ -63,6 +97,131 @@ a{
 .sub-header .third-step{
     width: 34vw;
     height: 30px;
+}
+
+/* ANIMAÇÃO DO MENU */
+.sidebar{
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, .2);
+    transition: right .3s ease-in-out;
+    z-index: 1000;
+}
+
+.sidebar.active{
+    right: 0;
+}
+
+.sidebar__nav div:first-of-type{
+    border-right: 4px solid #ff0000;
+    border-bottom: 2px solid #ddd;
+    padding-right: 1.5rem;
+    text-align: right;
+}
+
+.sidebar__nav a{
+    display: block;
+    padding: 1em .5rem .75rem .5rem;
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+    font-weight: 600;
+    transition: .3s ease-in-out;
+}
+
+.sidebar__nav a span{
+    opacity: 0;
+    transition: .3s;
+}
+
+.sidebar__nav div > a{
+    border-bottom: none;
+}
+
+.sidebar__nav .link-inicio{
+    padding: 2rem 1.5rem 1.5rem 0;
+    font-size: 1.3rem;
+    text-align: right;
+}
+
+
+.sidebar__nav .link-pizza:hover,
+.sidebar__nav .link-acai:hover,
+.sidebar__nav .link-lanche:hover,
+.sidebar__nav .link-porcao:hover,
+.sidebar__nav .link-pirao:hover,
+.sidebar__nav .link-bebida:hover{
+    padding-right: 1.5rem;
+}
+
+
+.sidebar__nav .link-pizza:hover span,
+.sidebar__nav .link-acai:hover span,
+.sidebar__nav .link-lanche:hover span,
+.sidebar__nav .link-porcao:hover span,
+.sidebar__nav .link-pirao:hover span,
+.sidebar__nav .link-bebida:hover span{
+    padding-right: 1rem;
+    opacity: 1;
+}
+
+/* SUBMENU */
+.menu-item{
+    position: relative;
+}
+
+.submenu{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    width: max-content;
+    z-index: 10;
+    display: none;
+    transition: .3s ease-out;
+}
+
+.menu-item:hover .submenu{
+    display: block;
+    right: 100%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.submenu li{
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: .3s ease-out;
+    border-radius: 5px;
+}
+
+.submenu li:hover{
+    background-color: #d3d3d3;
+    transform: translateX(-10px)
+}
+
+/* OVERLAY */
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .5);
+    display: none;
+    transition: 1s;
+    z-index: 900;
+}
+
+.overlay.active{
+    display: block;
 }
 
 /* MAIN */
@@ -119,6 +278,7 @@ main .subtitle{
     font-size: 20px;
     font-weight: bold;
     color: #808080;
+    cursor: pointer;
 }
 
 .continue{

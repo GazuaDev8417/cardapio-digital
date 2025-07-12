@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laccazzo</title>
+    <title>Laccazzo - Pedidos</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -11,13 +11,87 @@
     <header class="header">
         <i class="fa-solid fa-arrow-left back"></i>
         <h2 class="header-title"></h2>
-        <div></div>
+        <button id="menuIcon" class="header__menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
     </header>
+    <div class="popup-alert-container">
+        <div class="popup-alert">
+            Escolha pelo menos um sabor!
+        </div>
+    </div>
     <div class="sub-header" id="sub-header">
         <div class="first-step"></div>
         <div class="second-step"></div>
         <div class="third-step"></div>
     </div>
+    <!-- FUNDO ESCURECIDO -->
+    <div id="overlay" class="overlay"></div>
+    <!-- MENU LATERAL -->
+    <aside id="sidebar" class="sidebar">
+        <nav class="sidebar__nav">
+            <div>
+                <a href="#inicio" class="link-inicio">Início</a>
+            </div>
+            <div class="menu-item">
+                <a href="#pizza" class="link-pizza">Pizzas <span>🍕</span></a>
+                <ul class="submenu">
+                    <li>Pizza Grande + Refrigerante 1L</li>
+                    <li>Pizza Família + Refrigerante 1L</li>
+                </ul>
+            </div>
+            <div class="menu-item">
+                <a href="#acai" class="link-acai">Açaí <span>🧋</span></a>
+                <ul class="submenu">
+                    <li>Açaí Copo 330ml</li>
+                    <li></li>
+                    <li>Itens</li>
+                    <li>Itens</li>
+                    <li>Itens</li>
+                </ul>
+            </div>
+            <div class="menu-item">
+                <a href="#lanche" class="link-lanche">Lanches <span>🍔</span></a>
+                <ul class="submenu">
+                    <li>Hambúrguer Tradicional</li>
+                    <li></li>
+                    <li>Itens</li>
+                    <li>Itens</li>
+                    <li>Itens</li>
+                </ul>
+            </div>
+            <div class="menu-item">
+                <a href="#porcao" class="link-porcao">Porções <span>🍟</span></a>
+                <ul class="submenu">
+                    <li>Batata Simples</li>
+                    <li></li>
+                    <li>Itens</li>
+                    <li>Itens</li>
+                    <li>Itens</li>
+                </ul>
+            </div>
+            <div class="menu-item">
+                <a href="#pirao" class="link-pirao">PIRÕES <span>🍲</span></a>
+                <ul class="submenu">
+                    <li>Pirão de Camarão</li>
+                    <li></li>
+                    <li>Itens</li>
+                    <li>Itens</li>
+                    <li>Itens</li>
+                </ul>
+            </div>
+            <div class="menu-item">
+                <a href="#bebida" class="link-bebida">Bebidas <span>🥤</span></a>
+                <ul class="submenu">
+                    <li>Suco de Laranja</li>
+                    <li></li>
+                    <li>Itens</li>
+                    <li>Itens</li>
+                    <li>Itens</li>
+                </ul>
+            </div>
+        </nav>
+    </aside>
     <main>
         <div class="subtitle-container">
             <div id="subtitle" class="subtitle"></div>
