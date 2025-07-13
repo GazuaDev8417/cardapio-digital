@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const headerTitle = document.querySelector('.header-title')
     const params = new URLSearchParams(window.location.search)
     const title = params.get('title').toUpperCase()
+    const price = decodeURIComponent(params.get('price'))
     const openMenu = document.getElementById('menuIcon')
     const sidebar = document.getElementById('sidebar')
     const overlay = document.getElementById('overlay')
@@ -12,7 +13,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const arraySubmenu = Array.from(submenuItems)
     const popupAlert = document.querySelector('.popup-alert')
     
+  
     
+
     /* MENU LATERAL E OVERLAY */
     openMenu.addEventListener('click', ()=>{
         sidebar.classList.add('active')
@@ -52,7 +55,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         
         const currentStepData = productsData[title].steps[currentStep]
         let displayMin = currentStepData.min
-console.log({currentStep, 'minimo': currentStepData.min})
+        
         if(currentStep === 0){
             if(totalSelectedItems === 0){
                 displayMin = 1
@@ -71,11 +74,51 @@ console.log({currentStep, 'minimo': currentStepData.min})
             .innerHTML = `<span>Mínimo: ${displayMin}</span><span>Máximo: ${currentStepData.max}</span>`
     }
 
+    /* ADICIONAR AO CARRINHO */
+    const storedCart = JSON.parse(localStorage.getItem('cart'))
+    console.log(storedCart.additionalTotal)
+    const cartData = {
+        productName: title,
+        price,
+        flavors: [],
+        additionalTotal: 0
+    }
+
+    const addToCart = ()=>{
+        const listItems = document.querySelectorAll('#flavors-list .item')
+        const currentStepData = productsData[title].steps[currentStep]
+        const currentFlavors = currentStepData.items.map(i => i.flavor)
+        cartData.flavors = cartData.flavors.filter(f => !currentFlavors.includes(f.flavor))
+
+        listItems.forEach(listItem=>{
+            const nameDiv = listItem.querySelector('.flavor > div')
+            const countSpan = listItem.querySelector('.quantity span')
+            const name = nameDiv?.textContent?.trim()
+            const quantity = parseInt(countSpan?.textContent || '0')
+            
+            if(quantity > 0){
+                cartData.flavors.push({
+                    flavor: name,
+                    quantity
+                })
+            }
+        })
+        localStorage.setItem('cart', JSON.stringify(cartData))
+    }
+    
+    
+    
+    
     /* ALTERAR QUANTIDADE */
     const updateQuantity = (btn, itemMaxLimit)=>{
         const span = btn.parentElement.querySelector('span')
         let value = parseInt(span.textContent)
         const currentStepData = productsData[title].steps[currentStep]
+
+        const name = btn.closest('.item').querySelector('.flavor > div')?.textContent?.trim()
+        const itemData = currentStepData.items.find(i => i.flavor === name)
+        const hasAdicional = itemData?.price?.includes('+ R$')
+        const unitaryAdditional = hasAdicional ? Number(itemData.price.replace(/\D/g, '')) / 100 : 0
 
         if(btn.textContent === '+'){
             let totalSelectedItems = 0
@@ -85,22 +128,28 @@ console.log({currentStep, 'minimo': currentStepData.min})
 
             if(value < itemMaxLimit && totalSelectedItems < currentStepData.max){
                 span.textContent = value + 1
+
+                if(hasAdicional) cartData.additionalTotal += unitaryAdditional
+                
                 updateOverallMinDisplay()
-            }else if(totalSelectedItems >= currentStepData.max){
+            }else{
                 popupAlert.textContent = `A quantidade máxima são ${currentStepData.max} sabores adicionais por pedido`
-                popupAlert.classList.add('active')
-                setTimeout(() => popupAlert.classList.remove('active'), 3000)
-            }else if(value >= itemMaxLimit){
-                popupAlert.textContent = `Você pode selecionar no máximo ${itemMaxLimit} de cada sabor`
                 popupAlert.classList.add('active')
                 setTimeout(() => popupAlert.classList.remove('active'), 3000)
             }
         }else if(btn.textContent === '-'){
             if(value > 0){
                 span.textContent = value - 1
+
+                if(hasAdicional) cartData.additionalTotal -= unitaryAdditional
+
                 updateOverallMinDisplay()
             }
         }
+
+        document.getElementById('additional-value').textContent = `Valor adicional: R$ ${cartData.additionalTotal.toFixed(2)}`
+
+        addToCart()
     }
 
     /* RENDERIZAR ETAPAS */
@@ -124,7 +173,8 @@ console.log({currentStep, 'minimo': currentStepData.min})
         list.innerHTML = ''
 
         step.items.forEach(item=>{
-            const price = item.price ? `+ ${item.price.toFixed(2)} ` : ''
+            const price = item.price ?? ''
+            const onlyNumbers = price.replace(/\D/g, '')
             const ingredients = item.ingredients || ''
             const div = document.createElement('div')
 
@@ -180,6 +230,29 @@ console.log({currentStep, 'minimo': currentStepData.min})
         if(currentStep < 1) secondStep.style.backgroundColor = ''
     })
 
+    /* ADICIONAR AO CARRINHO */
+    /* const addToCart = ()=>{
+        const listItems = document.querySelectorAll('#flavors-list .item')
+        const currentStepData = productsData[title].steps[currentStep]
+        const currentFlavors = currentStepData.items.map(i => i.flavor)
+        cartData.flavors = cartData.flavors.filter(f => !currentFlavors.includes(f.flavor))
+
+        listItems.forEach(listItem=>{
+            const nameDiv = listItem.querySelector('.flavor > div')
+            const countSpan = listItem.querySelector('.quantity span')
+            const name = nameDiv?.textContent?.trim()
+            const quantity = parseInt(countSpan?.textContent || '0')
+            
+            if(quantity > 0){
+                cartData.flavors.push({
+                    flavor: name,
+                    quantity
+                })
+            }
+        })
+        console.log('Estapa atual: ', currentStep)
+        console.log('Carrinho parcial: ', cartData)
+    } */
     
     /* AÇÃO DO BOTÃO CONTINUAR */
     document.getElementById('continue').addEventListener('click', ()=>{

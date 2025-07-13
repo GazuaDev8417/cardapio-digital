@@ -108,16 +108,18 @@ cards.forEach(card=>{
         }, 500)
         
         
-        /* POPUP - FECHADO. CONSULTAR HORÁRIOS */
+        /* POPUP - FECHADO. CONSULTAR HORÁRIOS E IR PARA PEDIDOS */
         document.querySelectorAll('.day-row').forEach(row=>{
             const dayName = row.querySelector('.day-name').textContent.trim().toUpperCase()
             const time = horarios[dayName]
             const title = card.querySelector('.card-title').textContent.toUpperCase()
+            const price = card.querySelector('.card-price').textContent
             const encodedTitle = encodeURIComponent(title)
+            const encodedPrice = encodeURIComponent(price)
             
             if(dayName === dayWeek){
-                if(totalMinutes >= time[0] && totalMinutes < time[1]){
-                    window.location.href = `assets/pages/pedidos/index.html?title=${encodedTitle}`
+                if(totalMinutes <= time[0]/*  && totalMinutes < time[1] */){
+                    window.location.href = `assets/pages/pedidos/index.html?title=${encodedTitle}&price=${encodedPrice}`
                 }else{
                     const popupAlert = document.querySelector('.popup-alert')
                     popupAlert.classList.add('active')

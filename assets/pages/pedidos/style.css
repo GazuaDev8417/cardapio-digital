@@ -250,6 +250,10 @@ main .subtitle{
     gap: 20px;
 }
 
+#flavors-list{
+    padding-bottom: 10vh;
+}
+
 .item{
     background-color: #f0f0f0;
     box-shadow: 2px 2px 4px;
@@ -259,6 +263,7 @@ main .subtitle{
     align-items: center;
     justify-content: space-between;
     width: 600px;
+    border: 2px solid;
 }
 
 .item .flavor small{
@@ -282,7 +287,7 @@ main .subtitle{
 }
 
 .continue{
-    position: absolute;
+    position: fixed;
     width: 99%;
     bottom: 1px;
     padding: 16px;
