@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const thirdStep = document.querySelector('.third-step')
     const headerTitle = document.querySelector('.header-title')
     const params = new URLSearchParams(window.location.search)
+    const productId = decodeURIComponent(params.get('id'))
+    const BASE_URL = 'http://localhost:3003'
     const title = params.get('title').toUpperCase()
     const price = decodeURIComponent(params.get('price'))
     const openMenu = document.getElementById('menuIcon')
@@ -14,8 +16,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const popupAlert = document.querySelector('.popup-alert')
     
   
-    
 
+    /* BUSCAR SABORES */
+    const getFlavorsByProduct = ()=>{
+        fetch(`${BASE_URL}/flavors/${productId}`).then(res => res.json())
+            .then(data=>{
+                console.log(data)
+            }).catch(e => e.message || 'Erro ao buscar sabores')
+    }
+
+    getFlavorsByProduct()
     /* MENU LATERAL E OVERLAY */
     openMenu.addEventListener('click', ()=>{
         sidebar.classList.add('active')
@@ -74,11 +84,51 @@ document.addEventListener('DOMContentLoaded', ()=>{
             .innerHTML = `<span>Mínimo: ${displayMin}</span><span>Máximo: ${currentStepData.max}</span>`
     }
 
+    /* ADICIONAR AO CARRINHO */
+    const storedCart = JSON.parse(localStorage.getItem('cart'))
+    console.log(storedCart.additionalTotal)
+    const cartData = {
+        productName: title,
+        price,
+        flavors: [],
+        additionalTotal: 0
+    }
+
+    const addToCart = ()=>{
+        const listItems = document.querySelectorAll('#flavors-list .item')
+        const currentStepData = productsData[title].steps[currentStep]
+        const currentFlavors = currentStepData.items.map(i => i.flavor)
+        cartData.flavors = cartData.flavors.filter(f => !currentFlavors.includes(f.flavor))
+
+        listItems.forEach(listItem=>{
+            const nameDiv = listItem.querySelector('.flavor > div')
+            const countSpan = listItem.querySelector('.quantity span')
+            const name = nameDiv?.textContent?.trim()
+            const quantity = parseInt(countSpan?.textContent || '0')
+            
+            if(quantity > 0){
+                cartData.flavors.push({
+                    flavor: name,
+                    quantity
+                })
+            }
+        })
+        localStorage.setItem('cart', JSON.stringify(cartData))
+    }
+    
+    
+    
+    
     /* ALTERAR QUANTIDADE */
     const updateQuantity = (btn, itemMaxLimit)=>{
         const span = btn.parentElement.querySelector('span')
         let value = parseInt(span.textContent)
         const currentStepData = productsData[title].steps[currentStep]
+
+        const name = btn.closest('.item').querySelector('.flavor > div')?.textContent?.trim()
+        const itemData = currentStepData.items.find(i => i.flavor === name)
+        const hasAdicional = itemData?.price?.includes('+ R$')
+        const unitaryAdditional = hasAdicional ? Number(itemData.price.replace(/\D/g, '')) / 100 : 0
 
         if(btn.textContent === '+'){
             let totalSelectedItems = 0
@@ -88,22 +138,26 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
             if(value < itemMaxLimit && totalSelectedItems < currentStepData.max){
                 span.textContent = value + 1
+
+                if(hasAdicional) cartData.additionalTotal += unitaryAdditional
+                
                 updateOverallMinDisplay()
-            }else if(totalSelectedItems >= currentStepData.max){
+            }else{
                 popupAlert.textContent = `A quantidade máxima são ${currentStepData.max} sabores adicionais por pedido`
-                popupAlert.classList.add('active')
-                setTimeout(() => popupAlert.classList.remove('active'), 3000)
-            }else if(value >= itemMaxLimit){
-                popupAlert.textContent = `Você pode selecionar no máximo ${itemMaxLimit} de cada sabor`
                 popupAlert.classList.add('active')
                 setTimeout(() => popupAlert.classList.remove('active'), 3000)
             }
         }else if(btn.textContent === '-'){
             if(value > 0){
                 span.textContent = value - 1
+
+                if(hasAdicional) cartData.additionalTotal -= unitaryAdditional
+
                 updateOverallMinDisplay()
             }
         }
+
+        document.getElementById('additional-value').textContent = `Valor adicional: R$ ${cartData.additionalTotal.toFixed(2)}`
 
         addToCart()
     }
@@ -185,55 +239,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         if(currentStep < 2) thirdStep.style.backgroundColor = ''
         if(currentStep < 1) secondStep.style.backgroundColor = ''
     })
-
-    /* ADICIONAR AO CARRINHO */
-    const cartData = {
-        flavors: [],
-        additionalTotal: 0
-    }
-
-    const addToCart = ()=>{
-        /* const selectedFlavors = []
-        let additionalCount = 0
-        let baseValue = Number(price.replace(/\D/g, '') / 100).toFixed(2) */
-        const listItems = document.querySelectorAll('#flavors-list .item')
-        const currentStepData = productsData[title].steps[currentStep]
-
-
-        listItems.forEach(listItem=>{
-            const nameDiv = listItem.querySelector('.flavor > div')
-            const countSpan = listItem.querySelector('.quantity span')
-            const name = nameDiv?.textContent?.trim()
-            const quantity = parseInt(countSpan?.textContent || '0')
-            
-            if(quantity > 0){
-                const itemData = currentStepData.items.find(i => i.flavor === name)
-                if(!itemData) return
-
-                const hasAdicional = itemData.price?.includes('+ R$')
-                let unitaryAdditional = 0
-
-                const existingFlavor = cartData.flavors.find(f => f.flavor === name)
-                if(!existingFlavor){
-                    cartData.flavors.push({
-                        flavor: name,
-                        quantity
-                    })
-
-                    if(hasAdicional && itemData.price){
-                        unitaryAdditional = Number(itemData.price?.replace(/\D/g, '') / 100)
-                        cartData.additionalTotal += quantity * unitaryAdditional
-                    }
-                }else{
-                    existingFlavor.quantity += quantity
-                }
-            }
-        })
-        console.log('Estapa atual: ', currentStep)
-        console.log('Carrinho parcial: ', cartData)
-    }
-
-    addToCart()
     
     /* AÇÃO DO BOTÃO CONTINUAR */
     document.getElementById('continue').addEventListener('click', ()=>{

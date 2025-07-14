@@ -25,8 +25,6 @@ const horarios = {
 document.addEventListener('DOMContentLoaded', ()=>{    
     fetch(`${BASE_URL}/products`).then(res => res.json())
         .then(data =>{
-            console.log(data)
-
             const sections = {
                 pizza: document.querySelector('#pizza .menu-container'),
                 acai: document.querySelector('#acai .menu-container'),
@@ -40,16 +38,19 @@ document.addEventListener('DOMContentLoaded', ()=>{
             data.map(d=>{
                 const section = sections[d.category]
                 if(section){
-                    section.innerHTML +=`
-                    <div class="card">
+                    const cardHtml = document.createElement('div')
+                    cardHtml.classList.add('card')
+                    cardHtml.setAttribute('data-id', d.id)
+                    cardHtml.innerHTML +=`
                         <img src="assets/imgs/pizza/${d.image}" alt="Imagem do produto">
                         <div class="card-content">
                             <div class="card-title">${d.product}</div>
                             <div class="card-desc">${d.description}</div>
                             <div class="card-price">R$ ${parseFloat(d.price).toFixed(2)}</div>
                         </div>
-                    </div>
-                `
+                    `
+                    cardHtml.addEventListener('click', (e) => getProductById(d.id, e.currentTarget))
+                    section.appendChild(cardHtml)
                 }
             }).join('')
 
@@ -81,14 +82,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     document.querySelectorAll('.day-row').forEach(row=>{
                         const dayName = row.querySelector('.day-name').textContent.trim().toUpperCase()
                         const time = horarios[dayName]
-                        const title = card.querySelector('.card-title').textContent.toUpperCase()
-                        const price = card.querySelector('.card-price').textContent
-                        const encodedTitle = encodeURIComponent(title)
-                        const encodedPrice = encodeURIComponent(price)
+                        
                         
                         if(dayName === dayWeek){
-                            if(totalMinutes >= time[0] && totalMinutes < time[1]){
-                                window.location.href = `assets/pages/pedidos/index.html?title=${encodedTitle}&price=${encodedPrice}`
+                            if(totalMinutes <= time[0]/*  && totalMinutes < time[1] */){
+                                //window.location.href = `assets/pages/pedidos/index.html?title=${encodedTitle}&price=${encodedPrice}`
                             }else{
                                 const popupAlert = document.querySelector('.popup-alert')
                                 popupAlert.classList.add('active')
@@ -173,9 +171,6 @@ wrapper.forEach(item=>{
         carousel.scrollBy({ left: 300, behavior: 'smooth' })
     })
 })
-
-
-/* EFEITO BACKGROUND EXPANSIVO AO CLICAR NO CARD */
 
 
 
