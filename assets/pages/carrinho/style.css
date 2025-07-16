@@ -16,6 +16,9 @@ a{
 
 /* HEADER */
 .header{
+    position: fixed;
+    top: 0;
+    width: 100%;
     background-color: #000;
     color: #fff;
     height: 60px;
@@ -52,6 +55,7 @@ a{
 
 /* MAIN */
 #main-container{
+    padding-top: 13vh;
     padding-bottom: 17vh;
 }
 

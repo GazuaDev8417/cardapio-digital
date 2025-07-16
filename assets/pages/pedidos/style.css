@@ -1,19 +1,4 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-body{
-    font-family: 'Segoe UI', sans-serif;
-    /* color: #333; */
-    background-color: #f9f9f9;
-}
-
-a{
-    text-decoration: none;
-    color: inherit;
-}
 
 /* HEADER */
 .header{
@@ -253,6 +238,9 @@ main .subtitle{
 
 #flavors-list{
     padding-bottom: 10vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .item{
@@ -262,9 +250,15 @@ main .subtitle{
     margin: 15px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 600px;
-    border: 2px solid;
+    flex-direction: column;
+    text-align: center;
+    width: 300px;
+    border: 1px solid #808080;
+    cursor: pointer;
+}
+
+.item:hover{
+    border: 1.5px solid red;
 }
 
 .item .flavor small{

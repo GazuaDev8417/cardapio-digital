@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+        <H2>ENDEREÇO PARA ENTREGA</H2>
+    </header>
+    <main class="main">
+        <div class="input-container">
+            <input type="text" id="street" class="input" placeholder="Rua / Avenida, N°">
+            <input type="text" id="neighborhood" class="input" placeholder="Bairro">            
+            <input type="text" id="cep" class="input" placeholder="CEP" onblur="addressByCep()">            
+        </div>
+    </main>
+    <button class="continue" id="continue">
+        SOLICITAR
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>

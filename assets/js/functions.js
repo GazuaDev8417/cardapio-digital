@@ -12,3 +12,18 @@ const getProductById = (id, element)=>{
             window.location.href = `assets/pages/pedidos/index.html?id=${id}&title=${encodedTitle}&price=${encodedPrice}`
         }).catch(e => e.message || 'Erro ao buscar produto')
 }
+
+
+const scrollTopUp = ()=>{
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    })
+}
+
+const scrollToBottom = ()=>{
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth"
+    })
+}
