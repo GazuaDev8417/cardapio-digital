@@ -8,7 +8,7 @@ const dayWeek = days[now.getDay()]
 const currentHour = now.getHours()
 const currenttMinute = now.getMinutes()
 const totalMinutes = currentHour * 60 + currenttMinute
-const BASE_URL = 'https://max-menu-server.vercel.app/'
+const BASE_URL = 'https://max-menu-server.vercel.app'
 const popupAlert = document.querySelector('.popup-alert')
 const horarios = {
     'SEGUNDA': [1020, 1439],   

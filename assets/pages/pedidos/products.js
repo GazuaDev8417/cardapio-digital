@@ -383,7 +383,7 @@ const productsData = {
             },
         ]
     },
-    /* A PARTIR DAQUI */
+    
     'HAMBÚRGUER TRADICIONAL': {
         steps: [
             {
