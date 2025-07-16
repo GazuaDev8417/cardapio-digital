@@ -9,6 +9,7 @@ const currentHour = now.getHours()
 const currenttMinute = now.getMinutes()
 const totalMinutes = currentHour * 60 + currenttMinute
 const BASE_URL = 'http://localhost:3003'
+const popupAlert = document.querySelector('.popup-alert')
 const horarios = {
     'SEGUNDA': [1020, 1439],   
     'TERCA': [1020, 1439],             
@@ -21,10 +22,12 @@ const horarios = {
 
 
 
-/* CARDS */
-document.addEventListener('DOMContentLoaded', ()=>{    
+
+document.addEventListener('DOMContentLoaded', ()=>{   
+    /* ============= RENDERIZAÇÃO DOS PRODUTOS ==================== */
     fetch(`${BASE_URL}/products`).then(res => res.json())
         .then(data =>{
+            localStorage.setItem('productsList', JSON.stringify(data))
             const sections = {
                 pizza: document.querySelector('#pizza .menu-container'),
                 acai: document.querySelector('#acai .menu-container'),
@@ -49,7 +52,30 @@ document.addEventListener('DOMContentLoaded', ()=>{
                             <div class="card-price">R$ ${parseFloat(d.price).toFixed(2)}</div>
                         </div>
                     `
-                    cardHtml.addEventListener('click', (e) => getProductById(d.id, e.currentTarget))
+
+                    document.querySelectorAll('.day-row').forEach(row=>{
+                        const dayName = row.querySelector('.day-name').textContent.trim().toUpperCase()
+                        const time = horarios[dayName]
+                        
+                        cardHtml.addEventListener('click', (e) =>{
+                            if(dayName === dayWeek){
+                                if(totalMinutes <= time[0] /* && totalMinutes < time[1] */){
+                                    localStorage.setItem('title', d.product)
+                                    localStorage.setItem('productId', d.id)
+                                    window.location.href = 'assets/pages/pedidos/index.html'
+                                }else{                
+                                    popupAlert.classList.add('active')
+
+                                    setTimeout(()=>{
+                                        popupAlert.classList.remove('active')
+                                    }, 3000)
+                                }
+                            }
+                        })
+                        
+                        
+                    })
+                    
                     section.appendChild(cardHtml)
                 }
             }).join('')
@@ -76,40 +102,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     setTimeout(()=>{
                         card.classList.remove('effect')            
                     }, 500)
-                    
-                    
-                    /* POPUP - FECHADO. CONSULTAR HORÁRIOS E IR PARA PEDIDOS */
-                    document.querySelectorAll('.day-row').forEach(row=>{
-                        const dayName = row.querySelector('.day-name').textContent.trim().toUpperCase()
-                        const time = horarios[dayName]
-                        
-                        
-                        if(dayName === dayWeek){
-                            if(totalMinutes <= time[0]/*  && totalMinutes < time[1] */){
-                                //window.location.href = `assets/pages/pedidos/index.html?title=${encodedTitle}&price=${encodedPrice}`
-                            }else{
-                                const popupAlert = document.querySelector('.popup-alert')
-                                popupAlert.classList.add('active')
-
-                                setTimeout(()=>{
-                                    popupAlert.classList.remove('active')
-                                }, 5000)
-                            }
-                        }
-                        
-                        if(dayName === dayWeek && !time){
-                            const popupAlert = document.querySelector('.popup-alert')
-                            popupAlert.classList.add('active')
-
-                            setTimeout(()=>{
-                                popupAlert.classList.remove('active')
-                            }, 5000)
-                        }
-                    })        
                 })
             })
-            /* ==================================================== */
-
     }).catch(e => console.error(e))
 })  
 

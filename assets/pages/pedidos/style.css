@@ -118,33 +118,34 @@ a{
 
 .sidebar__nav div:first-of-type{
     border-right: 4px solid #ff0000;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 2px solid #d3d3d3;
     padding-right: 1.5rem;
     text-align: right;
 }
 
 .sidebar__nav a{
     display: block;
-    padding: 1em .5rem .75rem .5rem;
+    padding: 1rem .5rem .75rem .5rem;
     text-align: right;
     border-bottom: 1px solid #ddd;
     font-weight: 600;
     transition: .3s ease-in-out;
-}
-
-.sidebar__nav a span{
-    opacity: 0;
-    transition: .3s;
+    cursor: pointer;
 }
 
 .sidebar__nav div > a{
-    border-bottom: none;
+    border-bottom: 1px solid #d3d3d3;
 }
 
 .sidebar__nav .link-inicio{
     padding: 2rem 1.5rem 1.5rem 0;
     font-size: 1.3rem;
     text-align: right;
+}
+
+.sidebar__nav a span{
+    opacity: 0;
+    transition: .3s;
 }
 
 
@@ -164,7 +165,7 @@ a{
 .sidebar__nav .link-porcao:hover span,
 .sidebar__nav .link-pirao:hover span,
 .sidebar__nav .link-bebida:hover span{
-    padding-right: 1rem;
+    padding-left: 2rem;
     opacity: 1;
 }
 
