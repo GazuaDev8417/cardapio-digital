@@ -17,18 +17,24 @@ const groupedProducts = () => {
         group.items.forEach(item=>{
           grandTotal += parseFloat(item.total) || 0
         })
+
         document.querySelector('.subtotal').textContent = `Total Geral: R$ ${grandTotal.toFixed(2)}`
+        /* document.querySelector('.subtotal').addEventListener('mouseleave', ()=>{
+          document.querySelector('.subtotal').textContent = `Total Geral: R$ ${grandTotal.toFixed(2)}`
+        }) */
         
         const { product, items } = group;
         const flavorsTotal = items.reduce((sum, flavor)=>{
           return sum + (parseFloat(flavor.total) || 0)
         }, 0).toFixed(2)
+
         // Container principal de um produto
         const itemContainer = document.createElement('div');
         itemContainer.classList.add('item-container');
 
         // Bloco de informações do produto
         const productDiv = document.createElement('div');
+        
         productDiv.classList.add('product');
         productDiv.innerHTML = `
           <strong>Nome do produto:</strong> ${product.product}<br>
@@ -100,3 +106,29 @@ const groupedProducts = () => {
 
 
 document.addEventListener('DOMContentLoaded', groupedProducts)
+
+const subtotalBtn = document.querySelector('.subtotal')
+const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight -10
+const atTop = window.scrollY <= 10
+
+/* subtotalBtn.addEventListener('mouseenter', ()=>{
+  if(atBottom){
+    subtotalBtn.textContent = 'Clique para ir ao topo'
+  }else if(atTop){
+    subtotalBtn.textContent = 'Clique para voltar ao início'
+  }
+}) */
+
+subtotalBtn.addEventListener('click', ()=>{
+  if(atTop){
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth'})
+  }else if(atBottom){
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }else{
+    if(window.scrollY < document.body.scrollHeight / 2){
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+    }else{
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+})

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const popupAlert = document.querySelector('.popup-alert')
     const stored = localStorage.getItem('productsList')
     const productsList = stored ? JSON.parse(stored) : []
-    const categoryTitle = localStorage.getItem('category')
+    let categoryTitle = localStorage.getItem('category')
     let title = localStorage.getItem('title')
     let productId = localStorage.getItem('productId')
     let userId = localStorage.getItem('userId')
@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     localStorage.setItem('title', product.product)
                     localStorage.setItem('productId', product.id)
                     localStorage.setItem('category', product.category)
+                    categoryTitle = product.category
 
                     getFlavorsByProduct(product.id, currentStep)
 
@@ -190,6 +191,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     /* BUSCAR SABORES */
     const getFlavorsByProduct = (id, currentStep)=>{
+        console.log(categoryTitle)
         headerTitle.textContent = title
         fetch(`${BASE_URL}/flavors/${id}`, {
             method:'POST',
@@ -216,7 +218,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 
                 document.body.style.backgroundImage = `url('../../imgs/${categoryTitle}/background.avif')`
                 document.body.style.backgroundSize = 'cover'
-                document.body.style.backgroundPosition = 'center'
+                document.body.style.backgroundRepeat = 'no-repeat'
 
                 data.forEach(item=>{
                     const price = item.price ?? ''
@@ -224,10 +226,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     const div = document.createElement('div')
 
                     div.className = 'item'
-                    div.style.backgroundImage = `url(../../imgs/${categoryTitle}/cards.jpg)`
+                    div.style.backgroundImage = `url(../../imgs/${categoryTitle}/cards.avif)`
                     div.style.backgroundSize = 'cover'
                     div.style.backgroundPosition = 'center'
                     div.style.backgroundRepeat = 'no-repeat'
+
+
                     div.innerHTML = `
                         <div class='card-overlay'></div>
                         <div class='flavor' data-price='${price}'>
