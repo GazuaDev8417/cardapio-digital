@@ -5,14 +5,20 @@
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #000;
     color: #fff;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background: linear-gradient(to right,
+        #000 0%, #006400 30%,
+        #fff 33%, #fff 63%,
+        red 70%, #000 100%
+    );
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 .3rem 0 1rem;
-    box-shadow: 0  2px 4px rgba(0, 0, 0, .2);
+    box-shadow: 0  2px 4px rgba(0, 0, 0, .8);
     z-index: 3;
 }
 
@@ -108,14 +114,14 @@
 }
 
 .nav-btn{
-    background-color: #fff;
     border: none;
     font-size: 24px;
     cursor: pointer;
     padding: 10px;
     z-index: 2;
     border-radius: 50%;
-    box-shadow: 0 0 4px rgba(0,0,0,0.2);
+    /* box-shadow: 0 0 4px rgba(0,0,0,1); */
+    background: transparent;
     transition: background 0.2s;
 }
 

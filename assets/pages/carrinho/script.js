@@ -2,9 +2,12 @@
 
 
 const groupedProducts = () => {
-  fetch(`${BASE_URL}/products/flavors`)
-    .then(res => res.json())
-    .then(data => {
+  const client = localStorage.getItem('userId')
+  fetch(`${BASE_URL}/products/flavors`, {
+    method:'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ client })
+    }).then(res => res.json()).then(data => {
       const container = document.getElementById('main-container');
 
       let grandTotal = 0

@@ -1,5 +1,3 @@
-
-
 .header{
     position: fixed;
     top: 0;
@@ -15,25 +13,109 @@
     z-index: 3;
 }
 
+.header .back{
+    cursor: pointer;
+}
+
 .main{
     margin-top: 10vh;
 }
 
-.continue{
-    position: fixed;
-    width: 56%;
-    bottom: 1px;
-    padding: 16px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: red;
+.inputs{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 5rem 0 10px;
+}
+
+.obs{
+    padding: .5rem;
+    margin: 100px 20px 0 0;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    border: 2px solid #006400;  
+    box-shadow: 2px 2px 4px #006400;
+    border-radius: 8px;  
+    transition: 1s ease-in-out;
+}
+
+.obs-input{
+    width: 35vw;
+    height: 150px;
+    outline: none;
+    padding: 10px;
+}
+
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 15vh;
+}
+
+.input{
+    height: 35px;
+    padding-left: 10px;
+    font-size: 1.1rem;
+    margin: 3px 0;
     border: none;
-    border-radius: 10px;
-    color: #fff;
+    outline: none;
+    border-bottom: 2px solid #006400;
+    border-left: 3px solid #FF0000;
+    background: transparent;
+}
+
+.input:first-of-type{
+    width: 500px;
+}
+
+.input:nth-child(2){
+    width: 300px;
+}
+
+.input:last-child{
+    width: 400px;
+}
+
+.input:focus{
+    border: 1px solid #006400;
+    box-shadow: .5px .5px 4px #006400;
+    border-radius: 5px;
+    background-color: rgba(0, 100, 0, .2);
+}
+
+.footer-btn-container{
+    position: fixed;
+    bottom: 5px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.footer-btn-container button{
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 10vw;
+    border-radius: 5px;
     cursor: pointer;
     transition: .3s ease-out;
 }
 
-.continue:active{
-    transform: scale(.98);
+.footer-btn-container button:active{
+    transform: scale(.9);
+}
+
+.footer-btn-container .back-shopping{
+    box-shadow: 0 0 8px;
+    background-color: #000;
+    color: #fff;
+}
+
+.footer-btn-container .end-orders{
+    background-color: #FF0000;
+    color: #fff;
 }

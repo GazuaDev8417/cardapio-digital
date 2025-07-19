@@ -3,26 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../../imgs/icon.png" type="image/png">
     <link rel="stylesheet" href="../../css/reset.css">
     <link rel="stylesheet" href="../../css/base.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>Document</title>
 </head>
 <body>
     <header class="header">
-        <H2>ENDEREÇO PARA ENTREGA</H2>
+        <i class="fa-solid fa-arrow-left back" onclick="window.history.back()"></i>
+            <H2>ENDEREÇO PARA ENTREGA</H2>
+        <div></div>
     </header>
     <main class="main">
-        <div class="input-container">
-            <input type="text" id="street" class="input" placeholder="Rua / Avenida, N°">
-            <input type="text" id="neighborhood" class="input" placeholder="Bairro">            
-            <input type="text" id="cep" class="input" placeholder="CEP" onblur="addressByCep()">            
-        </div>
+        <section class="inputs">
+            <div class="input-container">
+                <input type="text" id="street" class="input" placeholder="Rua / Avenida, N°">
+                <input type="text" id="neighborhood" class="input" placeholder="Bairro">            
+                <input type="text" id="cep" class="input" placeholder="CEP" onblur="addressByCep()">            
+                <input type="text" id="client" class="input" placeholder="Nome do cliente">            
+            </div>
+            <div class="obs">
+                <label for="obs-content" class="obs-title">Observações</label>
+                <textarea class="obs-input" id="obs-content"></textarea>
+            </div>
+        </section>
     </main>
-    <button class="continue" id="continue">
-        SOLICITAR
-    </button>
-
+    <div class="footer-btn-container">
+        <button class="back-shopping" onclick="location.href='../../../index.html'">
+            CANCELAR
+        </button>
+        <button class="end-orders">
+            SOLICITAR
+        </button>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

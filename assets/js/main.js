@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                                 if(totalMinutes <= time[0]/*  && totalMinutes < time[1] */){
                                     localStorage.setItem('title', d.product)
                                     localStorage.setItem('productId', d.id)
+                                    localStorage.setItem('category', d.category)
                                     window.location.href = 'assets/pages/pedidos/index.html'
                                 }else{                
                                     popupAlert.classList.add('active')
