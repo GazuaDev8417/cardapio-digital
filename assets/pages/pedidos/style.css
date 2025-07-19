@@ -101,11 +101,16 @@
     right: 0;
 }
 
-.sidebar__nav div:first-of-type{
+.sidebar .link-inicio-container{
     border-right: 4px solid #ff0000;
     border-bottom: 2px solid #d3d3d3;
     padding-right: 1.5rem;
-    text-align: right;
+    height: 70px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 1.3rem;
+    font-weight: bold;
 }
 
 .sidebar__nav a{

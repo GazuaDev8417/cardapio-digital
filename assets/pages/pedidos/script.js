@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const secondStep = document.querySelector('.second-step')
     const thirdStep = document.querySelector('.third-step')
     const params = new URLSearchParams(window.location.search)
-    const BASE_URL = 'https://max-menu-server.vercel.app'
     const headerTitle = document.querySelector('.header-title')
     const price = decodeURIComponent(params.get('price'))
     const openMenu = document.getElementById('menuIcon')
@@ -16,6 +15,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let productId = decodeURIComponent(params.get('id')) */
     let title = localStorage.getItem('title')
     let productId = localStorage.getItem('productId')
+    let userId = localStorage.getItem('userId')
     let currentStep = 1
     
 
@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             categories[category].push(product)
         })
 
+        menuContainer.innerHTML = ''
         Object.entries(categories).forEach(([categoryName, products])=>{
             const categoryDiv = document.createElement('div')
             categoryDiv.className = 'menu-item'
@@ -127,34 +128,71 @@ document.addEventListener('DOMContentLoaded', ()=>{
         return emojis[category]
     }
 
-    /* ALTERAR QUANTIDADE */   
-    const updateQuantity = (id, change, maxQuantity, element)=>{
-        const quantityElement = element.querySelector('.quantity > span')
-        const current = parseInt(quantityElement.textContent)
-
-        if(change > 0 && current >= maxQuantity){
-            popupAlert.textContent = `Você pode adicionar até ${maxQuantity} de qualquer sabor`
-            popupAlert.classList.add('active')
-            setTimeout(() => popupAlert.classList.remove('active'), 3000)
+    /* ADIDICIONAR AO CARRINHO */
+    const addToCart = (price, quantity, flavor, product_id, max_quantity)=>{
+        const body = {
+            price,
+            quantity,
+            flavor,
+            productId: product_id,
+            client: userId,
+            max_quantity,
+            step: currentStep
         }
         
-
-        fetch(`${BASE_URL}/flavor_quantity/${id}`, {
-            method:'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ quantity: change, step: currentStep })
+        fetch(`${BASE_URL}/insert_in_cart`, {
+            method:'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(body)
         }).then(res=>{
             if(!res.ok){
-                return res.json().then(err=>{
-                    throw new Error(err.message)
+                return res.text().then(error=>{
+                    console.error(error)
                 })
             }
-            getFlavorsByProduct(productId, currentStep)
-        }).catch(e =>{
-            popupAlert.textContent = e.message
-            popupAlert.classList.add('active')
-            setTimeout(() => popupAlert.classList.remove('active'), 3000)
-        })      
+        }).catch(e => console.error(e.message))
+    }
+
+    /* VERIFICAR SE O PRODUTO JÁ EXISTE NO CARRINHO */
+    const updateCartProductQnt = (id, change)=>{
+        fetch(`${BASE_URL}/update_qnt/${id}`, {
+            method:'PATCH',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ quantity: change })
+        }).then(res=>{
+            if(!res.ok){
+                return res.text().then(error=> console.error(error))
+            }
+        }).catch(e => console.error(e.message))
+    }
+    
+    
+    const updateQuantity = (price, quantity, flavor, product_id, change, max_quantity)=>{
+        const body = {
+            price: Number(price),
+            flavor,
+            productId: product_id,
+            client: userId,
+            max_quantity
+        }
+        
+        fetch(`${BASE_URL}/cart_product`, {
+            method:'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(body)
+        }).then(response=>{
+            if(!response.ok){
+                response.text().then(error=>{
+                    if(error === 'Produto não encontrado no carrinho' && change === 1){
+                        addToCart(body.price, quantity, body.flavor, body.productId, body.max_quantity)
+                    }
+                })
+            }else{
+                response.json().then(data=>{
+                    updateCartProductQnt(data.id, change)
+                })
+            }
+        }).catch(e => console.error(e.message))
     }
 
     /* BUSCAR SABORES */
@@ -163,57 +201,93 @@ document.addEventListener('DOMContentLoaded', ()=>{
         fetch(`${BASE_URL}/flavors/${id}`, {
             method:'POST',
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ step: currentStep })
+            body: JSON.stringify({ step: currentStep, client: userId })
         }).then(res => res.json())
             .then(objectData=>{
-                const data = objectData.flavors 
+                const data = objectData.flavors
                 
                 if(currentStep === objectData.maxStep){
                     document.getElementById('continue').innerHTML = 'Adicionar ao Carrinho'
                 }
                 
                 document.getElementById('subtitle').textContent = data[0].subtitle
-                document.getElementById('min-max-container').innerHTML = `<span>Mínimo: ${currentStep === 1 ? '1' : '0'}</span><span>Máximo: ${data[0].max_quantity}</span>`
+                const maxQuantity = data[0].max_quantity
+                document.getElementById('min-max-container').innerHTML = `
+                    <span>Mínimo: ${currentStep === 1 ? '1' : '0'}</span>
+                    <span>Máximo: ${maxQuantity}</span>
+                `
                 
 
                 const list = document.getElementById('flavors-list')
                 list.innerHTML = ''
-
-                let additionalTotal = 0
+                
 
                 data.forEach(item=>{
-                    total = item.total
                     const price = item.price ?? ''
                     const ingredients = item.ingredients || ''
                     const div = document.createElement('div')
 
                     div.className = 'item'
                     div.innerHTML = `
-                        <div class='flavor'>
+                        <div class='flavor' data-price='${price}'>
                             <div>${item.flavor}</div>
                             ${ingredients ? `<small>${ingredients}</small>` : ''}
                             ${price ? `<small>${price}</small>` : ''}
                         </div>
                         <div class='quantity'>
                             <button class='minus'>-</button>
-                            <span>${item.quantity}</span>
+                            <span>${item.quantity || 0}</span>
                             <button class='plus'>+</button>
                         </div>
                     `
                     list.appendChild(div)
-
+                    
                     const minusBtn = div.querySelector('.minus')
                     const plusBtn = div.querySelector('.plus')
+                    const quantitySpan = div.querySelector('span')
 
-                    minusBtn.addEventListener('click', () => updateQuantity(item.id, -1, item.max_quantity, div))
-                    plusBtn.addEventListener('click', () => updateQuantity(item.id, 1, item.max_quantity, div))
 
-                    const itemTotal = parseFloat(item.total ?? '0')
-                    additionalTotal += itemTotal
+                    minusBtn.addEventListener('click', () =>{
+                        const current = parseInt(quantitySpan.textContent)
+                        if(current > 0){
+                            quantitySpan.textContent = current - 1
+                            updateQuantity(price, item.quantity, item.flavor, item.product_id, -1, item.max_quantity)
+                            updateTotal()
+                        }
+                    })
 
+                    plusBtn.addEventListener('click', () =>{
+                        const current = parseInt(quantitySpan.textContent)
+                        const totalCurrent = getTotalQuantity()
+                        
+                        if(totalCurrent < maxQuantity){
+                            updateQuantity(price, item.quantity, item.flavor, item.product_id, 1, item.max_quantity)
+                            quantitySpan.textContent = current + 1
+                            updateTotal()
+                        }else{
+                            popupAlert.textContent = `Você pode adicionar até ${maxQuantity} sabores em geral`
+                            popupAlert.classList.add('active')
+                            setTimeout(() => popupAlert.classList.remove('active'), 3000);
+                        }
+                    })                    
                 })
+                    
+                const getTotalQuantity = ()=>{
+                    const spans = document.querySelectorAll('#flavors-list .quantity span')
+                    return Array.from(spans).reduce((acc, span) => acc + parseInt(span.textContent), 0)
+                }
+                
+                const updateTotal = ()=>{
+                    const allItems = document.querySelectorAll('#flavors-list .item')
+                    let total = 0
 
-                document.getElementById('additional-value').textContent = `Valor adicional: R$ ${additionalTotal.toFixed(2)}`
+                    allItems.forEach(itemEl => {
+                        const price = parseFloat(itemEl.dataset.price || '0')
+                        const quantity = parseInt(itemEl.querySelector('.quantity span')?.textContent || '0')
+                        total += price * quantity
+                    })
+                    document.getElementById('additional-value').textContent = `Valor adicional: R$ ${total.toFixed(2)}`
+                }
             }).catch(e => console.error(e.message) || 'Erro ao buscar sabores')
     }
 
@@ -221,8 +295,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
     
 
     document.getElementById('continue').addEventListener('click', ()=>{
-        fetch(`${BASE_URL}/step-qnt_max/${productId}`).then(res => res.json())
-            .then(data=>{
+        fetch(`${BASE_URL}/step-qnt_max/${productId}`, {
+            method:'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ client: userId })
+        }).then(res =>{
+            if(!res.ok){
+                return res.text().then(error => console.error(error))
+            }
+            return res.json()
+        }).then(data=>{
+                console.log(data)
                 const maxStep = data.maxStep
                 if(data.total_quantity === 0 && currentStep === 1){
                     popupAlert.textContent = 'Voce deve adiciohnar pelo menos um sabor'

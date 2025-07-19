@@ -1,4 +1,4 @@
-const BASE_URL = 'https://max-menu-server.vercel.app'
+
 
 
 const groupedProducts = () => {

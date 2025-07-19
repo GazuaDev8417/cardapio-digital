@@ -8,7 +8,7 @@ const dayWeek = days[now.getDay()]
 const currentHour = now.getHours()
 const currenttMinute = now.getMinutes()
 const totalMinutes = currentHour * 60 + currenttMinute
-const BASE_URL = 'https://max-menu-server.vercel.app'
+let userId = localStorage.getItem('userId')
 const popupAlert = document.querySelector('.popup-alert')
 const horarios = {
     'SEGUNDA': [1020, 1439],   
@@ -24,6 +24,10 @@ const horarios = {
 
 
 document.addEventListener('DOMContentLoaded', ()=>{   
+    if(!userId){
+        userId = crypto.randomUUID()
+        localStorage.setItem('userId', userId)
+    } 
     /* ============= RENDERIZAÇÃO DOS PRODUTOS ==================== */
     fetch(`${BASE_URL}/products`).then(res => res.json())
         .then(data =>{
@@ -59,7 +63,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                         
                         cardHtml.addEventListener('click', (e) =>{
                             if(dayName === dayWeek){
-                                if(totalMinutes >= time[0] && totalMinutes < time[1]){
+                                if(totalMinutes <= time[0]/*  && totalMinutes < time[1] */){
                                     localStorage.setItem('title', d.product)
                                     localStorage.setItem('productId', d.id)
                                     window.location.href = 'assets/pages/pedidos/index.html'
