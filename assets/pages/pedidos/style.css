@@ -36,7 +36,6 @@ body{
 
 .header .header-title{
     font-weight: bold;
-    text-shadow: 2px 2px 4px;
     color: #000;
 }
 
@@ -303,6 +302,17 @@ main .subtitle{
     z-index: 1;
 }
 
+.item .quantity .minus,
+.item .quantity .plus{
+    font-size: 25px;
+    outline: none;
+}
+
+.item .quantity span{
+    font-size: 20px;
+    outline: none;
+}
+
 .item:hover{
     border: 1.5px solid red;
 }
@@ -315,7 +325,10 @@ main .subtitle{
 
 .item .quantity{
     display: flex;
+    width: 100px;
     align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
     gap: 10px;
     color: #fff;
     font-weight: bold;

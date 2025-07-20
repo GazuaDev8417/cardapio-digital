@@ -149,53 +149,34 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     /* VERIFICAR SE O PRODUTO JÁ EXISTE NO CARRINHO */
     const updateCartProductQnt = (quantity, flavor, product_id, max_quantity, price)=>{
-        fetch(`${BASE_URL}/update_qnt/`, {
+        const body = {
+            price,
+            flavor,
+            product_id,
+            client: userId,
+            max_quantity,
+            step: currentStep,
+            quantity
+        }
+        
+        fetch(`${BASE_URL}/update_qnt`, {
             method:'PATCH',
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ quantity })
+            body: JSON.stringify(body)
         }).then(res=>{
             if(!res.ok){
                 res.text().then(error=>{
-                    if(error === 'Produto não consta no carrinho'){
+                    console.log(error)
+                    if(error === 'Produto não encontrado'){
                         addToCart(price, quantity, flavor, product_id, max_quantity)
                     }
-                })
-                
+                })                
             }
         }).catch(e => console.error(e.message))
     }
     
     
-    /* const updateQuantity = (price, quantity, flavor, product_id, max_quantity)=>{
-        const body = {
-            price: Number(price),
-            flavor,
-            productId: product_id,
-            client: userId,
-            max_quantity
-        }
-        
-        fetch(`${BASE_URL}/cart_product`, {
-            method:'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(body)
-        }).then(response=>{
-            if(!response.ok){
-                response.text().then(error=>{
-                    if(error === 'Produto não encontrado no carrinho' && quantity === 1){
-                        window.alert('Então vey')
-                        addToCart(body.price, Number(quantity), body.flavor, body.productId, body.max_quantity)
-                    }
-                })
-            }else{
-                response.json().then(data=>{
-                    updateCartProductQnt(data.id, quantity, item.flavor, item.product_id, item.max_quantity)
-                })
-            }
-        }).catch(e => console.error(e.message))
-    } */
-
-    /* BUSCAR SABORES */
+   /* BUSCAR SABORES */
     const getFlavorsByProduct = (id, currentStep)=>{
         headerTitle.textContent = title
         fetch(`${BASE_URL}/flavors/${id}`, {
@@ -224,9 +205,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 document.body.style.backgroundImage = `url('../../imgs/${categoryTitle}/background.avif')`
                 document.body.style.backgroundSize = 'cover'
                 document.body.style.backgroundRepeat = 'no-repeat'
-
                 data.forEach(item=>{
-                    const price = item.price ?? 0
+                    const price = parseFloat(item.price) ?? 0
                     const ingredients = item.ingredients || ''
                     const div = document.createElement('div')
 
@@ -239,10 +219,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
                     div.innerHTML = `
                         <div class='card-overlay'></div>
-                        <div class='flavor' data-price='${price}'>
+                        <div class='flavor'>
                             <div>${item.flavor}</div>
-                            ${ingredients ? `<small>${ingredients}</small>` : ''}
-                            ${price ? `<small>${price}</small>` : ''}
+                            ${ingredients ? `<small class='ingredients'>${ingredients}</small>` : ''}
+                            ${price ? `<small class='price'>R$ ${price.toFixed(2)}</small>` : ''}
                         </div>
                         <div class='quantity'>
                             <button class='minus'>-</button>
@@ -292,8 +272,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     let total = 0
 
                     allItems.forEach(itemEl => {
-                        const price = parseFloat(itemEl.dataset.price || '0')
-                        const quantity = parseInt(itemEl.querySelector('.quantity span')?.textContent || '0')
+                        const convertedPrice = itemEl.querySelector('.price')?.textContent.replace('R$ ', '')
+                        const price = parseFloat(convertedPrice).toFixed(2)
+                        const quantity = parseInt(itemEl.querySelector('.quantity span')?.textContent || 1)
+                        console.log(quantity)
                         total += price * quantity
                     })
                     document.getElementById('additional-value').textContent = `Valor adicional: R$ ${total.toFixed(2)}`
