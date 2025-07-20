@@ -255,6 +255,8 @@ main .subtitle{
     justify-content: center;
     gap: 20px;
     color: #fff;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 #flavors-list{
@@ -362,6 +364,7 @@ main .subtitle{
     color: #ff0000;
     cursor: pointer;
     transition: .3s ease-out;
+    z-index: 100;
 }
 
 .continue:active{

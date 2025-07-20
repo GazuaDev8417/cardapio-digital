@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 const data = objectData.flavors
                 
                 if(currentStep === objectData.maxStep){
-                    document.getElementById('continue').innerHTML = 'Adicionar ao Carrinho'
+                    document.getElementById('continue').innerHTML = 'ADICIONAR AO CARRINHO'
                 }
                 
                 document.getElementById('subtitle').textContent = data[0].subtitle
@@ -240,9 +240,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     minusBtn.addEventListener('click', () =>{
                         const current = parseInt(quantitySpan.textContent)
                         if(current > 0){
-                            updateCartProductQnt(-1, item.flavor, item.product_id, item.max_quantity, price)
+                            updateCartProductQnt(-1, item.flavor, item.product_id, item.max_quantity, price, item.id)
                             quantitySpan.textContent = current - 1
-                            updateTotal()
+                            
                         }
                     })
 
@@ -251,9 +251,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
                         const totalCurrent = getTotalQuantity()
                         
                         if(totalCurrent < maxQuantity){
-                            updateCartProductQnt(1, item.flavor, item.product_id, item.max_quantity, price)
+                            updateCartProductQnt(1, item.flavor, item.product_id, item.max_quantity, price, item.id)
                             quantitySpan.textContent = current + 1
-                            updateTotal()
+                            
                         }else{
                             popupAlert.textContent = `Você pode adicionar até ${maxQuantity} sabores em geral`
                             popupAlert.classList.add('active')
@@ -265,20 +265,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 const getTotalQuantity = ()=>{
                     const spans = document.querySelectorAll('#flavors-list .quantity span')
                     return Array.from(spans).reduce((acc, span) => acc + parseInt(span.textContent), 0)
-                }
-                
-                const updateTotal = ()=>{
-                    const allItems = document.querySelectorAll('#flavors-list .item')
-                    let total = 0
-
-                    allItems.forEach(itemEl => {
-                        const convertedPrice = itemEl.querySelector('.price')?.textContent.replace('R$ ', '')
-                        const price = parseFloat(convertedPrice).toFixed(2)
-                        const quantity = parseInt(itemEl.querySelector('.quantity span')?.textContent || 1)
-                        console.log(quantity)
-                        total += price * quantity
-                    })
-                    document.getElementById('additional-value').textContent = `Valor adicional: R$ ${total.toFixed(2)}`
                 }
             }).catch(e => console.error(e.message) || 'Erro ao buscar sabores')
     }

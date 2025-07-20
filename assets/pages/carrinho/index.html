@@ -13,19 +13,25 @@
     <header class="header">
         <h2 class="header-title">CONFIRA SEU PEDIDO!</h2>
     </header>
+    <div class="popup-alert-container">
+    <div class="popup-alert"></div>
+    </div>
     <main id="main-container"></main>
+    <div class="no-products"></div>
     <footer class="footer">
         <div class="footer-content" id="foot">
             <div class="subtotal-wrapper">
-                <div class="subtotal">TOTAL R$ 0.00</div>
+                <div class="subtotal"></div>
             </div>
             <div class="footer-btn-container">
-                <button class="back-shopping" onclick="location.href='../../../index.html'">
+                <button class="top"><i class="fa-solid fa-arrow-up"></i></button>
+                <button class="back-shopping shop-btn" onclick="location.href='../../../index.html'">
                     CONTINUAR COMPRANDO
                 </button>
-                <button class="end-orders" onclick="location.href='../entrega/index.html'">
+                <button class="end-orders shop-btn" onclick="location.href='../entrega/index.html'">
                     FINALIZAR PEDIDO
                 </button>
+                <button class="bottom"><i class="fa-solid fa-arrow-down"></i></button>
             </div>
         </div>
     </footer>

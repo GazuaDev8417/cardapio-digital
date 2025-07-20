@@ -1,3 +1,4 @@
+const cartIcon = document.querySelector('.cart-icon')
 const BASE_URL = 'https://max-menu-server.vercel.app'
 //const BASE_URL = 'http://localhost:3003'
 
@@ -17,16 +18,17 @@ const getProductById = (id, element)=>{
 }
 
 
-const scrollTopUp = ()=>{
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    })
+const getCartFromClient = ()=>{
+    const client = localStorage.getItem('userId')
+    fetch(`${BASE_URL}/clients/cart/${client}`)
+        .then(res =>{
+            if(!res.ok){
+                res.text().then(error => console.log(error))
+            }
+
+            return res.json()
+        })
+        .then(data =>{}).catch(e => console.error(e.message))
 }
 
-const scrollToBottom = ()=>{
-    window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth"
-    })
-}
+getCartFromClient()
