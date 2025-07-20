@@ -148,20 +148,25 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     /* VERIFICAR SE O PRODUTO JÁ EXISTE NO CARRINHO */
-    const updateCartProductQnt = (id, change)=>{
-        fetch(`${BASE_URL}/update_qnt/${id}`, {
+    const updateCartProductQnt = (quantity, flavor, product_id, max_quantity, price)=>{
+        fetch(`${BASE_URL}/update_qnt/`, {
             method:'PATCH',
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ quantity: change })
+            body: JSON.stringify({ quantity })
         }).then(res=>{
             if(!res.ok){
-                return res.text().then(error=> console.error(error))
+                res.text().then(error=>{
+                    if(error === 'Produto não consta no carrinho'){
+                        addToCart(price, quantity, flavor, product_id, max_quantity)
+                    }
+                })
+                
             }
         }).catch(e => console.error(e.message))
     }
     
     
-    const updateQuantity = (price, quantity, flavor, product_id, change, max_quantity)=>{
+    /* const updateQuantity = (price, quantity, flavor, product_id, max_quantity)=>{
         const body = {
             price: Number(price),
             flavor,
@@ -177,21 +182,21 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }).then(response=>{
             if(!response.ok){
                 response.text().then(error=>{
-                    if(error === 'Produto não encontrado no carrinho' && change === 1){
-                        addToCart(body.price, quantity, body.flavor, body.productId, body.max_quantity)
+                    if(error === 'Produto não encontrado no carrinho' && quantity === 1){
+                        window.alert('Então vey')
+                        addToCart(body.price, Number(quantity), body.flavor, body.productId, body.max_quantity)
                     }
                 })
             }else{
                 response.json().then(data=>{
-                    updateCartProductQnt(data.id, change)
+                    updateCartProductQnt(data.id, quantity, item.flavor, item.product_id, item.max_quantity)
                 })
             }
         }).catch(e => console.error(e.message))
-    }
+    } */
 
     /* BUSCAR SABORES */
     const getFlavorsByProduct = (id, currentStep)=>{
-        console.log(categoryTitle)
         headerTitle.textContent = title
         fetch(`${BASE_URL}/flavors/${id}`, {
             method:'POST',
@@ -221,7 +226,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 document.body.style.backgroundRepeat = 'no-repeat'
 
                 data.forEach(item=>{
-                    const price = item.price ?? ''
+                    const price = item.price ?? 0
                     const ingredients = item.ingredients || ''
                     const div = document.createElement('div')
 
@@ -241,7 +246,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                         </div>
                         <div class='quantity'>
                             <button class='minus'>-</button>
-                            <span>${item.quantity || 0}</span>
+                            <span>${item.quantity >= 0 ? item.quantity : 1}</span>
                             <button class='plus'>+</button>
                         </div>
                     `
@@ -255,8 +260,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     minusBtn.addEventListener('click', () =>{
                         const current = parseInt(quantitySpan.textContent)
                         if(current > 0){
+                            updateCartProductQnt(-1, item.flavor, item.product_id, item.max_quantity, price)
                             quantitySpan.textContent = current - 1
-                            updateQuantity(price, item.quantity, item.flavor, item.product_id, -1, item.max_quantity)
                             updateTotal()
                         }
                     })
@@ -266,7 +271,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                         const totalCurrent = getTotalQuantity()
                         
                         if(totalCurrent < maxQuantity){
-                            updateQuantity(price, item.quantity, item.flavor, item.product_id, 1, item.max_quantity)
+                            updateCartProductQnt(1, item.flavor, item.product_id, item.max_quantity, price)
                             quantitySpan.textContent = current + 1
                             updateTotal()
                         }else{
