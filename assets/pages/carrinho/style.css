@@ -52,7 +52,7 @@
 /* MAIN */
 #main-container{
     padding-top: 13vh;
-    padding-bottom: 17vh;
+    padding-bottom: 30vh;
 }
 
 .no-products{
@@ -142,9 +142,11 @@
 /* FOOTER */
 .footer-content{
     position: fixed;
-    bottom: 5px;
-    left: 15px;
-    right: 15px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 5px;
+    background-color: #f0f0f0;
 }
 
 .subtotal-wrapper{
@@ -157,7 +159,7 @@
     background-color: #006400;
     border-radius: 5px;
     padding: 10px;
-    margin: 30px;
+    margin: 0 0 30px;
     color: #fff;
     font-weight: bold;
     text-align: center;

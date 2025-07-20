@@ -246,3 +246,11 @@ subtotalBtn.addEventListener('click', ()=>{
     }
   } */
 })
+
+document.querySelector('.bottom').addEventListener('click', ()=>{
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth'})
+})
+
+document.querySelector('.top').addEventListener('click', ()=>{
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+})
