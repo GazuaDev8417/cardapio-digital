@@ -81,10 +81,8 @@ const groupedProducts = () => {
       return await res.json();
     })
     .then(data => {
-      console.log('Dados recebidos:', data);
 
-      const container = document.getElementById('main-container');
-      const modal = document.getElementById('product-modal');
+      const container = document.getElementById('main-container')
 
       container.innerHTML = ''; // limpa conteúdo anterior
 
@@ -103,14 +101,13 @@ const groupedProducts = () => {
         totalGeral += productTotal;
 
         const section = document.createElement('section');
+        section.className = 'modal-container'
         section.innerHTML = `
           <h2>${product.product}</h2>
-          <p><strong>Categoria:</strong> ${product.category}</p>
-          <p><strong>Descrição:</strong> ${product.description}</p>
           <p><strong>Quantidade:</strong> ${product.quantity}</p>
-          <p><strong>Preço Unitário:</strong> R$ ${parseFloat(product.price).toFixed(2)}</p>
-          <p><strong>Total do Produto (soma itens):</strong> R$ ${productTotal.toFixed(2)}</p>
-          <h3>Itens</h3>
+          <p><strong>Preço:</strong> R$ ${parseFloat(product.price).toFixed(2)}</p>
+          <p><strong>Total do Produto:</strong> R$ ${productTotal.toFixed(2)}</p>
+          <h3>Sabores adicinados</h3>
           <table border="1" cellspacing="0" cellpadding="8">
             <thead>
               <tr>
@@ -141,15 +138,17 @@ const groupedProducts = () => {
       totalDiv.style.textAlign = 'right';
       totalDiv.style.marginTop = '20px';
       totalDiv.style.fontWeight = 'bold';
-      totalDiv.innerText = `Total Geral (soma de todos os itens): R$ ${totalGeral.toFixed(2)}`;
+      totalDiv.innerText = `Total Geral: R$ ${totalGeral.toFixed(2)}`;
       container.appendChild(totalDiv);
 
-      // Exibe o modal
-      modal.style.display = 'block';
     })
     .catch(e => console.error('Erro na requisição:', e.message));
 }
 
+groupedProducts()
+
+const modal = document.querySelector('.modal')
+const closeBtn = document.querySelector('.close-btn')
 
 document.querySelector('.end-orders').addEventListener('click', ()=>{
     if (
@@ -163,27 +162,24 @@ document.querySelector('.end-orders').addEventListener('click', ()=>{
         return 
     }
 
-    groupedProducts()
+    modal.classList.add('active')
 })
-
-const modal = document.getElementById('product-modal');
-const closeBtn = document.querySelector('.close-btn');
 
 // Fechar ao clicar no X
 closeBtn.onclick = () => {
-    modal.style.display = 'none';
+    modal.classList.remove('active')
 };
 
 // Fechar ao clicar fora
 window.onclick = (event) => {
     if (event.target === modal) {
-    modal.style.display = 'none';
+      modal.classList.remove('active')
     }
 };
 
 // Fechar com ESC
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-    modal.style.display = 'none';
+      modal.classList.remove('active')
     }
 });
