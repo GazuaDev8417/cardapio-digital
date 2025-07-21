@@ -15,7 +15,13 @@
             <H2>ENDEREÇO PARA ENTREGA</H2>
         <div></div>
     </header>
-    <main class="main">
+    <main class="main-container">
+        <div id="product-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <div id="main-container"></div>
+            </div>
+        </div>
         <section class="inputs">
             <div class="input-container">
                 <input type="text" id="street" class="input" placeholder="Rua / Avenida, N°">
@@ -28,7 +34,10 @@
                     class="input" 
                     placeholder="Telefone"
                     inputmode="numeric"
-                    oninput="formatPhone(this)">            
+                    oninput="formatPhone(this)">  
+                <div class="reset-container">
+                    <button class="reset" id="clear" onclick="clearForm()">Limpar</button>
+                </div>          
             </div>
             <div class="obs">
                 <label for="obs-content" class="obs-title">Observações</label>

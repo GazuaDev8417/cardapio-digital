@@ -91,6 +91,7 @@ const groupedProducts = () => {
           flavorDiv.innerHTML = `
             <strong>Sabor:</strong> ${flavor.flavor}<br>
             <strong>Preço:</strong> ${!flavor.price || Number(flavor.price) === 0 ? 'Incluso' : 'R$ ' + flavor.price}<br>
+            <strong class='qnt'>Quantidade:</strong> ${flavor.quantity}<br>
             <strong>Total:</strong> R$ ${flavor.total}
           `;
           
@@ -138,6 +139,7 @@ const groupedProducts = () => {
             updateCartProductQnt(-1, flavor.flavor, flavor.product_id, flavor.max_quantity, flavor.price, flavor.id)
             
             quantityDiv.textContent = flavor.quantity -= 1
+            document.querySelector('.qnt').nextSibling.textContent = ` ${flavor.quantity}`
             
             const previousTotal = parseFloat(flavor.total)
             flavor.total = (flavor.quantity * flavor.price).toFixed(2)
@@ -147,17 +149,16 @@ const groupedProducts = () => {
 
             grandTotal += parseFloat(flavor.total) - previousTotal
             subtotal.innerHTML = `
-              Total Geral: R$ ${grandTotal.toFixed(2)}<br>
+              Total Geral: ${grandTotal.toFixed(2)}<br>
               <small>Clique para atualizar o valor</small>
             `
           })
 
 
           plusBtn.addEventListener('click', async() =>{
-            const totalGroupQuantity = items.reduce((sum, item) => sum + item.quantity, 0)
-            if(totalGroupQuantity >= flavor.max_quantity){
+            if(flavor.quantity >= flavor.max_quantity){
               popupAlert.classList.add('active')
-              popupAlert.textContent = `Você já atingiu o limite de quantidade adicional`
+              popupAlert.textContent = `Esse sabor já atingiu o limite de quantidades`
               setTimeout(() => popupAlert.classList.remove('active'), 3000)
 
               return
@@ -165,6 +166,7 @@ const groupedProducts = () => {
             updateCartProductQnt(1, flavor.flavor, flavor.product_id, flavor.max_quantity, flavor.price, flavor.id)
             
             quantityDiv.textContent = flavor.quantity += 1
+            document.querySelector('.qnt').nextSibling.textContent = ` ${flavor.quantity}`
 
             const previousTotal = parseFloat(flavor.total)
             flavor.total = (flavor.quantity * flavor.price).toFixed(2)
@@ -174,7 +176,7 @@ const groupedProducts = () => {
 
             grandTotal += parseFloat(flavor.total) - previousTotal
             subtotal.innerHTML = `
-              Total Geral: R$ ${grandTotal.toFixed(2)}<br>
+              Total Geral: ${grandTotal.toFixed(2)}<br>
               <small>Clique para atualizar o valor</small>
             `
           })
