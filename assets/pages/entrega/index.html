@@ -22,6 +22,13 @@
                 <input type="text" id="neighborhood" class="input" placeholder="Bairro">            
                 <input type="text" id="cep" class="input" placeholder="CEP" onblur="addressByCep()">            
                 <input type="text" id="client" class="input" placeholder="Nome do cliente">            
+                <input 
+                    type="text" 
+                    id="phone" 
+                    class="input" 
+                    placeholder="Telefone"
+                    inputmode="numeric"
+                    oninput="formatPhone(this)">            
             </div>
             <div class="obs">
                 <label for="obs-content" class="obs-title">Observações</label>
@@ -37,6 +44,8 @@
             SOLICITAR
         </button>
     </div>
+
+    <script src="../../js/functions.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

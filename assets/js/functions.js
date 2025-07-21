@@ -31,4 +31,23 @@ const getCartFromClient = ()=>{
         .then(data =>{}).catch(e => console.error(e.message))
 }
 
-getCartFromClient()
+function formatPhone(input) {
+  let digits = input.value.replace(/\D/g, ''); // só números
+  
+  // Aplica a máscara de acordo com a quantidade de dígitos
+  let formatted = '';
+
+  if (digits.length <= 2) {
+    formatted = digits; // ainda digitando DDD
+  } else if (digits.length <= 7) {
+    formatted = `(${digits.slice(0,2)}) ${digits.slice(2)}`;
+  } else if (digits.length <= 11) {
+    formatted = `(${digits.slice(0,2)}) ${digits.slice(2,7)}-${digits.slice(7)}`;
+  } else {
+    formatted = `(${digits.slice(0,2)}) ${digits.slice(2,7)}-${digits.slice(7,11)}`; // limite
+  }
+
+  input.value = formatted;
+}
+
+
