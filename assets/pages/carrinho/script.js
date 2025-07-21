@@ -233,7 +233,8 @@ const atTop = window.scrollY <= 10 */
 }) */
 
 subtotalBtn.addEventListener('click', ()=>{
-  location.reload()
+  document.getElementById('main-container').innerHTML = ''
+  groupedProducts()
   /* if(atTop){
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth'})
   }else if(atBottom){
