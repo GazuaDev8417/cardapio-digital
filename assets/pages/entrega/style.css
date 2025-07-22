@@ -4,6 +4,13 @@
     width: 100%;
     background-color: #000;
     color: #fff;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background: linear-gradient(to right,
+        #000 0%, #006400 30%,
+        #fff 33%, #fff 63%,
+        red 70%, #000 100%
+    );
     height: 60px;
     display: flex;
     align-items: center;
@@ -17,11 +24,20 @@
     cursor: pointer;
 }
 
-.main{
+.header h2{
+    color: #000;
+    text-shadow: 2px 2px 4px;
+}
+
+.main-container{
     margin-top: 10vh;
 }
 
 /* MODAL */
+/* .modal-container h2{
+    font-size: 15px;
+}
+
 .modal {
     position: fixed;
     z-index: 999;
@@ -31,14 +47,17 @@
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.5);
-    transform: scale(0);
+    transform: scale(1);
     transition: .3s ease-in-out;
     font-size: 13px;
 }
+
 .modal.active{
     transform: scale(1);
 }
+
 .modal-content {
+    position: relative;
     background-color: #fff;
     margin: 10% auto;
     padding: 20px;
@@ -49,11 +68,14 @@
     border: 4px solid #006400; 
     border-radius: 10px;   
 }
+.total-section{
+    background-color: red;
+}
 .close-btn {
     float: right;
     font-size: 20px;
     cursor: pointer;
-}
+} */
 /* ==== */
 .inputs{
     display: flex;
@@ -80,7 +102,6 @@
     padding: 10px;
 }
 
-
 .input-container{
     display: flex;
     flex-direction: column;
@@ -105,11 +126,17 @@
 }
 
 .input:nth-child(2){
+    width: 400px;
+}
+
+.input:nth-child(3),
+.input:nth-child(4),
+.input:nth-child(5){
     width: 300px;
 }
 
-.input:last-child{
-    width: 400px;
+.input:last-of-type{
+    width: 500px;
 }
 
 .input:focus{

@@ -35,7 +35,6 @@ const cartProductById = async(id)=>{
     }).catch(e => console.error(e.message))
 }
 
-
 const groupedProducts = () => {
   const client = localStorage.getItem('userId')
   fetch(`${BASE_URL}/products/flavors`, {

@@ -4,6 +4,7 @@ const cep = document.getElementById('cep')
 const clientName = document.getElementById('client')
 const phone = document.getElementById('phone')
 const obs = document.getElementById('obs-content')
+const ref = document.getElementById('referencia')
 
 const addressByCep = ()=>{
     
@@ -31,7 +32,7 @@ const clearForm = ()=>{
 const userId = localStorage.getItem('userId')
 
 const singupClient = ()=>{
-    if (
+    /* if (
         rua.value.trim() === '' ||
         bairro.value.trim() === '' ||
         cep.value.trim() === '' ||
@@ -40,7 +41,7 @@ const singupClient = ()=>{
     ) {
         window.alert('Por favor, preencha todos os campos.')
         return 
-    }
+    } */
 
     const body = {
         id: userId,
@@ -48,10 +49,10 @@ const singupClient = ()=>{
         street: rua?.value.trim() || '',
         neighborhood: bairro?.value.trim() || '',
         cep: cep?.value.trim() || '',
-        phone: phone?.value.trim() || '',
+        phone: phone?.value.trim().replace(/\D/g, '') || '',
         obs: obs?.value.trim() || ''
     }
-
+    
     fetch(`${BASE_URL}/signup`, {
         method:'POST',
         headers: { 'Content-type': 'application/json' },
@@ -65,8 +66,8 @@ const singupClient = ()=>{
         .catch(e => console.error(e.message))
 }
 
-const groupedProducts = () => {
-  fetch(`${BASE_URL}/products/flavors`, {
+const groupedProducts = async() => {
+  return fetch(`${BASE_URL}/products/flavors`, {
     method: 'POST',
     headers: { 'Content-type': 'application/json' },
     body: JSON.stringify({ client: userId })
@@ -81,105 +82,71 @@ const groupedProducts = () => {
       return await res.json();
     })
     .then(data => {
-
-      const container = document.getElementById('main-container')
-
-      container.innerHTML = ''; // limpa conteúdo anterior
-
       let totalGeral = 0;
+      let mensagem = `📦 *Novo Pedido Recebido para:*\n${clientName.value.trim()}\n${rua.value.trim()},\n${bairro.value.trim()}\nCEP: ${cep.value},\n${phone.value}\nPonto de referência: ${ref.value}\n ${obs.value !== '' ? `Obs.: ${obs.value}` : ''}\n\n`
 
-      data.forEach(group => {
-        const { product, items } = group;
+      data.forEach(({ product, items }) => {
+        const preco = parseFloat(product.price);
+        const qtd = product.quantity;
+        const totalProduto = parseFloat(product.total);
+        totalGeral += totalProduto;
 
-        // Somando o total dos itens para o total do produto (se quiser mostrar no produto)
-        let productTotal = items.reduce((sum, item) => {
-          const itemTotal = parseFloat(item.total);
-          return sum + (isNaN(itemTotal) ? 0 : itemTotal);
-        }, 0);
+        mensagem += `*${product.product.toUpperCase()}* (R$ ${preco.toFixed(2)} x ${qtd} = R$ ${totalProduto.toFixed(2)})\n`;
 
-        // Acumula total geral somando os itens
-        totalGeral += productTotal;
+        items.forEach(item => {
+          const subtot = parseFloat(item.total);
+          totalGeral += subtot;
+          mensagem += `• ${item.flavor}: ${item.quantity} x R$ ${parseFloat(item.price).toFixed(2)} = R$ ${subtot.toFixed(2)}\n`;
+        });
 
-        const section = document.createElement('section');
-        section.className = 'modal-container'
-        section.innerHTML = `
-          <h2>${product.product}</h2>
-          <p><strong>Quantidade:</strong> ${product.quantity}</p>
-          <p><strong>Preço:</strong> R$ ${parseFloat(product.price).toFixed(2)}</p>
-          <p><strong>Total do Produto:</strong> R$ ${productTotal.toFixed(2)}</p>
-          <h3>Sabores adicinados</h3>
-          <table border="1" cellspacing="0" cellpadding="8">
-            <thead>
-              <tr>
-                <th>Sabor</th>
-                <th>Quantidade</th>
-                <th>Valor Unitário</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${items.map(item => `
-                <tr>
-                  <td>${item.flavor}</td>
-                  <td>${item.quantity}</td>
-                  <td>R$ ${parseFloat(item.price).toFixed(2)}</td>
-                  <td>R$ ${parseFloat(item.total).toFixed(2)}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-          <hr/>
-        `;
-        container.appendChild(section);
+        mensagem += '\n';
       });
 
-      // Adiciona total geral no final (soma total dos items)
-      const totalDiv = document.createElement('div');
-      totalDiv.style.textAlign = 'right';
-      totalDiv.style.marginTop = '20px';
-      totalDiv.style.fontWeight = 'bold';
-      totalDiv.innerText = `Total Geral: R$ ${totalGeral.toFixed(2)}`;
-      container.appendChild(totalDiv);
+      mensagem += `🧾 *Total geral:* R$ ${totalGeral.toFixed(2)}`
 
+      return mensagem
     })
     .catch(e => console.error('Erro na requisição:', e.message));
 }
 
-groupedProducts()
 
-const modal = document.querySelector('.modal')
-const closeBtn = document.querySelector('.close-btn')
-
-document.querySelector('.end-orders').addEventListener('click', ()=>{
+document.querySelector('.end-orders').addEventListener('click', async()=>{
     if (
         rua.value.trim() === '' ||
         bairro.value.trim() === '' ||
         cep.value.trim() === '' ||
         clientName.value.trim() === '' ||
-        phone.value.trim() === ''
+        phone.value.trim() === '' ||
+        ref.value.trim() === ''
     ) {
         window.alert('Por favor, preencha todos os campos.')
         return 
-    }
+    }   
+    
+    const mensagemFormatada = await groupedProducts();
+    const mensagemUrl = encodeURIComponent(mensagemFormatada);
+    const numero = `55${phone.value.trim().replace(/\D/g, '')}`;
+    const url = `https://api.whatsapp.com/send?phone=557193784652&text=${mensagemUrl}`;
 
-    modal.classList.add('active')
+    /* singupClient() */
+    window.open(url, '_blank')
 })
 
-// Fechar ao clicar no X
-closeBtn.onclick = () => {
+
+/* closeBtn.onclick = () => {
     modal.classList.remove('active')
 };
 
-// Fechar ao clicar fora
+ 
 window.onclick = (event) => {
     if (event.target === modal) {
       modal.classList.remove('active')
     }
 };
 
-// Fechar com ESC
+
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       modal.classList.remove('active')
     }
-});
+}); */

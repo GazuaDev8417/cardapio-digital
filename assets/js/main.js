@@ -8,7 +8,7 @@ const dayWeek = days[now.getDay()]
 const currentHour = now.getHours()
 const currenttMinute = now.getMinutes()
 const totalMinutes = currentHour * 60 + currenttMinute
-let userId = localStorage.getItem('userId')
+const userId = localStorage.getItem('userId')
 const popupAlert = document.querySelector('.popup-alert')
 const horarios = {
     'SEGUNDA': [1020, 1439],   
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                         
                         cardHtml.addEventListener('click', (e) =>{
                             if(dayName === dayWeek){
-                                if(totalMinutes >= time[0] && totalMinutes < time[1]){
+                                if(totalMinutes <= time[0] /* && totalMinutes < time[1] */){
                                     localStorage.setItem('title', d.product)
                                     localStorage.setItem('productId', d.id)
                                     localStorage.setItem('category', d.category)
