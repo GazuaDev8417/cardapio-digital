@@ -8,7 +8,7 @@ const dayWeek = days[now.getDay()]
 const currentHour = now.getHours()
 const currenttMinute = now.getMinutes()
 const totalMinutes = currentHour * 60 + currenttMinute
-const userId = localStorage.getItem('userId')
+let userId = localStorage.getItem('userId')
 const popupAlert = document.querySelector('.popup-alert')
 const horarios = {
     'SEGUNDA': [1020, 1439],   
@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     /* ============= RENDERIZAÇÃO DOS PRODUTOS ==================== */
     fetch(`${BASE_URL}/products`).then(res => res.json())
         .then(data =>{
+            console.log(data[0])
             localStorage.setItem('productsList', JSON.stringify(data))
             const sections = {
                 pizza: document.querySelector('#pizza .menu-container'),
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     cardHtml.classList.add('card')
                     cardHtml.setAttribute('data-id', d.id)
                     cardHtml.innerHTML +=`
-                        <img src="assets/imgs/pizza/${d.image}" alt="Imagem do produto">
+                        <img src="assets/imgs/${d.category}/cards/${d.image}" alt="Imagem do produto">
                         <div class="card-content">
                             <div class="card-title">${d.product}</div>
                             <div class="card-desc">${d.description}</div>

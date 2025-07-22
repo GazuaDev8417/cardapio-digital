@@ -33,17 +33,6 @@ const clearForm = ()=>{
 const userId = localStorage.getItem('userId')
 
 const singupClient = ()=>{
-    /* if (
-        rua.value.trim() === '' ||
-        bairro.value.trim() === '' ||
-        cep.value.trim() === '' ||
-        clientName.value.trim() === '' ||
-        phone.value.trim() === ''
-    ) {
-        window.alert('Por favor, preencha todos os campos.')
-        return 
-    } */
-
     const body = {
         id: userId,
         client: client?.value.trim() || '',
@@ -126,7 +115,6 @@ document.querySelector('.end-orders').addEventListener('click', async()=>{
     
     const mensagemFormatada = await groupedProducts();
     const mensagemUrl = encodeURIComponent(mensagemFormatada);
-    const numero = `55${phone.value.trim().replace(/\D/g, '')}`;
     const url = `https://api.whatsapp.com/send?phone=5571982551522&text=${mensagemUrl}`;
 
     /* singupClient() */
