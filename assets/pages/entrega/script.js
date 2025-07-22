@@ -27,6 +27,7 @@ const clearForm = ()=>{
     cep.value = ''
     clientName.value = ''
     phone.value = ''
+    ref.value = ''
 }
 
 const userId = localStorage.getItem('userId')
@@ -126,7 +127,7 @@ document.querySelector('.end-orders').addEventListener('click', async()=>{
     const mensagemFormatada = await groupedProducts();
     const mensagemUrl = encodeURIComponent(mensagemFormatada);
     const numero = `55${phone.value.trim().replace(/\D/g, '')}`;
-    const url = `https://api.whatsapp.com/send?phone=557193784652&text=${mensagemUrl}`;
+    const url = `https://api.whatsapp.com/send?phone=5571982551522&text=${mensagemUrl}`;
 
     /* singupClient() */
     window.open(url, '_blank')
