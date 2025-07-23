@@ -18,12 +18,6 @@ overlay.addEventListener('click', ()=>{
     popup.classList.remove('active')
 })
 
-/* MOSTRAR INPUT DE BUSCA */
-searchBtn.addEventListener('click', ()=>{
-    inputContainer.classList.toggle('active')
-    search.focus()
-})
-
 /* ROLAGEM DA TELA PELO MENU */
 const navLinks = document.querySelectorAll('aside nav a')
 
@@ -34,12 +28,9 @@ navLinks.forEach(link=>{
     })
 })
 
-/* MECANISMO DE BUSCA */
-const inputTerm = document.getElementById('search')
-
-
-inputTerm.addEventListener('input', ()=>{
-    const term = inputTerm.value.trim().toLowerCase()
+/* MOSTRAR INPUT DE BUSCA */
+const filteredCards = ()=>{
+    const term = search.value.trim().toLowerCase()
     const cards = document.querySelectorAll('.card')
 
     cards.forEach(card=>{
@@ -72,5 +63,20 @@ inputTerm.addEventListener('input', ()=>{
             section.classList.remove('hidden')
         }
     })
+}
+
+searchBtn.addEventListener('click', ()=>{
+    inputContainer.classList.toggle('active')
+    
+    if(!inputContainer.classList.contains('active')){
+        search.value = ''
+        filteredCards()
+    }else{
+        search.focus()
+    }
+})
+/* MECANISMO DE BUSCA */
+search.addEventListener('input', ()=>{
+    filteredCards()
 })
 

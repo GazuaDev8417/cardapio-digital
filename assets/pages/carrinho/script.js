@@ -41,16 +41,23 @@ const groupedProducts = () => {
     method:'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ client })
-    }).then(res => res.json()).then(data => {
+    }).then(async res=>{
+      if(!res.ok){
+        return await res.text().then(error => console.log(error))
+      }
+      return await res.json()
+    }).then(data => {
       const container = document.getElementById('main-container')
       const subtotal = document.querySelector('.subtotal')
       let grandTotal = 0
       
       data.forEach(group => {        
         grandTotal += parseFloat(group.product.total) || 0
-        group.items.forEach(item=>{
-          grandTotal += parseFloat(item.total) || 0
-        })
+        if(group.items?.length){
+          group.items.forEach(item=>{
+            grandTotal += parseFloat(item.total) || 0
+          })
+        }
 
         subtotal.innerHTML = `
           Total Geral: R$ ${grandTotal.toFixed(2)}<br>
@@ -75,6 +82,41 @@ const groupedProducts = () => {
         `;
         itemContainer.appendChild(productDiv);
 
+        /* CARD DAS BEBIDAS */
+        console.log(product.category)
+        if(product.category === 'bebida'){
+          const btnContainer = document.createElement('div')
+          btnContainer.classList.add('btn-container')
+
+          const plusBtn = document.createElement('button')
+          plusBtn.classList.add('add-btn')
+          plusBtn.textContent = '+'
+
+          const quantityDiv = document.createElement('div')
+          quantityDiv.classList.add('quantity')
+          quantityDiv.textContent = product.quantity
+
+          const minusBtn = document.createElement('button')
+          minusBtn.classList.add('minus-btn')
+          minusBtn.textContent = '-'
+
+          btnContainer.appendChild(plusBtn)
+          btnContainer.appendChild(quantityDiv)
+          btnContainer.appendChild(minusBtn)
+
+          productDiv.appendChild(btnContainer)
+
+          minusBtn.addEventListener('click', async()=>{
+            if(product.quantity <= 1){
+              const confirmDel = window.confirm(`Tem certeza que desja remover ${product.product}?`)
+              if(!confirmDel) return
+
+              container.removeChild(itemContainer)
+              grandTotal -= parseFloat(product.total)
+            }
+          })
+        }
+        /* ================= */
         // Container dos sabores
         const itemsDiv = document.createElement('div');
         itemsDiv.classList.add('items');

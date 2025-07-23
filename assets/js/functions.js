@@ -1,6 +1,6 @@
 const cartIcon = document.querySelector('.cart-icon')
-const BASE_URL = 'https://max-menu-server.vercel.app'
-//const BASE_URL = 'http://localhost:3003'
+//const BASE_URL = 'https://max-menu-server.vercel.app'
+const BASE_URL = 'http://localhost:3003'
 
 /* FUNÇÕES */
 const getProductById = (id, element)=>{
@@ -16,6 +16,32 @@ const getProductById = (id, element)=>{
             window.location.href = `assets/pages/pedidos/index.html?id=${id}&title=${encodedTitle}&price=${encodedPrice}`
         }).catch(e => e.message || 'Erro ao buscar produto')
 }
+
+const addProductToCart = (product)=>{
+    const body = {
+        product: product.product,
+        price: product.price,
+        quantity: product.quantity,
+        total: product.total,
+        client: userId,
+        product_id: product.id,
+        category: product.category
+    }
+    
+    fetch(`${BASE_URL}/products/cart`, {
+        method:'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify(body)
+    }).then(async res=>{
+        if(!res.ok){
+            return await res.text().then(error => console.log(error))
+        }
+        return await res.text()
+    }).then(data=>{
+        console.log(data)        
+    }).catch(e => console.error(e.message))
+}
+
 
 
 const getCartFromClient = ()=>{

@@ -20,18 +20,9 @@ const horarios = {
     'DOMINGO': [1020, 1439],
 }
 
-
-
-
-document.addEventListener('DOMContentLoaded', ()=>{   
-    if(!userId){
-        userId = crypto.randomUUID()
-        localStorage.setItem('userId', userId)
-    } 
-    /* ============= RENDERIZAÇÃO DOS PRODUTOS ==================== */
+const displayProducts = ()=>{
     fetch(`${BASE_URL}/products`).then(res => res.json())
         .then(data =>{
-            console.log(data[0])
             localStorage.setItem('productsList', JSON.stringify(data))
             const sections = {
                 pizza: document.querySelector('#pizza .menu-container'),
@@ -68,10 +59,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
                                     localStorage.setItem('title', d.product)
                                     localStorage.setItem('productId', d.id)
                                     localStorage.setItem('category', d.category)
-                                    window.location.href = 'assets/pages/pedidos/index.html'
+                                    
+                                    if(d.category === 'bebida'){
+                                        addProductToCart(d)
+                                        window.location.href = 'assets/pages/carrinho/index.html'
+                                    }else{
+                                        window.location.href = 'assets/pages/pedidos/index.html'
+                                    }
+
                                 }else{                
                                     popupAlert.classList.add('active')
-
                                     setTimeout(()=>{
                                         popupAlert.classList.remove('active')
                                     }, 3000)
@@ -85,8 +82,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     section.appendChild(cardHtml)
                 }
             }).join('')
-
-            /* =========================EVENTOS DOS CARDS===================== */
+            
             const cards = document.querySelectorAll('.carousel .card')
 
             cards.forEach(card=>{
@@ -111,6 +107,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 })
             })
     }).catch(e => console.error(e))
+}
+
+
+document.addEventListener('DOMContentLoaded', ()=>{   
+    if(!userId){
+        userId = crypto.randomUUID()
+        localStorage.setItem('userId', userId)
+    } 
+    /* ============= RENDERIZAÇÃO DOS PRODUTOS ==================== */
+    displayProducts()
 })  
 
 /* POPUP - HORÁRIO DE FUNCIONAMENTO */
