@@ -129,14 +129,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
             quantity,
             flavor,
             productId: product_id,
-            client: userId,
             max_quantity,
             step: currentStep
         }
         
         fetch(`${BASE_URL}/insert_in_cart`, {
             method:'POST',
-            headers: { 'Content-type': 'application/json' },
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            },
             body: JSON.stringify(body)
         }).then(res=>{
             if(!res.ok){
@@ -153,7 +155,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
             price,
             flavor,
             product_id,
-            client: userId,
             max_quantity,
             step: currentStep,
             quantity
@@ -161,7 +162,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
         
         fetch(`${BASE_URL}/update_qnt`, {
             method:'PATCH',
-            headers: { 'Content-type': 'application/json' },
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            },
             body: JSON.stringify(body)
         }).then(res=>{
             if(!res.ok){
@@ -181,12 +185,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
         headerTitle.textContent = title
         fetch(`${BASE_URL}/flavors/${id}`, {
             method:'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ step: currentStep, client: userId })
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({ step: currentStep })
         }).then(res => res.json())
             .then(objectData=>{
                 const data = objectData.flavors
-                
+               
                 if(currentStep === objectData.maxStep){
                     document.getElementById('continue').innerHTML = 'ADICIONAR AO CARRINHO'
                 }
@@ -276,9 +283,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
         try{
 
             const response = await fetch(`${BASE_URL}/step-qnt_max/${productId}`, {
-                method:'POST',
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify({ client: userId })
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `${localStorage.getItem('token')}`
+                }
             })
 
             if(!response.ok){

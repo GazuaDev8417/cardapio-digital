@@ -1,22 +1,34 @@
 const cartIcon = document.querySelector('.cart-icon')
-const BASE_URL = 'https://max-menu-server.vercel.app'
-//const BASE_URL = 'http://localhost:3003'
+//const BASE_URL = 'https://max-menu-server.vercel.app'
+const BASE_URL = 'http://localhost:3003'
 
 /* FUNÇÕES */
+const generateToken = ()=>{
+  const token = localStorage.getItem('token')
+  if(token) return
+  
+  fetch(`${BASE_URL}/generate-user-id`)
+    .then(res => res.text()).then(data=>{
+      localStorage.setItem('token', data)
+    }).catch(e => console.log(e.message))
+}
+
 const addProductToCart = (product)=>{
     const body = {
         product: product.product,
         price: product.price,
         quantity: product.quantity,
         total: product.total,
-        client: userId,
         product_id: product.id,
         category: product.category
     }
     
     fetch(`${BASE_URL}/products/cart`, {
         method:'POST',
-        headers: { 'Content-type': 'application/json' },
+        headers: {
+          'Authorization': `${localStorage.getItem('token')}`,
+          'Content-type': 'application/json'
+        },
         body: JSON.stringify(body)
     }).then(async res=>{
         if(!res.ok){
@@ -27,7 +39,6 @@ const addProductToCart = (product)=>{
         console.log(data)        
     }).catch(e => console.error(e.message))
 }
-
 
 function formatPhone(input) {
   let digits = input.value.replace(/\D/g, ''); // só números

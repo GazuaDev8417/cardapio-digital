@@ -9,16 +9,17 @@ const cartProductById = async(id)=>{
     }).then(data =>{
       return data
     }).catch(e => console.error(e.message))
- }
+}
 
 const updateProductQntFromCart = (id, quantity)=>{
-  const body = {
-    quantity
-  }
+  const body = { quantity }
 
   fetch(`${BASE_URL}/cart/product/${id}`, {
     method:'PATCH',
-    headers: { 'Content-type': 'application/json' },
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': `${localStorage.getItem('token')}`
+    },
     body: JSON.stringify(body)
   }).then(async res=>{
     if(!res.ok){
@@ -31,12 +32,10 @@ const updateProductQntFromCart = (id, quantity)=>{
 
  const updateFlavorQntFromCart = async(quantity, flavor, product_id, max_quantity, price, id)=>{
     const cartData = await cartProductById(id)
-    const userId = localStorage.getItem('userId')
     const body = {
         price,
         flavor,
         product_id,
-        client: userId,
         max_quantity,
         step: cartData.step,
         quantity
@@ -44,7 +43,10 @@ const updateProductQntFromCart = (id, quantity)=>{
   
     fetch(`${BASE_URL}/update_qnt`, {
         method:'PATCH',
-        headers: { 'Content-type': 'application/json' },
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': `${localStorage.getItem('token')}`
+        },
         body: JSON.stringify(body)
     }).then(res=>{
       if(!res.ok){
@@ -54,14 +56,17 @@ const updateProductQntFromCart = (id, quantity)=>{
 }
 
 const groupedProducts = () => {
-  const client = localStorage.getItem('userId')
   fetch(`${BASE_URL}/products/flavors`, {
     method:'POST',
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({ client })
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': `${localStorage.getItem('token')}`
+      }
     }).then(async res=>{
       if(!res.ok){
-        return await res.text().then(error => console.log(error))
+        const error = await res.text()
+        document.querySelector('.no-products').textContent = error
+        throw new Error(error)
       }
       return await res.json()
     }).then(data => {
@@ -82,8 +87,7 @@ const groupedProducts = () => {
           <small>Clique para atualizar o valor</small>
         `
         
-        const { product: originalProduct, items } = group
-        const product = { ...originalProduct }
+        const { product, items } = group
 
         // Container principal de um produto
         const itemContainer = document.createElement('div');
@@ -130,7 +134,6 @@ const groupedProducts = () => {
               if(!confirmDel) return
 
               container.removeChild(itemContainer)
-              grandTotal -= parseFloat(product.total)
             }
 
             updateProductQntFromCart(product.id, -1)
@@ -138,14 +141,6 @@ const groupedProducts = () => {
 
             const previousTotal = parseFloat(product.total)
             product.total = (product.quantity * product.price).toFixed(2)
-
-            const strongs = productDiv.querySelectorAll('strong')
-            const qntEl = Array.from(strongs).find(el => el.textContent.includes('Quantidade'))
-            
-            if(qntEl && qntEl.nextSibling){
-              const newQuantity = product.quantity -= 1
-              qntEl.nextSibling.nodeValue = `${newQuantity}`
-            }
 
             productDiv.querySelector('strong:last-of-type')
               .nextSibling.textContent = ` R$ ${product.total}`
