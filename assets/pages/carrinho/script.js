@@ -11,7 +11,25 @@ const cartProductById = async(id)=>{
     }).catch(e => console.error(e.message))
  }
 
- const updateCartProductQnt = async(quantity, flavor, product_id, max_quantity, price, id)=>{
+const updateProductQntFromCart = (id, quantity)=>{
+  const body = {
+    quantity
+  }
+
+  fetch(`${BASE_URL}/cart/product/${id}`, {
+    method:'PATCH',
+    headers: { 'Content-type': 'application/json' },
+    body: JSON.stringify(body)
+  }).then(async res=>{
+    if(!res.ok){
+      return await res.text().then(error => console.log(error))      
+    }
+    return await res.text()
+  }).then(data => console.log(data))
+  .catch(e => console.error(e.message))
+}
+
+ const updateFlavorQntFromCart = async(quantity, flavor, product_id, max_quantity, price, id)=>{
     const cartData = await cartProductById(id)
     const userId = localStorage.getItem('userId')
     const body = {
@@ -64,7 +82,8 @@ const groupedProducts = () => {
           <small>Clique para atualizar o valor</small>
         `
         
-        const { product, items } = group
+        const { product: originalProduct, items } = group
+        const product = { ...originalProduct }
 
         // Container principal de um produto
         const itemContainer = document.createElement('div');
@@ -77,13 +96,12 @@ const groupedProducts = () => {
         productDiv.innerHTML = `
           <strong>Nome do produto:</strong> ${product.product}<br>
           <strong>Preço:</strong> R$ ${product.price}<br>
-          <strong>Quantidade:</strong> ${product.quantity}<br>
+          ${product.category !== 'bebida' ? `<strong>Quantidade:</strong> ${product.quantity}<br>` : ''}
           <strong>Total:</strong> R$ ${product.total}
         `;
         itemContainer.appendChild(productDiv);
 
-        /* CARD DAS BEBIDAS */
-        console.log(product.category)
+        /* CARD DAS BEBIDAS */        
         if(product.category === 'bebida'){
           const btnContainer = document.createElement('div')
           btnContainer.classList.add('btn-container')
@@ -105,7 +123,7 @@ const groupedProducts = () => {
           btnContainer.appendChild(minusBtn)
 
           productDiv.appendChild(btnContainer)
-
+          /* AÇÃO DOS BOTÕES PARA AS QUANTIDADES DE BEBIDAS */
           minusBtn.addEventListener('click', async()=>{
             if(product.quantity <= 1){
               const confirmDel = window.confirm(`Tem certeza que desja remover ${product.product}?`)
@@ -114,10 +132,49 @@ const groupedProducts = () => {
               container.removeChild(itemContainer)
               grandTotal -= parseFloat(product.total)
             }
+
+            updateProductQntFromCart(product.id, -1)
+            quantityDiv.textContent = product.quantity -= 1
+
+            const previousTotal = parseFloat(product.total)
+            product.total = (product.quantity * product.price).toFixed(2)
+
+            const strongs = productDiv.querySelectorAll('strong')
+            const qntEl = Array.from(strongs).find(el => el.textContent.includes('Quantidade'))
+            
+            if(qntEl && qntEl.nextSibling){
+              const newQuantity = product.quantity -= 1
+              qntEl.nextSibling.nodeValue = `${newQuantity}`
+            }
+
+            productDiv.querySelector('strong:last-of-type')
+              .nextSibling.textContent = ` R$ ${product.total}`
+            
+            grandTotal += parseFloat(product.total) - previousTotal
+            subtotal.innerHTML = `
+              Total Geral: R$ ${grandTotal.toFixed(2)}<br>
+              <small>Clique para atualizar o valor</small>
+            `
           })
+
+         plusBtn.addEventListener('click', ()=>{
+            updateProductQntFromCart(product.id, 1)
+            quantityDiv.textContent = product.quantity += 1
+
+            const previousTotal = parseFloat(product.total)
+            product.total = (product.quantity * product.price).toFixed(2)
+
+            productDiv.querySelector('strong:last-of-type')
+              .nextSibling.textContent = ` R$ ${product.total}`
+            
+            grandTotal += parseFloat(product.total) - previousTotal
+            subtotal.innerHTML = `
+              Total Geral: R$ ${grandTotal.toFixed(2)}<br>
+              <small>Clique para atualizar o valor</small>
+            `
+         }) 
         }
-        /* ================= */
-        // Container dos sabores
+        /* CONTAINER DOS SABORES */
         const itemsDiv = document.createElement('div');
         itemsDiv.classList.add('items');
 
@@ -176,7 +233,7 @@ const groupedProducts = () => {
               
             }
 
-            updateCartProductQnt(-1, flavor.flavor, flavor.product_id, flavor.max_quantity, flavor.price, flavor.id)
+            updateFlavorQntFromCart(-1, flavor.flavor, flavor.product_id, flavor.max_quantity, flavor.price, flavor.id)
             
             quantityDiv.textContent = flavor.quantity -= 1
             
@@ -193,7 +250,6 @@ const groupedProducts = () => {
             `
           })
 
-
           plusBtn.addEventListener('click', async() =>{
             const totalGroupQuantity = items.reduce((sum, item) => sum + item.quantity, 0)
             if(totalGroupQuantity >= flavor.max_quantity){
@@ -203,7 +259,7 @@ const groupedProducts = () => {
 
               return
             }
-            updateCartProductQnt(1, flavor.flavor, flavor.product_id, flavor.max_quantity, flavor.price, flavor.id)
+            updateFlavorQntFromCart(1, flavor.flavor, flavor.product_id, flavor.max_quantity, flavor.price, flavor.id)
             
             quantityDiv.textContent = flavor.quantity += 1
 
@@ -238,10 +294,9 @@ const groupedProducts = () => {
     .catch(e => console.error(e.message));
 }
 
-
-
 document.addEventListener('DOMContentLoaded', ()=>{
-  const userId = localStorage.getItem('userId')
+  groupedProducts()
+  /* const userId = localStorage.getItem('userId')
   
   fetch(`${BASE_URL}/clients/cart/${userId}`).then(res => res.json())
     .then(data =>{
@@ -254,35 +309,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
         document.querySelector('.back-shopping').textContent = 'CONTINUAR COMPRANDO'
         groupedProducts()
       }
-    })
+    }) */
 })
 
  const subtotalBtn = document.querySelector('.subtotal')
-/*const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight -10
-const atTop = window.scrollY <= 10 */
-
-/* subtotalBtn.addEventListener('mouseenter', ()=>{
-  if(atBottom){
-    subtotalBtn.textContent = 'Clique para ir ao topo'
-  }else if(atTop){
-    subtotalBtn.textContent = 'Clique para voltar ao início'
-  }
-}) */
 
 subtotalBtn.addEventListener('click', ()=>{
   document.getElementById('main-container').innerHTML = ''
   groupedProducts()
-  /* if(atTop){
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth'})
-  }else if(atBottom){
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }else{
-    if(window.scrollY < document.body.scrollHeight / 2){
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
-    }else{
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-  } */
 })
 
 document.querySelector('.bottom').addEventListener('click', ()=>{

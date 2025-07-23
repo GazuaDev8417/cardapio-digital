@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }).catch(e => console.error(e.message))
     }
 
-    /* VERIFICAR SE O PRODUTO JÁ EXISTE NO CARRINHO */
+    /* ALTERA QUANTIDADE DO PRODUTO NO CARRO */
     const updateCartProductQnt = (quantity, flavor, product_id, max_quantity, price)=>{
         const body = {
             price,
