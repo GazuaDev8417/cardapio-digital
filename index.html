@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/layout.css">
     <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/responsivity.css">
+    <link rel="stylesheet" href="assets/css/responsivity_P1.c ss">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -20,10 +20,11 @@
             <div class="header__logo">
                 <img src="assets/imgs/logo-menu.png" alt="logo">
             </div>
-        </div>
-        <div class="search-container">
+        </div>    
+        <!-- Ícone de busca visível apenas em telas maiores -->
+        <div class="search-container desktop-search">
             <div id="inputContainer">
-                <input type="text" id="search">
+                <input type="text" id="search" />
                 <label for="search">Pesquise por um produto</label>
             </div>
             <button class="header__search-btn" id="searchBtn">
@@ -32,6 +33,23 @@
             </button>
         </div>
     </header>
+
+    <!-- Input para busca -->
+    <aside id="sideMenu" class="side-menu">
+        <div class="side-menu__content">
+            <!-- Campo de busca dentro do menu -->
+            <div class="search-container mobile-search">
+            <div id="inputContainer">
+                <input type="text" id="mobileSearch" />
+                <label for="mobileSearch">Pesquise por um produto</label>
+            </div>
+            <button class="header__search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+            </div>
+            <!-- outros itens do menu aqui -->
+        </div>
+    </aside>   
     <!-- POPUP ALERTA QUANDO FECHADO -->
     <div class="popup-alert-container">
     <div class="popup-alert">

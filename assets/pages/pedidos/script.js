@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let categoryTitle = localStorage.getItem('category')
     let title = localStorage.getItem('title')
     let productId = localStorage.getItem('productId')
-    let userId = localStorage.getItem('userId')
     let currentStep = 1
     
 
