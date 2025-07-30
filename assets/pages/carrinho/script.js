@@ -30,7 +30,7 @@ const updateProductQntFromCart = (id, quantity)=>{
   .catch(e => console.error(e.message))
 }
 
- const updateFlavorQntFromCart = async(quantity, flavor, product_id, max_quantity, price, id)=>{
+const updateFlavorQntFromCart = async(quantity, flavor, product_id, max_quantity, price, id)=>{
     const cartData = await cartProductById(id)
     const body = {
         price,
@@ -57,7 +57,6 @@ const updateProductQntFromCart = (id, quantity)=>{
 
 const groupedProducts = () => {
   fetch(`${BASE_URL}/products/flavors`, {
-    method:'POST',
       headers: {
         'Content-type': 'application/json',
         'Authorization': `${localStorage.getItem('token')}`
@@ -288,8 +287,20 @@ const groupedProducts = () => {
     })
     .catch(e => console.error(e.message));
 }
-
+/* fim */
 document.addEventListener('DOMContentLoaded', ()=>{
+  /* fetch(`${BASE_URL}/clients/cart`, {
+    headers: { 'Authorization': localStorage.getItem('token') }
+  }).then(async res=>{
+    if(!res.ok){
+      return await res.text().then(error => console.log(error))
+    }
+    return await res.json()
+  }).then(data => console.log(data))
+    .catch(e => console.error(e.message)) */
+
+
+
   groupedProducts()
   /* const userId = localStorage.getItem('userId')
   
@@ -307,7 +318,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }) */
 })
 
- const subtotalBtn = document.querySelector('.subtotal')
+const subtotalBtn = document.querySelector('.subtotal')
 
 subtotalBtn.addEventListener('click', ()=>{
   document.getElementById('main-container').innerHTML = ''

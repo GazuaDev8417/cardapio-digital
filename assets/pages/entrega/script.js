@@ -30,11 +30,8 @@ const clearForm = ()=>{
     ref.value = ''
 }
 
-const userId = localStorage.getItem('userId')
-
 const singupClient = ()=>{
     const body = {
-        id: userId,
         client: client?.value.trim() || '',
         street: rua?.value.trim() || '',
         neighborhood: bairro?.value.trim() || '',
@@ -45,7 +42,10 @@ const singupClient = ()=>{
     
     fetch(`${BASE_URL}/signup`, {
         method:'POST',
-        headers: { 'Content-type': 'application/json' },
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': localStorage.getItem('token')
+        },
         body: JSON.stringify(body)
     }).then(async res=>{
         if(!res.ok){
@@ -58,11 +58,8 @@ const singupClient = ()=>{
 
 const groupedProducts = async() => {
   return fetch(`${BASE_URL}/products/flavors`, {
-    method: 'POST',
-    headers: { 'Content-type': 'application/json' },
-    body: JSON.stringify({ client: userId })
-  })
-    .then(async res => {
+    headers: { 'Content-type': 'application/json' }
+  }).then(async res => {
       if (!res.ok) {
         return await res.text().then(error => {
           console.error('Erro na resposta:', error);
@@ -73,7 +70,7 @@ const groupedProducts = async() => {
     })
     .then(data => {
       let totalGeral = 0;
-      let mensagem = `📦 *Novo Pedido Recebido para:*\n${clientName.value.trim()}\n${rua.value.trim()},\n${bairro.value.trim()}\nCEP: ${cep.value},\n${phone.value}\nPonto de referência: ${ref.value}\n ${obs.value !== '' ? `Obs.: ${obs.value}` : ''}\n\n`
+      let mensagem = `📦 *Novo Pedido Recebido para:*\n${clientName.value.trim()}\n${rua.value.trim()},\n${bairro.value.trim()}\nCEP: ${cep.value},\n${phone.value}\nPonto de referência: ${ref.value}\n ${obs.value !== '' ? `Obs.: ${obs.value}` : ''}\n`
 
       data.forEach(({ product, items }) => {
         const preco = parseFloat(product.price);
@@ -100,6 +97,36 @@ const groupedProducts = async() => {
 }
 
 
+const getCartFromClient = async()=>{
+  try{
+    const res = await fetch(`${BASE_URL}/clients/cart`, {
+      headers: { 'Authorization': localStorage.getItem('token') }
+    })
+    if(!res.ok){
+      const errorText = await res.text()
+      console.log(errorText)
+      return
+    }
+    const data = await res.json()
+    return data
+  }catch(e){
+    console.error(e.message)
+  }
+
+  /* return fetch(`${BASE_URL}/clients/cart`, {
+    headers: {
+      'Authorization': localStorage.getItem('token')
+    }
+  }).then(async res=>{
+    if(!res.ok){
+      return await res.text().then(error => console.log(error))
+    }
+    return await res.json()
+  }).then(data => console.log(data))
+    .catch(e => console.error(e.message)) */
+}
+
+
 document.querySelector('.end-orders').addEventListener('click', async()=>{
     if (
         rua.value.trim() === '' ||
@@ -111,7 +138,13 @@ document.querySelector('.end-orders').addEventListener('click', async()=>{
     ) {
         window.alert('Por favor, preencha todos os campos.')
         return 
-    }   
+    }  
+    
+    const cart = await getCartFromClient()
+    if(!cart || cart.length === 0){
+      window.alert('Seu carrinho ainda está vazio')
+      return
+    } 
     
     const mensagemFormatada = await groupedProducts();
     const mensagemUrl = encodeURIComponent(mensagemFormatada);
