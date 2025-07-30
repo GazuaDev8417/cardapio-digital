@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const openMenu = document.getElementById('menuIcon')
     const sidebar = document.getElementById('sidebar')
     const overlay = document.getElementById('overlay')
-    const popupAlert = document.querySelector('.popup-alert')
     const stored = localStorage.getItem('productsList')
     const productsList = stored ? JSON.parse(stored) : []
     let categoryTitle = localStorage.getItem('category')
@@ -13,7 +12,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let currentStep = 1
     
 
-
+console.log(productsList)
 
 
     /* VOLTAR À PÁGINA PRINCIPAL E REGRESSAR OS PASSOS DA PÁGINA ATUAL*/
