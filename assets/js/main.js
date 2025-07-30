@@ -8,7 +8,6 @@ const dayWeek = days[now.getDay()]
 const currentHour = now.getHours()
 const currenttMinute = now.getMinutes()
 const totalMinutes = currentHour * 60 + currenttMinute
-const popupAlert = document.querySelector('.popup-alert')
 const horarios = {
     'SEGUNDA': [1020, 1439],   
     'TERCA': [1020, 1439],             

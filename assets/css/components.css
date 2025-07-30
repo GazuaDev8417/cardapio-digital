@@ -172,23 +172,26 @@
     align-items: center;
     justify-content: center;
 }
-
-.popup-alert{
-    text-align: center;
-    background-color: #FF5252;
-    padding: 15px;
-    color: #fff;
-    width: 530px;
-    border-radius: 5px;
-    transform: scale(0);
-    position: fixed;
-    top: 5px;
-    transition: .3s ease-in-out;
-    z-index: 3;
+.popup-alert {
+  text-align: center;
+  background-color: #FF5252;
+  padding: 15px;
+  color: #fff;
+  max-width: 90vw; /* Limita a largura máxima ao viewport */
+  width: 100%;      /* Garante que ocupa toda a largura disponível */
+  box-sizing: border-box; /* Inclui padding dentro do width */
+  border-radius: 5px;
+  transform: scale(0);
+  position: fixed;
+  top: 5px;
+  left: 50%;         /* Centraliza horizontalmente */
+  transform: scale(0) translateX(-50%);
+  transition: 0.3s ease-in-out;
+  z-index: 3;
 }
 
-.popup-alert.active{
-    transform: scale(1);
+.popup-alert.active {
+  transform: scale(1) translateX(-50%);
 }
 
 /* INICIO */

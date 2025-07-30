@@ -1,5 +1,6 @@
 const cartIcon = document.querySelector('.cart-icon')
 const BASE_URL = 'https://max-menu-server.vercel.app'
+const popupAlert = document.querySelector('.popup-alert')
 //const BASE_URL = 'http://localhost:3003'
 
 /* FUNÇÕES */
