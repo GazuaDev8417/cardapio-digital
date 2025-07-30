@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let currentStep = 1
     
 
-console.log(productsList)
+
 
 
     /* VOLTAR À PÁGINA PRINCIPAL E REGRESSAR OS PASSOS DA PÁGINA ATUAL*/
@@ -313,6 +313,5 @@ console.log(productsList)
         }catch(e){
             console.error(e.message)
         }
-    })
-    
+    })    
 })
