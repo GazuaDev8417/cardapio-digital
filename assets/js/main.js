@@ -73,8 +73,6 @@ const displayProducts = ()=>{
                                 }
                             }
                         })
-                        
-                        
                     })
                     
                     section.appendChild(cardHtml)
