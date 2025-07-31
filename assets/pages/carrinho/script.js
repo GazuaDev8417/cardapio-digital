@@ -128,7 +128,7 @@ const groupedProducts = () => {
           productDiv.appendChild(btnContainer)
           /* AÇÃO DOS BOTÕES PARA AS QUANTIDADES DE BEBIDAS */
           minusBtn.addEventListener('click', async()=>{
-            if(product.quantity <= 1){
+            if(product.quantity === 1){
               const confirmDel = window.confirm(`Tem certeza que desja remover ${product.product}?`)
               if(!confirmDel) return
 
@@ -289,33 +289,8 @@ const groupedProducts = () => {
 }
 /* fim */
 document.addEventListener('DOMContentLoaded', ()=>{
-  /* fetch(`${BASE_URL}/clients/cart`, {
-    headers: { 'Authorization': localStorage.getItem('token') }
-  }).then(async res=>{
-    if(!res.ok){
-      return await res.text().then(error => console.log(error))
-    }
-    return await res.json()
-  }).then(data => console.log(data))
-    .catch(e => console.error(e.message)) */
-
-
-
   groupedProducts()
-  /* const userId = localStorage.getItem('userId')
-  
-  fetch(`${BASE_URL}/clients/cart/${userId}`).then(res => res.json())
-    .then(data =>{
-      if(data.length === 0){
-        document.querySelector('.no-products')
-          .textContent = 'Seu carrinho ainda está vazio. Sintá-se à para escolher seus produtos e fazer seus pedidos'
-        document.querySelector('.back-shopping').textContent = 'IR ÀS COMPRAS'
-      }else{
-        document.querySelector('.no-products').textContent = ''
-        document.querySelector('.back-shopping').textContent = 'CONTINUAR COMPRANDO'
-        groupedProducts()
-      }
-    }) */
+
 })
 
 const subtotalBtn = document.querySelector('.subtotal')
