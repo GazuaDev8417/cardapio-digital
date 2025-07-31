@@ -253,7 +253,7 @@ const groupedProducts = () => {
 
               return
             }
-            updateFlavorQntFromCart(1, flavor.flavor, flavor.product_id, flavor.max_quantity, flavor.price, flavor.id)
+            await updateFlavorQntFromCart(1, flavor.flavor, flavor.product_id, flavor.max_quantity, flavor.price, flavor.id)
             
             quantityDiv.textContent = flavor.quantity += 1
 

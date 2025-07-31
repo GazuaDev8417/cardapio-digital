@@ -274,9 +274,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }).catch(e => console.error(e.message) || 'Erro ao buscar sabores')
     }
 
-    getFlavorsByProduct(productId, currentStep)
-    
-
     document.getElementById('continue').addEventListener('click', async()=>{
         try{
 
@@ -313,5 +310,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }catch(e){
             console.error(e.message)
         }
-    })    
+    })   
+    
+    getFlavorsByProduct(productId, currentStep)
 })
