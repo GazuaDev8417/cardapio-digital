@@ -210,8 +210,8 @@ const groupedProducts = () => {
           const popupAlert = document.querySelector('.popup-alert')
           /* AÇÕES DOS BOTÕES */
           minusBtn.addEventListener('click', async() =>{
-            if(flavor.quantity <= 1){
-              const confirm = window.confirm(`Tem certeza que quer remover o ${(flavor.flavor).toLowerCase()}`)
+            if(flavor.quantity === 1){
+              const confirm = window.confirm(`Tem certeza que quer remover o ${(flavor.flavor).toLowerCase()}?`)
               
               if(!confirm) return
 
@@ -227,7 +227,7 @@ const groupedProducts = () => {
               
             }
 
-            updateFlavorQntFromCart(-1, flavor.flavor, flavor.product_id, flavor.max_quantity, flavor.price, flavor.id)
+            await updateFlavorQntFromCart(-1, flavor.flavor, flavor.product_id, flavor.max_quantity, flavor.price, flavor.id)
             
             quantityDiv.textContent = flavor.quantity -= 1
             
