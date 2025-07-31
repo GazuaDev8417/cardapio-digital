@@ -258,6 +258,7 @@ main .subtitle{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
 }
 
 #additional-value{
@@ -364,3 +365,6 @@ main .subtitle{
 .continue:active{
     transform: scale(.98);
 }
+
+
+/* MEDIA QUERIES */

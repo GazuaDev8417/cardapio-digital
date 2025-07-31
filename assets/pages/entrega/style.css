@@ -198,3 +198,16 @@
     cursor: pointer;
     border-radius: 5px;
 }
+
+@media(max-width: 480px){
+    main .inputs{
+        display: flex;
+        flex-direction: column;
+        padding: 0 10px;
+    } 
+
+    .footer-btn-container{
+        align-items: center;
+        gap: 10px;
+    }
+}
