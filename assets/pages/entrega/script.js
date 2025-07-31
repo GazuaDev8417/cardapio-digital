@@ -58,7 +58,9 @@ const singupClient = ()=>{
 
 const groupedProducts = async() => {
   return fetch(`${BASE_URL}/products/flavors`, {
-    headers: { 'Content-type': 'application/json' }
+    headers: {
+      'Authorization': localStorage.getItem('token')
+    }
   }).then(async res => {
       if (!res.ok) {
         return await res.text().then(error => {
@@ -67,8 +69,7 @@ const groupedProducts = async() => {
         });
       }
       return await res.json();
-    })
-    .then(data => {
+    }).then(data => {
       let totalGeral = 0;
       let mensagem = `📦 *Novo Pedido Recebido para:*\n${clientName.value.trim()}\n${rua.value.trim()},\n${bairro.value.trim()}\nCEP: ${cep.value},\n${phone.value}\nPonto de referência: ${ref.value}\n ${obs.value !== '' ? `Obs.: ${obs.value}` : ''}\n`
 
@@ -149,7 +150,7 @@ document.querySelector('.end-orders').addEventListener('click', async()=>{
     const mensagemFormatada = await groupedProducts();
     const mensagemUrl = encodeURIComponent(mensagemFormatada);
     const url = `https://api.whatsapp.com/send?phone=5571982551522&text=${mensagemUrl}`;
-
+console.log(mensagemUrl)
     /* singupClient() */
     window.open(url, '_blank')
 })

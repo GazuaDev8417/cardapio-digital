@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 
                 document.body.style.backgroundImage = `url('../../imgs/${categoryTitle}/background.avif')`
                 document.body.style.backgroundSize = 'cover'
-                document.body.style.backgroundRepeat = 'no-repeat'
+                document.body.style.backgroundRepeat = 'repeat'
                 data.forEach(item=>{
                     const price = parseFloat(item.price) ?? 0
                     const ingredients = item.ingredients || ''
