@@ -287,12 +287,6 @@ const groupedProducts = () => {
     })
     .catch(e => console.error(e.message));
 }
-/* fim */
-document.addEventListener('DOMContentLoaded', ()=>{
-  groupedProducts()
-
-})
-
 const subtotalBtn = document.querySelector('.subtotal')
 
 subtotalBtn.addEventListener('click', ()=>{
@@ -306,4 +300,9 @@ document.querySelector('.bottom').addEventListener('click', ()=>{
 
 document.querySelector('.top').addEventListener('click', ()=>{
   window.scrollTo({ top: 0, behavior: 'smooth' })
+})
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  groupedProducts()
+
 })

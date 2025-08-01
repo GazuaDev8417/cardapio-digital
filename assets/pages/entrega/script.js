@@ -5,6 +5,10 @@ const clientName = document.getElementById('client')
 const phone = document.getElementById('phone')
 const obs = document.getElementById('obs-content')
 const ref = document.getElementById('referencia')
+const cancelBtn = document.querySelector('.back-shopping')
+const endBtn = document.querySelector('.end-orders')
+
+
 
 const addressByCep = ()=>{
     
@@ -106,6 +110,29 @@ const getCartFromClient = async()=>{
     .catch(e => console.error(e.message)) */
 }
 
+const removeProductAndItsFlavor = async()=>{
+  try{
+    const res = await fetch(`${BASE_URL}/product/client`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': localStorage.getItem('token')
+      }
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('Erro ao remover produtos:', errorText);
+      return;
+    }
+
+    const data = await res.json();
+    console.log('Produtos removidos com sucesso:', data);
+    clearForm();  
+  }catch(e){
+
+  }
+}
+
 const singupClient = async(pedido)=>{
   const body = {
     pedido: pedido?.trim() || ''
@@ -127,21 +154,22 @@ const singupClient = async(pedido)=>{
       return;
     }
 
-    const data = await res.json()
+    await removeProductAndItsFlavor();
+    clearForm()
+    localStorage.removeItem('token');
   } catch (e) {
     console.error(e.message);
   }
 }
 
-const removeProductAndItsFlavor = async()=>{
-  try{
+cancelBtn.addEventListener('click', async()=>{
+    await removeProductAndItsFlavor();
+    clearForm()
+    localStorage.removeItem('token');
+    window.location.href = '../../../index.html'
+})
 
-  }catch(e){
-
-  }
-}
-
-document.querySelector('.end-orders').addEventListener('click', async()=>{
+endBtn.addEventListener('click', async()=>{
     if (
         rua.value.trim() === '' ||
         bairro.value.trim() === '' ||

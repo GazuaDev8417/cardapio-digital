@@ -9,11 +9,14 @@
     .header{
         font-size: 10px;
     }
+
+    .footer-content .shop-btn{
+        text-align: center;
+        max-width: 100px;
+    }
 }
 /* ======POUPUP-ALERT====== */
-@media(max-width:400px){
-   
-}
+
 /* CORPO DA PÁGINA 1 */
 @media(max-width: 520px){
     .footer-btn-container{
