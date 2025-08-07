@@ -189,12 +189,16 @@ endBtn.addEventListener('click', async()=>{
     } 
     
     const mensagemFormatada = await groupedProducts();
-    //const mensagemUrl = encodeURIComponent(mensagemFormatada);
     const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${clientName.value.trim()}\n${rua.value.trim()},\n${bairro.value.trim()}\nCEP: ${cep.value},\n${phone.value}\nPonto de referência: ${ref.value}\n${obs.value !== '' ? `Obs.: ${obs.value}` : ''}`
-    const url = `https://api.whatsapp.com/send?phone=5571982551522&text=${mensagemUrl}`;
+    //const url = `https://api.whatsapp.com/send?phone=5571982551522&text=${mensagem}`;
+    const url = `https://wa.me/5571982551522`
 
-    singupClient(mensagemFormatada)
-    window.open(url, '_blank')
+    navigator.clipboard.writeText(mensagemUrl).then(()=>{
+      window.open(url, '_blank')
+      alert('Mensagem copiada para a área de transferência. Cole no WhatsApp!')
+    })
+    //singupClient(mensagemFormatada)
+    //window.open(url, '_blank')
 })
 
 
