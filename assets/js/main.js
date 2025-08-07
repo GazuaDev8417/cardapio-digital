@@ -38,7 +38,8 @@ const addDrinkToCart = async(product) => {
                 'Content-Type': 'application/json', 
                 'Authorization': `${localStorage.getItem('token')}`
             },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            credentials: 'include'
         })
         if(!response.ok){
             res.text().then(error => console.log(error))
@@ -52,7 +53,9 @@ const addDrinkToCart = async(product) => {
 }
 
 const displayProducts = ()=>{
-    fetch(`${BASE_URL}/products`).then(res => res.json())
+    fetch(`${BASE_URL}/products`, {
+        creedentials: 'include'
+    }).then(res => res.json())
         .then(data =>{
             localStorage.setItem('productsList', JSON.stringify(data))
             const sections = {
@@ -93,7 +96,6 @@ const displayProducts = ()=>{
                                     
                                     if(d.category === 'bebida'){
                                         addDrinkToCart(d)
-                                        //window.location.href = 'assets/pages/carrinho/index.html'
                                     }else{
                                         window.location.href = 'assets/pages/pedidos/index.html'
                                     }

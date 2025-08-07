@@ -137,7 +137,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 'Content-type': 'application/json',
                 'Authorization': `${localStorage.getItem('token')}`
             },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            credentials: 'include'
         }).then(res=>{
             if(!res.ok){
                 return res.text().then(error=>{
@@ -164,7 +165,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 'Content-type': 'application/json',
                 'Authorization': `${localStorage.getItem('token')}`
             },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            credentials: 'include'
         }).then(res=>{
             if(!res.ok){
                 res.text().then(error=>{
@@ -186,7 +188,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 'Content-type': 'application/json',
                 'Authorization': `${localStorage.getItem('token')}`
             },
-            body: JSON.stringify({ step: currentStep })
+            body: JSON.stringify({ step: currentStep }),
+            credentials: 'include'
         }).then(async res =>{
             if(!res.ok){
                 return res.text().then(error => {
@@ -287,7 +290,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': `${localStorage.getItem('token')}`
-                }
+                },
+                credentials: 'include'
             })
 
             if(!response.ok){

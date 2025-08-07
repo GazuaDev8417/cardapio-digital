@@ -39,7 +39,8 @@ const groupedProducts = async() => {
     const res = await fetch(`${BASE_URL}/products/flavors`, {
       headers: {
         'Authorization': localStorage.getItem('token')
-      }
+      },
+      credentials: 'include'
     });
 
     if (!res.ok) {
@@ -84,7 +85,8 @@ const groupedProducts = async() => {
 const getCartFromClient = async()=>{
   try{
     const res = await fetch(`${BASE_URL}/clients/cart`, {
-      headers: { 'Authorization': localStorage.getItem('token') }
+      headers: { 'Authorization': localStorage.getItem('token') },
+      credentials: 'include'
     })
     if(!res.ok){
       const errorText = await res.text()
@@ -95,19 +97,7 @@ const getCartFromClient = async()=>{
     return data
   }catch(e){
     console.error(e.message)
-  }
-
-  /* return fetch(`${BASE_URL}/clients/cart`, {
-    headers: {
-      'Authorization': localStorage.getItem('token')
-    }
-  }).then(async res=>{
-    if(!res.ok){
-      return await res.text().then(error => console.log(error))
-    }
-    return await res.json()
-  }).then(data => console.log(data))
-    .catch(e => console.error(e.message)) */
+  }  
 }
 
 const removeProductAndItsFlavor = async()=>{
@@ -116,7 +106,8 @@ const removeProductAndItsFlavor = async()=>{
       method: 'DELETE',
       headers: {
         'Authorization': localStorage.getItem('token')
-      }
+      },
+      credentials: 'include'
     });
 
     if (!res.ok) {
@@ -145,7 +136,8 @@ const singupClient = async(pedido)=>{
         'Content-type': 'application/json',
         'Authorization': localStorage.getItem('token')
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
+      credentials: 'include'
     });
 
     if (!res.ok) {

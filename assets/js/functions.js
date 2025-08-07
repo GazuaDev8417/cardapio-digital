@@ -9,7 +9,9 @@ const generateToken = ()=>{
   const token = localStorage.getItem('token')
   if(token) return
   
-  fetch(`${BASE_URL}/generate-user-id`)
+  fetch(`${BASE_URL}/generate-user-id`, {
+    credentials: 'include'
+  })
     .then(res => res.text()).then(data=>{
       localStorage.setItem('token', data)
     }).catch(e => console.log(e.message))
@@ -31,7 +33,8 @@ const addProductToCart = (product)=>{
           'Authorization': `${localStorage.getItem('token')}`,
           'Content-type': 'application/json'
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        credentials: 'include'
     }).then(async res=>{
         if(!res.ok){
             return await res.text().then(error => console.log(error))

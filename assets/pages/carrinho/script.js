@@ -1,5 +1,7 @@
 const cartProductById = async(id)=>{
-  return fetch(`${BASE_URL}/cart/product/${id}`)
+  return fetch(`${BASE_URL}/cart/product/${id}`, {
+    credentials: 'include'
+  })
     .then(async res=>{
       if(!res.ok){
         const error = await res.text()
@@ -20,7 +22,8 @@ const updateProductQntFromCart = (id, quantity)=>{
       'Content-type': 'application/json',
       'Authorization': `${localStorage.getItem('token')}`
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    credentials: 'include'
   }).then(async res=>{
     if(!res.ok){
       return await res.text().then(error => console.log(error))      
@@ -47,7 +50,8 @@ const updateFlavorQntFromCart = async(quantity, flavor, product_id, max_quantity
           'Content-type': 'application/json',
           'Authorization': `${localStorage.getItem('token')}`
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        credentials: 'include'
     }).then(res=>{
       if(!res.ok){
         res.text().then(error => console.log(error))
@@ -60,7 +64,8 @@ const groupedProducts = () => {
       headers: {
         'Content-type': 'application/json',
         'Authorization': `${localStorage.getItem('token')}`
-      }
+      },
+      credentials: 'include'
     }).then(async res=>{
       if(!res.ok){
         const error = await res.text()
