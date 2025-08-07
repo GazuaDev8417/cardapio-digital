@@ -193,9 +193,10 @@ endBtn.addEventListener('click', async()=>{
     const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${clientName.value.trim()}\n${rua.value.trim()},\n${bairro.value.trim()}\nCEP: ${cep.value},\n${phone.value}\nPonto de referência: ${ref.value}\n${obs.value !== '' ? `Obs.: ${obs.value}` : ''}`
     const url = `https://wa.me/5571982551522`
 
-    window.confirm('Mensagem copiada para a área de transferência. Cole no WhatsApp!')
-    navigator.clipboard.writeText(mensagemUrl).then(()=>{
+    const decide = window.confirm('Mensagem copiada para a área de transferência. Cole no WhatsApp!')
+    if(decide){
+      await navigator.clipboard.writeText(mensagemUrl)
       window.open(url, '_blank')
-    })
+    }
     singupClient(mensagemFormatada)
 })
