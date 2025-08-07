@@ -18,6 +18,39 @@ const horarios = {
     'DOMINGO': [1020, 1439],
 }
 
+
+
+
+const addDrinkToCart = async(product) => {
+    const body = {
+        price: product.price,
+        quantity: product.quantity,
+        flavor: product.product,
+        productId: product.id,
+        max_quantity: 1,
+        step: 1
+    }
+    
+    try{
+        const response = await fetch(`${BASE_URL}/insert_in_cart`, {
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(body)
+        })
+        if(!response.ok){
+            res.text().then(error => console.log(error))
+            throw new Error('Erro ao adicionar ao carrinho')
+        } 
+
+        window.location.href = 'assets/pages/carrinho/index.html'
+    }catch(e){
+        console.error(e)    
+    }
+}
+
 const displayProducts = ()=>{
     fetch(`${BASE_URL}/products`).then(res => res.json())
         .then(data =>{
@@ -51,7 +84,7 @@ const displayProducts = ()=>{
                         const dayName = row.querySelector('.day-name').textContent.trim().toUpperCase()
                         const time = horarios[dayName]
                         
-                        cardHtml.addEventListener('click', (e) =>{
+                        cardHtml.addEventListener('click', () =>{
                             if(dayName === dayWeek){
                                 if(totalMinutes <= time[0] /* && totalMinutes < time[1] */){
                                     localStorage.setItem('title', d.product)
@@ -59,8 +92,8 @@ const displayProducts = ()=>{
                                     localStorage.setItem('category', d.category)
                                     
                                     if(d.category === 'bebida'){
-                                        addProductToCart(d)
-                                        window.location.href = 'assets/pages/carrinho/index.html'
+                                        addDrinkToCart(d)
+                                        //window.location.href = 'assets/pages/carrinho/index.html'
                                     }else{
                                         window.location.href = 'assets/pages/pedidos/index.html'
                                     }

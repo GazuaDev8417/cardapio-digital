@@ -177,7 +177,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }).catch(e => console.error(e.message))
     }
     
-    console.log(localStorage.getItem('token'))
    /* BUSCAR SABORES */
     const getFlavorsByProduct = (id, currentStep)=>{
         headerTitle.textContent = title

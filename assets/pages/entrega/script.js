@@ -157,6 +157,7 @@ const singupClient = async(pedido)=>{
     await removeProductAndItsFlavor();
     clearForm()
     localStorage.removeItem('token');
+    window.location.href = '../../../index.html'
   } catch (e) {
     console.error(e.message);
   }
@@ -190,32 +191,11 @@ endBtn.addEventListener('click', async()=>{
     
     const mensagemFormatada = await groupedProducts();
     const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${clientName.value.trim()}\n${rua.value.trim()},\n${bairro.value.trim()}\nCEP: ${cep.value},\n${phone.value}\nPonto de referência: ${ref.value}\n${obs.value !== '' ? `Obs.: ${obs.value}` : ''}`
-    //const url = `https://api.whatsapp.com/send?phone=5571982551522&text=${mensagem}`;
     const url = `https://wa.me/5571982551522`
 
+    window.confirm('Mensagem copiada para a área de transferência. Cole no WhatsApp!')
     navigator.clipboard.writeText(mensagemUrl).then(()=>{
       window.open(url, '_blank')
-      alert('Mensagem copiada para a área de transferência. Cole no WhatsApp!')
     })
-    //singupClient(mensagemFormatada)
-    //window.open(url, '_blank')
+    singupClient(mensagemFormatada)
 })
-
-
-/* closeBtn.onclick = () => {
-    modal.classList.remove('active')
-};
-
- 
-window.onclick = (event) => {
-    if (event.target === modal) {
-      modal.classList.remove('active')
-    }
-};
-
-
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      modal.classList.remove('active')
-    }
-}); */
