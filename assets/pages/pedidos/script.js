@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }).catch(e => console.error(e.message))
     }
     
-    
+    console.log(localStorage.getItem('token'))
    /* BUSCAR SABORES */
     const getFlavorsByProduct = (id, currentStep)=>{
         headerTitle.textContent = title
@@ -188,90 +188,97 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 'Authorization': `${localStorage.getItem('token')}`
             },
             body: JSON.stringify({ step: currentStep })
-        }).then(res => res.json())
-            .then(objectData=>{
-                const data = objectData.flavors
-               
-                if(currentStep === objectData.maxStep){
-                    document.getElementById('continue').innerHTML = 'ADICIONAR AO CARRINHO'
-                }
-                
-                document.getElementById('subtitle').textContent = data[0].subtitle
-                const maxQuantity = data[0].max_quantity
-                document.getElementById('min-max-container').innerHTML = `
-                    <span>Mínimo: ${currentStep === 1 ? '1' : '0'}</span>
-                    <span>Máximo: ${maxQuantity}</span>
-                `
-                
-
-                const list = document.getElementById('flavors-list')
-                list.innerHTML = ''
-                
-                document.body.style.backgroundImage = `url('../../imgs/${categoryTitle}/background.avif')`
-                document.body.style.backgroundSize = 'cover'
-                document.body.style.backgroundRepeat = 'repeat'
-                data.forEach(item=>{
-                    const price = parseFloat(item.price) ?? 0
-                    const ingredients = item.ingredients || ''
-                    const div = document.createElement('div')
-
-                    div.className = 'item'
-                    div.style.backgroundImage = `url(../../imgs/${categoryTitle}/cards.avif)`
-                    div.style.backgroundSize = 'cover'
-                    div.style.backgroundPosition = 'center'
-                    div.style.backgroundRepeat = 'no-repeat'
-
-
-                    div.innerHTML = `
-                        <div class='card-overlay'></div>
-                        <div class='flavor'>
-                            <div>${item.flavor}</div>
-                            ${ingredients ? `<small class='ingredients'>${ingredients}</small>` : ''}
-                            ${price ? `<small class='price'>R$ ${price.toFixed(2)}</small>` : ''}
-                        </div>
-                        <div class='quantity'>
-                            <button class='minus'>-</button>
-                            <span>${item.quantity >= 0 ? item.quantity : 1}</span>
-                            <button class='plus'>+</button>
-                        </div>
-                    `
-                    list.appendChild(div)
-                    
-                    const minusBtn = div.querySelector('.minus')
-                    const plusBtn = div.querySelector('.plus')
-                    const quantitySpan = div.querySelector('span')
-
-
-                    minusBtn.addEventListener('click', () =>{
-                        const current = parseInt(quantitySpan.textContent)
-                        if(current > 0){
-                            updateCartProductQnt(-1, item.flavor, item.product_id, item.max_quantity, price, item.id)
-                            quantitySpan.textContent = current - 1
-                            
-                        }
-                    })
-
-                    plusBtn.addEventListener('click', () =>{
-                        const current = parseInt(quantitySpan.textContent)
-                        const totalCurrent = getTotalQuantity()
-                        
-                        if(totalCurrent < maxQuantity){
-                            updateCartProductQnt(1, item.flavor, item.product_id, item.max_quantity, price, item.id)
-                            quantitySpan.textContent = current + 1
-                            
-                        }else{
-                            popupAlert.textContent = `Você pode adicionar até ${maxQuantity} sabores em geral`
-                            popupAlert.classList.add('active')
-                            setTimeout(() => popupAlert.classList.remove('active'), 3000);
-                        }
-                    })                    
+        }).then(async res =>{
+            if(!res.ok){
+                return res.text().then(error => {
+                    console.error(error)
+                    throw new Error('Erro ao buscar sabores')
                 })
+            }
+            return res.json()
+        }).then(objectData=>{
+            const data = objectData.flavors
+            
+            if(currentStep === objectData.maxStep){
+                document.getElementById('continue').innerHTML = 'ADICIONAR AO CARRINHO'
+            }
+            
+            document.getElementById('subtitle').textContent = data[0].subtitle
+            const maxQuantity = data[0].max_quantity
+            document.getElementById('min-max-container').innerHTML = `
+                <span>Mínimo: ${currentStep === 1 ? '1' : '0'}</span>
+                <span>Máximo: ${maxQuantity}</span>
+            `
+            
+
+            const list = document.getElementById('flavors-list')
+            list.innerHTML = ''
+            
+            document.body.style.backgroundImage = `url('../../imgs/${categoryTitle}/background.avif')`
+            document.body.style.backgroundSize = 'cover'
+            document.body.style.backgroundRepeat = 'repeat'
+            data.forEach(item=>{
+                const price = parseFloat(item.price) ?? 0
+                const ingredients = item.ingredients || ''
+                const div = document.createElement('div')
+
+                div.className = 'item'
+                div.style.backgroundImage = `url(../../imgs/${categoryTitle}/cards.avif)`
+                div.style.backgroundSize = 'cover'
+                div.style.backgroundPosition = 'center'
+                div.style.backgroundRepeat = 'no-repeat'
+
+
+                div.innerHTML = `
+                    <div class='card-overlay'></div>
+                    <div class='flavor'>
+                        <div>${item.flavor}</div>
+                        ${ingredients ? `<small class='ingredients'>${ingredients}</small>` : ''}
+                        ${price ? `<small class='price'>R$ ${price.toFixed(2)}</small>` : ''}
+                    </div>
+                    <div class='quantity'>
+                        <button class='minus'>-</button>
+                        <span>${item.quantity >= 0 ? item.quantity : 1}</span>
+                        <button class='plus'>+</button>
+                    </div>
+                `
+                list.appendChild(div)
+                
+                const minusBtn = div.querySelector('.minus')
+                const plusBtn = div.querySelector('.plus')
+                const quantitySpan = div.querySelector('span')
+
+
+                minusBtn.addEventListener('click', () =>{
+                    const current = parseInt(quantitySpan.textContent)
+                    if(current > 0){
+                        updateCartProductQnt(-1, item.flavor, item.product_id, item.max_quantity, price, item.id)
+                        quantitySpan.textContent = current - 1
+                        
+                    }
+                })
+
+                plusBtn.addEventListener('click', () =>{
+                    const current = parseInt(quantitySpan.textContent)
+                    const totalCurrent = getTotalQuantity()
                     
-                const getTotalQuantity = ()=>{
-                    const spans = document.querySelectorAll('#flavors-list .quantity span')
-                    return Array.from(spans).reduce((acc, span) => acc + parseInt(span.textContent), 0)
-                }
-            }).catch(e => console.error(e.message) || 'Erro ao buscar sabores')
+                    if(totalCurrent < maxQuantity){
+                        updateCartProductQnt(1, item.flavor, item.product_id, item.max_quantity, price, item.id)
+                        quantitySpan.textContent = current + 1
+                        
+                    }else{
+                        popupAlert.textContent = `Você pode adicionar até ${maxQuantity} sabores em geral`
+                        popupAlert.classList.add('active')
+                        setTimeout(() => popupAlert.classList.remove('active'), 3000);
+                    }
+                })                    
+            })
+                
+            const getTotalQuantity = ()=>{
+                const spans = document.querySelectorAll('#flavors-list .quantity span')
+                return Array.from(spans).reduce((acc, span) => acc + parseInt(span.textContent), 0)
+            }
+        }).catch(e => console.error(e.message) || 'Erro ao buscar sabores')
     }
 
     document.getElementById('continue').addEventListener('click', async()=>{
