@@ -149,7 +149,6 @@ const singupClient = async(pedido)=>{
     await removeProductAndItsFlavor();
     clearForm()
     localStorage.removeItem('token');
-    window.location.href = '../../../index.html'
   } catch (e) {
     console.error(e.message);
   }

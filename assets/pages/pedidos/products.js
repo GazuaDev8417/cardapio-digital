@@ -441,7 +441,7 @@ const productsData = {
             }
         ]
     },
-    'AMERICAO': {
+    'AMERICANO': {
         steps: [
             {
                 subtitle: 'Adicionais',
