@@ -55,8 +55,13 @@ const addDrinkToCart = async(product) => {
 const displayProducts = ()=>{
     fetch(`${BASE_URL}/products`, {
         creedentials: 'include'
-    }).then(res => res.json())
-        .then(data =>{
+    }).then(async res =>{
+        if(!res.ok){
+            const error = await res.text()
+            throw new Error(error)
+        }
+        return await res.json()
+    }).then(data =>{
             localStorage.setItem('productsList', JSON.stringify(data))
             const sections = {
                 pizza: document.querySelector('#pizza .menu-container'),
