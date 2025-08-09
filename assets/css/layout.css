@@ -266,6 +266,7 @@
     padding: 5px 10px;
     font-weight: bold;
     transition: .5s;
+    cursor: pointer;
 }
 
 .button:hover{

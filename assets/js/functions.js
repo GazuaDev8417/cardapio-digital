@@ -1,5 +1,6 @@
 const cartIcon = document.querySelector('.cart-icon')
 const popupAlert = document.querySelector('.popup-alert')
+const btnLink = document.querySelector('.button')
 //const BASE_URL = 'https://max-menu-server.onrender.com'
 const BASE_URL = 'https://max-menu-server.vercel.app'
 //const BASE_URL = 'http://localhost:3003'
@@ -63,5 +64,12 @@ function formatPhone(input) {
 
   input.value = formatted;
 }
+
+
+const mensagemUrl = `Olá,\nGostaria de saber mais sobre a aquisição de um cardápio digital`
+const url = `https://wa.me/5571984407882?text=${encodeURIComponent(mensagemUrl)}`
+btnLink.addEventListener('click', ()=>{
+    window.open(url, '_blank')
+})
 
 
