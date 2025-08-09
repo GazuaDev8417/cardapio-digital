@@ -5,6 +5,9 @@ const btnLink = document.querySelector('.button')
 const BASE_URL = 'https://max-menu-server.vercel.app'
 //const BASE_URL = 'http://localhost:3003'
 
+
+
+
 /* FUNÇÕES */
 const generateToken = ()=>{
   const token = localStorage.getItem('token')
@@ -64,6 +67,7 @@ function formatPhone(input) {
 
   input.value = formatted;
 }
+
 
 
 const mensagemUrl = `Olá,\nGostaria de saber mais sobre a aquisição de um cardápio digital`

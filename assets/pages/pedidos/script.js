@@ -1,3 +1,8 @@
+//const BASE_URL = 'https://max-menu-server.onrender.com'
+const BASE_URL = 'https://max-menu-server.vercel.app'
+//const BASE_URL = 'http://localhost:3003'
+
+
 document.addEventListener('DOMContentLoaded', ()=>{
     const turnBackBtn = document.querySelector('.back')
     const headerTitle = document.querySelector('.header-title')
@@ -10,6 +15,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let title = localStorage.getItem('title')
     let productId = localStorage.getItem('productId')
     let currentStep = 1
+    
     
 
 
@@ -28,27 +34,36 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
     })
 
-    /* MENU LATERAL E OVERLAY */
-    openMenu.addEventListener('click', ()=>{
-        sidebar.classList.add('active')
-        overlay.classList.add('active')
-        renderSiderBarMenu()
-    })
+    const addDrinkToCart = async(product) => {
+        const body = {
+            price: product.price,
+            quantity: product.quantity,
+            flavor: product.product,
+            productId: product.id,
+            max_quantity: 1,
+            step: 1
+        }
+        
+        try{
+            const response = await fetch(`${BASE_URL}/insert_in_cart`, {
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'Authorization': `${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(body),
+                credentials: 'include'
+            })
+            if(!response.ok){
+                res.text().then(error => console.log(error))
+                throw new Error('Erro ao adicionar ao carrinho')
+            } 
 
-    overlay.addEventListener('click', ()=>{
-        sidebar.classList.remove('active')
-        overlay.classList.remove('active')
-    })
-
-    /* RETIRAR MENU LATERAL E FUNDO ESCURECIDO  AO CLICAR NOS ITENS DO MENU*/
-    const navLinks = document.querySelectorAll('aside nav a')
-
-    navLinks.forEach(link=>{
-        link.addEventListener('click', ()=>{
-            sidebar.classList.remove('active')
-            overlay.classList.remove('active')
-        })
-    })
+            window.location.href = '../carrinho/index.html'
+        }catch(e){
+            console.error(e)    
+        }
+    }
 
     /* RENDERIZAR MENU */
     const renderSiderBarMenu = ()=>{
@@ -71,6 +86,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
             const categoryDiv = document.createElement('div')
             categoryDiv.className = 'menu-item'
             
+            categoryDiv.addEventListener('click', ()=>{
+                sidebar.classList.remove('active')
+                overlay.classList.remove('active')
+            })
+            
             const link = document.createElement('a')
             link.className = `link-${categoryName.toLocaleLowerCase()}`
             link.textContent = categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
@@ -87,16 +107,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 li.addEventListener('click', ()=>{
                     productId = product.id
                     title = product.product
-
+                    
                     localStorage.setItem('title', product.product)
                     localStorage.setItem('productId', product.id)
                     localStorage.setItem('category', product.category)
                     categoryTitle = product.category
-
+                    
                     getFlavorsByProduct(product.id, currentStep)
-
-                    sidebar.classList.remove('active')
-                    overlay.classList.remove('active')
+                    
+                    if(product.category === 'bebida'){
+                        addDrinkToCart(product)
+                    }
+                    
                 })
                 submenu.appendChild(li)
             })
@@ -106,6 +128,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             menuContainer.appendChild(categoryDiv)
         })
     }
+
 
     const getEmojiForCategory = (category)=>{
         const emojis = {
@@ -119,6 +142,28 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
         return emojis[category]
     }
+
+    /* MENU LATERAL E OVERLAY */
+    openMenu.addEventListener('click', ()=>{
+        sidebar.classList.add('active')
+        overlay.classList.add('active')
+        renderSiderBarMenu()
+    })
+
+    overlay.addEventListener('click', ()=>{
+        sidebar.classList.remove('active')
+        overlay.classList.remove('active')
+    })
+
+    /* RETIRAR MENU LATERAL E FUNDO ESCURECIDO  AO CLICAR NOS ITENS DO MENU*/
+    const navLinks = document.querySelectorAll('aside nav a')
+
+    navLinks.forEach(link=>{
+        link.addEventListener('click', ()=>{
+            sidebar.classList.remove('active')
+            overlay.classList.remove('active')
+        })
+    })
 
     /* ADIDICIONAR AO CARRINHO */
     const addToCart = (price, quantity, flavor, product_id, max_quantity)=>{

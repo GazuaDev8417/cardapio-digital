@@ -1,3 +1,8 @@
+//const BASE_URL = 'https://max-menu-server.onrender.com'
+const BASE_URL = 'https://max-menu-server.vercel.app'
+//const BASE_URL = 'http://localhost:3003'
+
+
 const cartProductById = async(id)=>{
   return fetch(`${BASE_URL}/cart/product/${id}`, {
     credentials: 'include'

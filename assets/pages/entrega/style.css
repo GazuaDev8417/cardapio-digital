@@ -33,50 +33,6 @@
     margin-top: 10vh;
 }
 
-/* MODAL */
-/* .modal-container h2{
-    font-size: 15px;
-}
-
-.modal {
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.5);
-    transform: scale(1);
-    transition: .3s ease-in-out;
-    font-size: 13px;
-}
-
-.modal.active{
-    transform: scale(1);
-}
-
-.modal-content {
-    position: relative;
-    background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 30%;
-    height: 50%;
-    overflow: auto;
-    border: 4px solid #006400; 
-    border-radius: 10px;   
-}
-.total-section{
-    background-color: red;
-}
-.close-btn {
-    float: right;
-    font-size: 20px;
-    cursor: pointer;
-} */
-/* ==== */
 .inputs{
     display: flex;
     justify-content: space-between;
@@ -92,15 +48,17 @@
     border: 2px solid #006400;  
     box-shadow: 2px 2px 4px #006400;
     border-radius: 8px;  
-    transition: 1s ease-in-out;
 }
 
-.obs-input{
-    width: 35vw;
+.obs-input {
+    width: 100%;
+    max-width: 500px;
     height: 150px;
     outline: none;
     padding: 10px;
+    box-sizing: border-box;
 }
+
 
 .input-container{
     display: flex;
@@ -109,7 +67,7 @@
     margin-top: 15vh;
 }
 
-.input{
+.input {
     height: 35px;
     padding-left: 10px;
     font-size: 1.1rem;
@@ -119,6 +77,9 @@
     border-bottom: 2px solid #006400;
     border-left: 3px solid #FF0000;
     background: transparent;
+    width: 100%; /* <-- aqui está a mudança principal */
+    max-width: 500px; /* mantém limite em telas grandes */
+    box-sizing: border-box; /* garante que padding conte no tamanho total */
 }
 
 .input:first-of-type{
@@ -199,7 +160,7 @@
     border-radius: 5px;
 }
 
-@media(max-width: 480px){
+/* @media(max-width: 480px){
     main .inputs{
         display: flex;
         flex-direction: column;
@@ -209,5 +170,46 @@
     .footer-btn-container{
         align-items: center;
         gap: 10px;
+    }
+} */
+
+@media (max-width: 768px) {
+    .main-container{
+        margin-bottom: 10%;
+    }
+
+    .inputs {
+        flex-direction: column; /* coloca inputs e observações um abaixo do outro */
+        margin: 10px;
+    }
+
+    .obs {
+        margin: 20px 0;
+        width: 100%;
+    }
+
+    .footer-btn-container button {
+        padding: 10px 5vw;
+        font-size: 16px;
+    }
+}
+
+/* Responsividade para telas muito pequenas (ex: celulares) */
+@media (max-width: 480px) {
+    .main-container{
+        margin-bottom: 20%;
+    }
+
+    .input {
+        font-size: 1rem;
+    }
+
+    .footer-btn-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer-btn-container button {
+        width: 100%;
     }
 }

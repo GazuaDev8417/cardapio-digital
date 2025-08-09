@@ -7,6 +7,9 @@ const obs = document.getElementById('obs-content')
 const ref = document.getElementById('referencia')
 const cancelBtn = document.querySelector('.back-shopping')
 const endBtn = document.querySelector('.end-orders')
+//const BASE_URL = 'https://max-menu-server.onrender.com'
+const BASE_URL = 'https://max-menu-server.vercel.app'
+//const BASE_URL = 'http://localhost:3003'
 
 
 
