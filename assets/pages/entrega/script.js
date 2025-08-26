@@ -8,8 +8,8 @@ const ref = document.getElementById('referencia')
 const cancelBtn = document.querySelector('.back-shopping')
 const endBtn = document.querySelector('.end-orders')
 //const BASE_URL = 'https://max-menu-server.onrender.com'
-const BASE_URL = 'https://max-menu-server.vercel.app'
-//const BASE_URL = 'http://localhost:3003'
+//const BASE_URL = 'https://max-menu-server.vercel.app'
+const BASE_URL = 'http://localhost:3003'
 
 
 
@@ -103,6 +103,24 @@ const getCartFromClient = async()=>{
   }  
 }
 
+const getProductCartFromClient = async()=>{
+  try{
+    const res = await fetch(`${BASE_URL}/products/cart`, {
+      headers: { 'Authorization': localStorage.getItem('token') },
+      credentials: 'include'
+    })
+    if(!res.ok){
+      const errorText = await res.text()
+      console.log(errorText)
+      return
+    }
+    const data = await res.json()
+    return data
+  }catch(e){
+    console.error(e.message)
+  }  
+}
+
 const removeProductAndItsFlavor = async()=>{
   try{
     const res = await fetch(`${BASE_URL}/product/client`, {
@@ -178,16 +196,19 @@ endBtn.addEventListener('click', async()=>{
     }  
     
     const cart = await getCartFromClient()
+    const products = await getProductCartFromClient()
     if(!cart || cart.length === 0){
       window.alert('Seu carrinho ainda está vazio')
       return
     } 
-    
+    console.log('Produtos', products)
+    console.log('Sabores', cart)
+    const produtos = cart
     const mensagemFormatada = await groupedProducts();
     const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${clientName.value.trim()}\n${rua.value.trim()},\n${bairro.value.trim()}\nCEP: ${cep.value},\n${phone.value}\nPonto de referência: ${ref.value}\n${obs.value !== '' ? `Obs.: ${obs.value}` : ''}`
     const url = `https://wa.me/5571982551522?text=${encodeURIComponent(mensagemUrl)}`
     
     
-    window.open(url, '_blank')
-    singupClient(mensagemFormatada)
+    /* window.open(url, '_blank')
+    singupClient(mensagemFormatada) */
 })
