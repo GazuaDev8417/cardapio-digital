@@ -1,6 +1,7 @@
 //const BASE_URL = 'https://max-menu-server.onrender.com'
-const BASE_URL = 'https://max-menu-server.vercel.app'
-//const BASE_URL = 'http://localhost:3003'
+//const BASE_URL = 'https://max-menu-server.vercel.app'
+const BASE_URL = 'http://localhost:3003'
+const token = localStorage.getItem('token')
 
 
 const cartProductById = async(id)=>{
@@ -25,7 +26,7 @@ const updateProductQntFromCart = (id, quantity)=>{
     method:'PATCH',
     headers: {
       'Content-type': 'application/json',
-      'Authorization': `${localStorage.getItem('token')}`
+      'Authorization': `${token}`
     },
     body: JSON.stringify(body),
     credentials: 'include'
@@ -53,7 +54,7 @@ const updateFlavorQntFromCart = async(quantity, flavor, product_id, max_quantity
         method:'PATCH',
         headers: {
           'Content-type': 'application/json',
-          'Authorization': `${localStorage.getItem('token')}`
+          'Authorization': `${token}`
         },
         body: JSON.stringify(body),
         credentials: 'include'
@@ -68,7 +69,7 @@ const groupedProducts = () => {
   fetch(`${BASE_URL}/products/flavors`, {
       headers: {
         'Content-type': 'application/json',
-        'Authorization': `${localStorage.getItem('token')}`
+        'Authorization': `${token}`
       },
       credentials: 'include'
     }).then(async res=>{
@@ -313,6 +314,9 @@ document.querySelector('.top').addEventListener('click', ()=>{
 })
 
 document.addEventListener('DOMContentLoaded', ()=>{
+  if(!token){
+      window.location.href = '../../../index.html'
+      return
+  }
   groupedProducts()
-
 })

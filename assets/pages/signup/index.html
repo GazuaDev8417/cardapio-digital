@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../css/base.css">
+    <title>Laccazo - Cadastro</title>
+</head>
+<body>
+    <header class="header">
+        <h2 class="header-title">Cadastrar Cliente</h2>
+    </header>
+    <div class="input-container">
+        <input type="text" id="username" class="input" placeholder="Nome de usuário">
+        <input type="text" id="email" class="input" placeholder="Email">
+        <input type="text" id="phone" class="input" placeholder="Telefone">
+        <div class="password-container">
+            <input type="password" id="senha" class="input" placeholder="Senha">
+            <span class="mostrar-senha"></span>
+        </div>           
+        
+        <div class="btn-container">
+            <button class="reset" id="clear" onclick="clearForm()">Limpar</button>
+            <button class="send" id="send">Registrar</button>
+        </div>          
+    </div>
+    <p>Clique <a href="../login/index.html" class="redirect-login">aqui</a> para voltar ao login</p>
+    <script src="script.js"></script>
+</body>
+</html>

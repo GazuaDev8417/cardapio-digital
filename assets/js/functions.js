@@ -2,14 +2,14 @@ const cartIcon = document.querySelector('.cart-icon')
 const popupAlert = document.querySelector('.popup-alert')
 const btnLink = document.querySelector('.button')
 //const BASE_URL = 'https://max-menu-server.onrender.com'
-const BASE_URL = 'https://max-menu-server.vercel.app'
-//const BASE_URL = 'http://localhost:3003'
+//const BASE_URL = 'https://max-menu-server.vercel.app'
+const BASE_URL = 'http://localhost:3003'
 
 
 
 
 /* FUNÇÕES */
-const generateToken = ()=>{
+/* const generateToken = ()=>{
   const token = localStorage.getItem('token')
   if(token) return
   
@@ -19,7 +19,7 @@ const generateToken = ()=>{
     .then(res => res.text()).then(data=>{
       localStorage.setItem('token', data)
     }).catch(e => console.log(e.message))
-}
+} */
 
 const addProductToCart = (product)=>{
     const body = {

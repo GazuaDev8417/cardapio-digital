@@ -7,6 +7,7 @@ const obs = document.getElementById('obs-content')
 const ref = document.getElementById('referencia')
 const cancelBtn = document.querySelector('.back-shopping')
 const endBtn = document.querySelector('.end-orders')
+const token = localStorage.getItem('token')
 //const BASE_URL = 'https://max-menu-server.onrender.com'
 //const BASE_URL = 'https://max-menu-server.vercel.app'
 const BASE_URL = 'http://localhost:3003'
@@ -41,7 +42,7 @@ const groupedProducts = async() => {
   try {
     const res = await fetch(`${BASE_URL}/products/flavors`, {
       headers: {
-        'Authorization': localStorage.getItem('token')
+        'Authorization': token
       },
       credentials: 'include'
     });
@@ -88,7 +89,7 @@ const groupedProducts = async() => {
 const getCartFromClient = async()=>{
   try{
     const res = await fetch(`${BASE_URL}/clients/cart`, {
-      headers: { 'Authorization': localStorage.getItem('token') },
+      headers: { 'Authorization': token },
       credentials: 'include'
     })
     if(!res.ok){
@@ -106,7 +107,7 @@ const getCartFromClient = async()=>{
 const getProductCartFromClient = async()=>{
   try{
     const res = await fetch(`${BASE_URL}/products/cart`, {
-      headers: { 'Authorization': localStorage.getItem('token') },
+      headers: { 'Authorization': token },
       credentials: 'include'
     })
     if(!res.ok){
@@ -126,7 +127,7 @@ const removeProductAndItsFlavor = async()=>{
     const res = await fetch(`${BASE_URL}/product/client`, {
       method: 'DELETE',
       headers: {
-        'Authorization': localStorage.getItem('token')
+        'Authorization': token
       },
       credentials: 'include'
     });
@@ -155,7 +156,7 @@ const singupClient = async(pedido)=>{
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
-        'Authorization': localStorage.getItem('token')
+        'Authorization': token
       },
       body: JSON.stringify(body),
       credentials: 'include'
@@ -211,4 +212,11 @@ endBtn.addEventListener('click', async()=>{
     
     /* window.open(url, '_blank')
     singupClient(mensagemFormatada) */
+})
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  if(!token){
+      window.location.href = '../../../index.html'
+      return
+  }
 })

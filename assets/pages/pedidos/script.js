@@ -1,6 +1,6 @@
 //const BASE_URL = 'https://max-menu-server.onrender.com'
-const BASE_URL = 'https://max-menu-server.vercel.app'
-//const BASE_URL = 'http://localhost:3003'
+//const BASE_URL = 'https://max-menu-server.vercel.app'
+const BASE_URL = 'http://localhost:3003'
 
 
 document.addEventListener('DOMContentLoaded', ()=>{
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const stored = localStorage.getItem('productsList')
     const productsList = stored ? JSON.parse(stored) : []
     let categoryTitle = localStorage.getItem('category')
+    const token = localStorage.getItem('token')
     let title = localStorage.getItem('title')
     let productId = localStorage.getItem('productId')
     let currentStep = 1
@@ -35,6 +36,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
     })
 
     const addDrinkToCart = async(product) => {
+        if(!token){
+            const decide = window.confirm('Necessário estar logado para fazer pedidos')
+            if(decide){
+                window.location.href = '../login/index.html'
+            }
+            return
+        }
+
         const body = {
             price: product.price,
             quantity: product.quantity,
@@ -49,7 +58,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 method:'POST',
                 headers: {
                     'Content-Type': 'application/json', 
-                    'Authorization': `${localStorage.getItem('token')}`
+                    'Authorization': `${token}`
                 },
                 body: JSON.stringify(body),
                 credentials: 'include'
@@ -180,7 +189,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             method:'POST',
             headers: {
                 'Content-type': 'application/json',
-                'Authorization': `${localStorage.getItem('token')}`
+                'Authorization': `${token}`
             },
             body: JSON.stringify(body),
             credentials: 'include'
@@ -195,6 +204,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     /* ALTERA QUANTIDADE DO PRODUTO NO CARRO */
     const updateCartProductQnt = (quantity, flavor, product_id, max_quantity, price)=>{
+        if(!token){
+            const decide = window.confirm('Necessário estar logado para fazer pedidos')
+            if(decide){
+                window.location.href = '../login/index.html'
+            }
+            return
+        }
+
         const body = {
             price,
             flavor,
@@ -208,7 +225,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             method:'PATCH',
             headers: {
                 'Content-type': 'application/json',
-                'Authorization': `${localStorage.getItem('token')}`
+                'Authorization': `${token}`
             },
             body: JSON.stringify(body),
             credentials: 'include'
@@ -226,13 +243,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     
    /* BUSCAR SABORES */
     const getFlavorsByProduct = (id, currentStep)=>{
+        console.log({ currentStep })
         headerTitle.textContent = title
         fetch(`${BASE_URL}/flavors/${id}`, {
             method:'POST',
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization': `${localStorage.getItem('token')}`
-            },
+            headers: { 'Content-type': 'application/json' },
             body: JSON.stringify({ step: currentStep }),
             credentials: 'include'
         }).then(async res =>{
@@ -329,12 +344,20 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     document.getElementById('continue').addEventListener('click', async()=>{
+        if(!token){
+            const decide = window.confirm('Necessário estar logado para continuar')
+            if(decide){
+                window.location.href = '../login/index.html'
+            }
+            return
+        }
+
         try{
 
             const response = await fetch(`${BASE_URL}/step-qnt_max/${productId}`, {
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': `${localStorage.getItem('token')}`
+                    'Authorization': `${token}`
                 },
                 credentials: 'include'
             })

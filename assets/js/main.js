@@ -8,6 +8,7 @@ const dayWeek = days[now.getDay()]
 const currentHour = now.getHours()
 const currenttMinute = now.getMinutes()
 const totalMinutes = currentHour * 60 + currenttMinute
+const token = localStorage.getItem('token')
 const horarios = {
     'SEGUNDA': [1020, 1439],   
     'TERCA': [1020, 1439],             
@@ -22,6 +23,14 @@ const horarios = {
 
 
 const addDrinkToCart = async(product) => {
+    if(!token){
+        const decide = window.confirm('Necessário estar logado para fazer pedidos')
+        if(decide){
+            window.location.href = 'assets/pages/login/index.html'
+        }
+        return
+    }
+    
     const body = {
         price: product.price,
         quantity: product.quantity,
@@ -36,7 +45,7 @@ const addDrinkToCart = async(product) => {
             method:'POST',
             headers: {
                 'Content-Type': 'application/json', 
-                'Authorization': `${localStorage.getItem('token')}`
+                'Authorization': `${token}`
             },
             body: JSON.stringify(body),
             credentials: 'include'
@@ -94,7 +103,7 @@ const displayProducts = ()=>{
                         
                         cardHtml.addEventListener('click', () =>{
                             if(dayName === dayWeek){
-                                if(totalMinutes >= time[0] /* && totalMinutes < time[1] */){
+                                if(totalMinutes <= time[0] /* && totalMinutes < time[1] */){
                                     localStorage.setItem('title', d.product)
                                     localStorage.setItem('productId', d.id)
                                     localStorage.setItem('category', d.category)
@@ -145,13 +154,6 @@ const displayProducts = ()=>{
     }).catch(e => console.error(e))
 }
 
-
-document.addEventListener('DOMContentLoaded', ()=>{   
-
-    generateToken()
-    /* ============= RENDERIZAÇÃO DOS PRODUTOS ==================== */
-    displayProducts()
-})  
 
 /* POPUP - HORÁRIO DE FUNCIONAMENTO */
 horariosBtn.addEventListener('click', ()=>{
@@ -211,6 +213,16 @@ wrapper.forEach(item=>{
         carousel.scrollBy({ left: 300, behavior: 'smooth' })
     })
 })
+
+
+document.addEventListener('DOMContentLoaded', ()=>{   
+    /* ============= RENDERIZAÇÃO DOS PRODUTOS ==================== */
+    const linkCart = document.querySelector('.link-cart')
+    if(!token){
+        linkCart.style.display = 'none'
+    }
+    displayProducts()
+}) 
 
 
 
