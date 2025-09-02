@@ -1,6 +1,6 @@
-//const BASE_URL = 'https://max-menu-server.onrender.com'
+const BASE_URL = 'https://max-menu-server.onrender.com'
 //const BASE_URL = 'https://max-menu-server.vercel.app'
-const BASE_URL = 'http://localhost:3003'
+//const BASE_URL = 'http://localhost:3003'
 
 
 document.addEventListener('DOMContentLoaded', ()=>{
@@ -243,7 +243,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     
    /* BUSCAR SABORES */
     const getFlavorsByProduct = (id, currentStep)=>{
-        console.log({ currentStep })
         headerTitle.textContent = title
         fetch(`${BASE_URL}/flavors/${id}`, {
             method:'POST',

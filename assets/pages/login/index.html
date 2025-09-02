@@ -5,15 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../../css/base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>Laccazo - Login</title>
 </head>
 <body>
     <header class="header">
+        <i class="fa-solid fa-arrow-left back"></i>
         <h2 class="header-title">Login</h2>
+        <div></div>
     </header>
     <div class="input-container">
         <input type="text" id="email" class="input" placeholder="Email">
-        <input type="text" id="senha" class="input" placeholder="Senha">           
+        <div class="password-container">
+            <input type="password" id="senha" class="input" placeholder="Senha">
+            <span class="mostrar-senha"></span>
+        </div>           
         
         <div class="btn-container">
             <button class="reset" id="clear" onclick="clearForm()">Limpar</button>
@@ -21,5 +27,6 @@
         </div>          
     </div>
     <p>Se ainda não tem cadastro. Clique <a href="../signup/index.html" class="redirect-signup">aqui</a></p>
+    <script src="script.js"></script>
 </body>
 </html>

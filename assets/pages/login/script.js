@@ -1,7 +1,6 @@
 /* INPUTS */
-const username = document.getElementById('username')
 const email = document.getElementById('email')
-const phone = document.getElementById('phone')
+//const phone = document.getElementById('phone')
 /* MOSTRAR OCULTAR SENHA */
 const senha = document.getElementById('senha')
 const mostrarSenha = document.querySelector('.mostrar-senha')
@@ -10,9 +9,9 @@ mostrarSenha.textContent = 'Mostrar'
 const clear = document.getElementById('clear')
 const send = document.getElementById('send')
 /* BASE URL */
-const BASE_URL = 'https://max-menu-server.onrender.com'
+//const BASE_URL = 'https://max-menu-server.onrender.com'
 //const BASE_URL = 'https://max-menu-server.vercel.app'
-//const BASE_URL = 'http://localhost:3003'
+const BASE_URL = 'http://10.23.1.19:3003'
 const token = localStorage.getItem('token')
 const turnBack = document.querySelector('.back')
 
@@ -36,28 +35,25 @@ mostrarSenha.addEventListener('click', ()=>{
 })
 
 clear.onclick = ()=>{
-    username.value = ''
     email.value = ''
-    phone.value = ''
+    /* phone.value = '' */
     senha.value = ''
 }
 
-const signup = async()=>{
-    const body = {
-        user: username.value, 
+const login = async()=>{
+    const body = { 
         email: email.value,
-        phone: phone.value, 
-        password: senha.value, 
-        role: 'NORMAL' 
+        /* phone: phone.value, */ 
+        password: senha.value
     }
 
-    if(!body.user || !body.email || !body.phone || !body.password){
+    if(!body.email || !body.password){
         window.alert('Preencha todos os campos')
         return
     }
     
     try{
-        const res = await fetch(`${BASE_URL}/signup/user`, {
+        const res = await fetch(`${BASE_URL}/user/login`, {
             method:'POST',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(body)
@@ -69,7 +65,7 @@ const signup = async()=>{
         }
         const data = await res.text()
         localStorage.setItem('token', data)
-        window.location.href = '../endereco/index.html?mode=create'
+        window.location.href = '../../../index.html'
     }catch(e){
         console.error(e)
         window.alert(e)
@@ -78,7 +74,7 @@ const signup = async()=>{
 
 send.onclick = async() =>{
     try{
-        await signup()
+        await login()
     }catch(e){
         console.error('Erro ao cadastrar cliente: ', e)
     }

@@ -51,7 +51,8 @@
 .sidebar__nav .link-pirao:hover,
 .sidebar__nav .link-bebida:hover,
 .sidebar__nav .link-cart:hover,
-.sidebar__nav .link-login:hover{
+.sidebar__nav .link-login:hover,
+.sidebar__nav .link-perfil:hover{
     padding-left: 1.5rem;
 }
 
@@ -63,7 +64,8 @@
 .sidebar__nav .link-pirao:hover span,
 .sidebar__nav .link-bebida:hover span,
 .sidebar__nav .link-cart:hover span,
-.sidebar__nav .link-login:hover span{
+.sidebar__nav .link-login:hover span,
+.sidebar__nav .link-perfil:hover span{
     padding-left: 1rem;
     opacity: 1;
 }
@@ -264,4 +266,17 @@
 /* RODAPÉ */
 .copyrights .button:active{
     transform: scale(.8);
+}
+
+
+@media(max-width: 720px){
+    .popup{
+        top: 30%;
+        left: 10%;
+        width: 80%;
+    }
+
+    .popup h2{
+        text-align: center;
+    }
 }

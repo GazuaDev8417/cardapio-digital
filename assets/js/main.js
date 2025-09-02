@@ -103,7 +103,7 @@ const displayProducts = ()=>{
                         
                         cardHtml.addEventListener('click', () =>{
                             if(dayName === dayWeek){
-                                if(totalMinutes <= time[0] /* && totalMinutes < time[1] */){
+                                if(totalMinutes >= time[0] /* && totalMinutes < time[1] */){
                                     localStorage.setItem('title', d.product)
                                     localStorage.setItem('productId', d.id)
                                     localStorage.setItem('category', d.category)
@@ -218,9 +218,16 @@ wrapper.forEach(item=>{
 document.addEventListener('DOMContentLoaded', ()=>{   
     /* ============= RENDERIZAÇÃO DOS PRODUTOS ==================== */
     const linkCart = document.querySelector('.link-cart')
+    const linkLogin = document.querySelector('.link-login')
+    const linkPerfil = document.querySelector('.link-perfil')
+
     if(!token){
         linkCart.style.display = 'none'
+        linkPerfil.style.display = 'none'
+    }else{
+        linkLogin.style.display = 'none'
     }
+    
     displayProducts()
 }) 
 

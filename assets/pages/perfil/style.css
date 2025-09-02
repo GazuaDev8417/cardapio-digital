@@ -1,0 +1,141 @@
+.header{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background: linear-gradient(to right,
+        #000 0%, #006400 30%,
+        #fff 33%, #fff 63%,
+        red 70%, #000 100%
+    );
+    color: #fff;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem 0 1rem;
+    box-shadow: 0  2px 4px rgba(0, 0, 0, .8);
+    z-index: 3;
+}
+
+.header .back{
+    cursor: pointer;
+}
+
+.header .logout{
+    cursor: pointer;
+}
+
+.header .header-title{
+    font-weight: bold;
+    color: #000;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 30px;
+  max-width: 600px;
+  margin-top: 20vh;
+}
+
+.profile-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.profile-header h2 {
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.profile-email {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.profile-info {
+  margin-top: 15px;
+}
+
+.profile-info h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: green; /* cor destaque */
+}
+
+.profile-info p {
+  margin: 5px 0;
+  color: #444;
+  font-size: 1rem;
+}
+
+.edit-btn {
+  margin-top: 10px;
+  background: red;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: 0.3s ease;
+}
+
+.edit-btn:hover {
+  box-shadow: 0 0 8px black;
+}
+
+.edit-btn:active{
+    transform: scale(.9);
+}
+
+/* main{
+
+
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    gap: 10vh;
+    margin: 0 30px;
+}
+.sectionOne{
+    font-size: 1.2rem;
+    line-height: 30px;
+    background: rgba(169, 169, 169, .5);
+    border-radius: 10px;
+    width: 100%;
+    padding: 10px;
+    box-shadow: 2px 2px 4px gray;
+}
+
+.sectionTwo{
+    font-size: 1.2rem;
+    line-height: 30px;
+    background: rgba(169, 169, 169, .3);
+    border-radius: 10px;
+    width: 100%;
+    padding: 10px;
+    box-shadow: 2px 2px 4px gray;
+}
+
+.sectionOne h2,
+.sectionTwo h2{
+    font-weight: 400;
+    text-align: center;
+} */

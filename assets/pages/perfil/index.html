@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/assets/imgs/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Laccazo - Cliente</title>
+</head>
+<body>
+    <header class="header">
+        <i class="fa-solid fa-arrow-left back"></i>
+        <h2 class="header-title">Perfil do Cliente</h2>
+        <i class="fa-solid fa-arrow-right-from-bracket logout"></i>
+    </header>
+    <!-- <main>
+        <div class="sectionOne">
+            <h2>Dados cadastrais</h2>
+        </div>
+        <div class="sectionTwo">
+            <h2>Endereço cadastrado</h2>
+        </div>
+    </main> -->
+    
+    <main class="profile">
+        <section class="profile-card">
+            <div class="profile-header">
+                <h2>Olá, <span id="username"></span></h2>
+                <p class="profile-email" id="emailOnTop"></p>
+            </div>
+            <div class="profile-info">
+                <h3>Dados cadastrais</h3>
+                <p><strong>Cliente: </strong><span id="client"></span></p>
+                <p><strong>Telefone: </strong><span id="phone"></span></p>
+                <p><strong>Email: </strong><span id="email"></span></p>
+                <button class="edit-btn" id="updateProfile">Editar dados</button>
+            </div>
+        </section>
+
+        <section class="profile-card">
+            <div class="profile-info">
+                <h3>Endereço cadastrado</h3>
+                <p><strong>Rua: </strong><span id="street"></span></p>
+                <p><strong>Bairro: </strong><span id="neighbourhood"></span></p>
+                <p><strong>Ponto de referência: </strong><span id="complement"></span></p>
+                <button class="edit-btn" id="updateAddress">Editar endereço</button>
+            </div>
+        </section>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>
