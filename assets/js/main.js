@@ -114,7 +114,9 @@ const displayProducts = ()=>{
                                         window.location.href = 'assets/pages/pedidos/index.html'
                                     }
 
-                                }else{                
+                                }else if(window.innerWidth <= 768){                
+                                    window.alert('Estamos fechado agora, consulte nossos horários de atendimento')
+                                }else{
                                     popupAlert.classList.add('active')
                                     setTimeout(()=>{
                                         popupAlert.classList.remove('active')
