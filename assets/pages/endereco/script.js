@@ -9,7 +9,7 @@ const send = document.getElementById('send')
 /* BASE URL */
 //const BASE_URL = 'https://max-menu-server.onrender.com'
 //const BASE_URL = 'https://max-menu-server.vercel.app'
-const BASE_URL = 'http://localhost:3003'
+const BASE_URL = 'http://10.23.1.19:3003'
 const token = localStorage.getItem('token')
 /* PARÂMETROS DE NAVEGAÇÃO */
 const params = new URLSearchParams(window.location.search)
@@ -85,19 +85,27 @@ const registAddress = async()=>{
         return
     }
 
-    const res = await fetch(`${BASE_URL}/user/address`, {
-        method:'PATCH',
-        headers: {
-            'Authorization': token,
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    })
-    if(!res.ok){
-        const error = await res.text()
-        throw new Error(`Erro ao adicionar endereo: ${error}`)
+    try{
+        const res = await fetch(`${BASE_URL}/user/address`, {
+            method:'PATCH',
+            headers: {
+                'Authorization': token,
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+        if(!res.ok){
+            const error = await res.text()
+            throw new Error(`Erro ao adicionar endereo: ${error}`)
+        }
+        if(mode === 'create'){
+            window.location.href = '../../../index.html'
+        }else{
+            window.location.href = '../perfil/index.html'
+        }
+    }catch(e){
+        window.alert(e)
     }
-    window.location.href = '../../../index.html'
 }
 
 send.onclick = async()=>{

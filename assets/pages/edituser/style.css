@@ -29,11 +29,7 @@ body{
     z-index: 3;
 }
 
-.header .fill{
-    display: none;
-}
-
-.header .back{
+.back{
     cursor: pointer;
 }
 
@@ -100,6 +96,7 @@ body{
 }
 
 
+
 @media(max-width: 720px){
     body{
         justify-content: flex-start;
@@ -107,13 +104,6 @@ body{
 
     .input-container{
         margin-top: 10vh;
-    }
-
-    .header .header-title{
-        font-size: 1.5rem;
-    }
-
-    .input-container{
         width: 80%;
     }
 

@@ -3,13 +3,20 @@ const logout = document.querySelector('.logout')
 //const BASE_URL = 'https://max-menu-server.onrender.com'
 const BASE_URL = 'http://10.23.1.19:3003'
 const token = localStorage.getItem('token')
+const params = new URLSearchParams(window.location.search)
+const mode = params.get('mode')
 
 
 
-turnBack.addEventListener('click', ()=>{
-    window.history.back()
-})
-
+if(mode === 'delivery'){
+    turnBack.addEventListener('click', ()=>{
+        window.history.back()
+    })
+}else{
+    turnBack.addEventListener('click', ()=>{
+        window.location.href = '../../../index.html'
+    })
+}
 logout.addEventListener('click', ()=>{
     const decide = window.confirm('Tem certeza que deseja sair da sua conta?')
     if(decide){
@@ -62,8 +69,35 @@ const renderProfile = (data)=>{
 }
 
 
+document.getElementById('updateProfile').addEventListener('click', ()=>{
+    window.location.href = '../edituser/index.html'
+})
+
 document.getElementById('updateAddress').addEventListener('click', ()=>{
     window.location.href = '../endereco/index.html?mode=update'
+})
+
+document.getElementById('delUser').addEventListener('click', async()=>{
+    const decide = window.confirm('Essa operação é irreversível! Tem certeza que deseja excluir sua conta?')
+
+    if(!decide) return
+
+    try{
+        const res = await fetch(`${BASE_URL}/del-user`, {
+            method:'DELETE',
+            headers: { 'Authorization': token }
+        })
+
+        if(!res.ok){
+            const error = await res.text()
+            throw new Error(`Erro ao excluir conta: ${error}`)
+        }
+
+        localStorage.clear()
+        window.location.href = '../../../index.html'
+    }catch(e){
+        console.error(e)
+    }
 })
 
 
@@ -74,9 +108,8 @@ document.addEventListener('DOMContentLoaded', async()=>{
     }
 
     const profile = await getProfile()
-    console.log(profile)
     if(!profile){
-        document.querySelector('.sectionOne')
+        document.querySelector('.profile')
             .innerHTML = '<p>Não foi possível carregar os dados do cliente.</p>'
         return
     }

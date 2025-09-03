@@ -2,10 +2,6 @@
 const username = document.getElementById('username')
 const email = document.getElementById('email')
 const phone = document.getElementById('phone')
-/* MOSTRAR OCULTAR SENHA */
-const senha = document.getElementById('senha')
-const mostrarSenha = document.querySelector('.mostrar-senha')
-mostrarSenha.textContent = 'Mostrar'
 /* BOTÕES */
 const clear = document.getElementById('clear')
 const send = document.getElementById('send')
@@ -20,26 +16,14 @@ const turnBack = document.querySelector('.back')
 
 
 turnBack.addEventListener('click', ()=>{
-    window.location.href = '../../../index.html'
+    window.location.href = '../perfil/index.html'
 })
 
-
-
-mostrarSenha.addEventListener('click', ()=>{
-    if(senha.type === 'password'){
-        senha.type = 'text'
-        mostrarSenha.textContent = 'Ocultar'
-    }else{
-        senha.type = 'password'
-        mostrarSenha.textContent = 'Mostrar'
-    }
-})
 
 clear.onclick = ()=>{
     username.value = ''
     email.value = ''
     phone.value = ''
-    senha.value = ''
 }
 
 const signup = async()=>{
@@ -83,10 +67,3 @@ send.onclick = async() =>{
         console.error('Erro ao cadastrar cliente: ', e)
     }
 }
-
-
-document.addEventListener('DOMContentLoaded', ()=>{
-    if(token){
-        window.location.href = '../../../index.html'
-    }
-})

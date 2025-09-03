@@ -61,7 +61,7 @@ const login = async()=>{
         
         if(!res.ok){
             const error = await res.text()
-            throw new Error(`Erro ao cadastrar cliente: ${error}`)
+            throw new Error(error)
         }
         const data = await res.text()
         localStorage.setItem('token', data)

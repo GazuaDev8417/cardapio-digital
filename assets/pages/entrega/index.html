@@ -8,17 +8,18 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../../css/responsivity.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
     <title>Lacazzo - Entrega</title>
 </head>
 <body>
     <header class="header">
         <i class="fa-solid fa-arrow-left back" onclick="window.history.back()"></i>
             <H2>ENDEREÇO PARA ENTREGA</H2>
-        <div></div>
+        <i class="fa-solid fa-user profile" onclick="window.location.href='../perfil/index.html?mode=delivery'"></i>
     </header>
     <main class="main-container">
         <section class="inputs">
-            <div class="input-container">
+            <!-- <div class="input-container">
                 <input type="text" id="street" class="input" placeholder="Rua / Avenida, N°">
                 <input type="text" id="neighborhood" class="input" placeholder="Bairro">            
                 <input type="text" id="cep" class="input" placeholder="CEP" onblur="addressByCep()">            
@@ -35,23 +36,46 @@
                 <div class="reset-container">
                     <button class="reset" id="clear" onclick="clearForm()">Limpar</button>
                 </div>          
+            </div> -->
+            <div class="profile-card">
+                <div class="profile-info">
+                    <h3>Endereço cadastrado</h3>
+                    <p><strong>Rua: </strong><span id="street"></span></p>
+                    <p><strong>CEP: </strong><span id="cep"></span></p>
+                    <p><strong>Bairro: </strong><span id="neighbourhood"></span></p>
+                    <p><strong>Ponto de referência: </strong><span id="complement"></span></p>
+                    <button class="edit-btn" id="updateAddress">Editar endereço</button>
+                </div>
             </div>
             <div class="obs">
                 <label for="obs-content" class="obs-title">Observações</label>
                 <textarea class="obs-input" id="obs-content"></textarea>
             </div>
         </section>
+        <!-- INTEGRAÇÃO MERCADO PAGO -->
+        <form id="form-checkout">
+            <div id="form-checkout__cardNumber" class="container"></div>
+            <div id="form-checkout__expirationDate" class="container"></div>
+            <div id="form-checkout__securityCode" class="container"></div>
+            <input type="text" id="form-checkout__cardholderName" placeholder="Nome no cartão">
+            <input type="email" id="form-checkout__cardholderEmail" placeholder="E-mail">
+            <input type="text" id="form-checkout__installments" placeholder="Parcelas">
+            <button type="submit">Pagar</button>
+        </form>
+        <!-- PIX -->
+         <div id="qr-code-container" class="qrcode"></div>
+         <!-- ===================== -->
     </main>
     <div class="footer-btn-container">
-        <button class="back-shopping">
+        <!-- <button class="back-shopping">
             CANCELAR
-        </button>
+        </button> -->
+        <button class="pix" id="pix-button">Pix</button>
         <button class="end-orders">
-            SOLICITAR
+            Notificar via Whatsapp
         </button>
+        <button class="card">Cartão</button>
     </div>
-    
-    
     <script src="script.js"></script>
 </body>
 </html>

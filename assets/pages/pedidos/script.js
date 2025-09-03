@@ -1,6 +1,6 @@
-const BASE_URL = 'https://max-menu-server.onrender.com'
+//const BASE_URL = 'https://max-menu-server.onrender.com'
 //const BASE_URL = 'https://max-menu-server.vercel.app'
-//const BASE_URL = 'http://localhost:3003'
+const BASE_URL = 'http://10.23.1.19:3003'
 
 
 document.addEventListener('DOMContentLoaded', ()=>{

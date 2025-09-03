@@ -115,8 +115,12 @@ body{
 
 
 @media(max-width: 720px){
+    body{
+        justify-content: flex-start;
+    }
 
     .input-container{
+        margin-top: 10vh;
         width: 80%;
     }
 
