@@ -1,10 +1,6 @@
-const cartIcon = document.querySelector('.cart-icon')
-const popupAlert = document.querySelector('.popup-alert')
-const btnLink = document.querySelector('.button')
-const wpLink = document.querySelector('.wp-link')
 //const BASE_URL = 'https://max-menu-server.onrender.com'
-//const BASE_URL = 'https://max-menu-server.vercel.app'
-const BASE_URL = 'http://10.23.1.19:3003'
+const BASE_URL = 'https://max-menu-server.vercel.app'
+//const BASE_URL = 'http://10.23.1.19:3003'
 
 
 
@@ -22,7 +18,7 @@ const BASE_URL = 'http://10.23.1.19:3003'
     }).catch(e => console.log(e.message))
 } */
 
-const addProductToCart = (product)=>{
+/* const addProductToCart = (product)=>{
     const body = {
         product: product.product,
         price: product.price,
@@ -48,9 +44,9 @@ const addProductToCart = (product)=>{
     }).then(data=>{
         console.log(data)        
     }).catch(e => console.error(e.message))
-}
+} */
 
-function formatPhone(input) {
+/* function formatPhone(input) {
   let digits = input.value.replace(/\D/g, ''); // só números
   
   // Aplica a máscara de acordo com a quantidade de dígitos
@@ -67,20 +63,5 @@ function formatPhone(input) {
   }
 
   input.value = formatted;
-}
+} */
 
-
-
-const mensagemUrl = `Olá,\nGostaria de saber mais sobre a aquisição de um cardápio digital`
-const url = `https://wa.me/5571984407882?text=${encodeURIComponent(mensagemUrl)}`
-btnLink.addEventListener('click', ()=>{
-    window.open(url, '_blank')
-})
-
-wpLink.addEventListener('click', ()=>{
-    window.open(url, '_blank')
-})
-
-document.getElementById('portolioLInk').addEventListener('click', ()=>{
-    window.open('https://portfolio-x22d.onrender.com/', '_blank')
-})

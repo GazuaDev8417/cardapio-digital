@@ -1,8 +1,8 @@
 /* INPUTS */
-const email = document.getElementById('email')
+const email = document.getElementById('email').value = 'visitante@email.com'
 //const phone = document.getElementById('phone')
 /* MOSTRAR OCULTAR SENHA */
-const senha = document.getElementById('senha')
+const senha = document.getElementById('senha').value = '123456'
 const mostrarSenha = document.querySelector('.mostrar-senha')
 mostrarSenha.textContent = 'Mostrar'
 /* BOTÕES */
@@ -11,7 +11,7 @@ const send = document.getElementById('send')
 /* BASE URL */
 //const BASE_URL = 'https://max-menu-server.onrender.com'
 //const BASE_URL = 'https://max-menu-server.vercel.app'
-const BASE_URL = 'http://10.23.1.19:3003'
+//const BASE_URL = 'http://10.23.1.19:3003'
 const token = localStorage.getItem('token')
 const turnBack = document.querySelector('.back')
 
@@ -35,19 +35,19 @@ mostrarSenha.addEventListener('click', ()=>{
 })
 
 clear.onclick = ()=>{
-    email.value = ''
+    email = ''
     /* phone.value = '' */
-    senha.value = ''
+    senha = ''
 }
 
 const login = async()=>{
     const body = { 
-        email: email.value,
+        email,
         /* phone: phone.value, */ 
-        password: senha.value
+        senha
     }
 
-    if(!body.email || !body.password){
+    if(!body.email || !body.senha){
         window.alert('Preencha todos os campos')
         return
     }

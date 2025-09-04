@@ -34,8 +34,9 @@ body{
 }
 
 .header .header-title{
-    font-weight: bold;
+    font-weight: 500;
     color: #000;
+    font-size: 2rem;
 }
 
 .profile {

@@ -18,8 +18,8 @@
         <i class="fa-solid fa-user profile" onclick="window.location.href='../perfil/index.html?mode=delivery'"></i>
     </header>
     <main class="main-container">
-        <section class="inputs">
-            <!-- <div class="input-container">
+        <!-- <section class="inputs">
+            <div class="input-container">
                 <input type="text" id="street" class="input" placeholder="Rua / Avenida, N°">
                 <input type="text" id="neighborhood" class="input" placeholder="Bairro">            
                 <input type="text" id="cep" class="input" placeholder="CEP" onblur="addressByCep()">            
@@ -36,7 +36,7 @@
                 <div class="reset-container">
                     <button class="reset" id="clear" onclick="clearForm()">Limpar</button>
                 </div>          
-            </div> -->
+            </div>
             <div class="profile-card">
                 <div class="profile-info">
                     <h3>Endereço cadastrado</h3>
@@ -51,9 +51,10 @@
                 <label for="obs-content" class="obs-title">Observações</label>
                 <textarea class="obs-input" id="obs-content"></textarea>
             </div>
-        </section>
+        </section> -->
         <!-- INTEGRAÇÃO MERCADO PAGO -->
-        <form id="form-checkout">
+         <!-- CARTÃO -->
+        <!-- <form id="form-checkout">
             <div id="form-checkout__cardNumber" class="container"></div>
             <div id="form-checkout__expirationDate" class="container"></div>
             <div id="form-checkout__securityCode" class="container"></div>
@@ -61,10 +62,12 @@
             <input type="email" id="form-checkout__cardholderEmail" placeholder="E-mail">
             <input type="text" id="form-checkout__installments" placeholder="Parcelas">
             <button type="submit">Pagar</button>
-        </form>
+        </form> -->
         <!-- PIX -->
-         <div id="qr-code-container" class="qrcode"></div>
-         <!-- ===================== -->
+        <div id="qr-code-container" class="qrcode">
+            <h3>Seu pedido será entregue no endereço cadastrado</h3>
+        </div>
+        <!-- ===================== -->
     </main>
     <div class="footer-btn-container">
         <!-- <button class="back-shopping">
@@ -76,6 +79,7 @@
         </button>
         <button class="card" id="card-button">Cartão</button>
     </div>
+    <script src="../../js/baseUrl.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

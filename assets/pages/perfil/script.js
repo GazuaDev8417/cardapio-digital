@@ -1,7 +1,5 @@
 const turnBack = document.querySelector('.back')
 const logout = document.querySelector('.logout')
-//const BASE_URL = 'https://max-menu-server.onrender.com'
-const BASE_URL = 'http://10.23.1.19:3003'
 const token = localStorage.getItem('token')
 const params = new URLSearchParams(window.location.search)
 const mode = params.get('mode')
@@ -17,6 +15,7 @@ if(mode === 'delivery'){
         window.location.href = '../../../index.html'
     })
 }
+
 logout.addEventListener('click', ()=>{
     const decide = window.confirm('Tem certeza que deseja sair da sua conta?')
     if(decide){
@@ -59,6 +58,7 @@ const renderProfile = (data)=>{
     /* DADOS CADASTRAIS */
     document.getElementById('username').innerText = data.user.split(' ')[0]
     document.getElementById('client').innerText = data.user
+    document.getElementById('cep').innerText = data.cep
     document.getElementById('phone').innerText = formatPhoneNumber(data.phone)
     document.getElementById('email').innerText = data.email
     /* document.getElementById('emailOnTop').innerText = data.email */

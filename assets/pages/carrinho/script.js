@@ -1,5 +1,4 @@
-//const BASE_URL = 'https://max-menu-server.onrender.com'
-const BASE_URL = 'http://10.23.1.19:3003'
+const endOrders = document.getElementById('endOrders')
 const token = localStorage.getItem('token')
 
 
@@ -74,12 +73,16 @@ const groupedProducts = () => {
     }).then(async res=>{
       if(!res.ok){
         const error = await res.text()
+        if(error.includes('Seu carrinho ainda está vazio')){
+          localStorage.setItem('noProducts', error)
+        }
         document.querySelector('.no-products').textContent = error
         throw new Error(error)
       }
       return await res.json()
     }).then(data => {
       localStorage.setItem('data', JSON.stringify(data))
+      localStorage.removeItem('noProducts')
       const container = document.getElementById('main-container')
       const subtotal = document.querySelector('.subtotal')
       let grandTotal = 0
@@ -312,6 +315,16 @@ document.querySelector('.bottom').addEventListener('click', ()=>{
 
 document.querySelector('.top').addEventListener('click', ()=>{
   window.scrollTo({ top: 0, behavior: 'smooth' })
+})
+
+endOrders.addEventListener('click', ()=>{
+  const noProducts = localStorage.getItem('noProducts')
+  if(noProducts){
+    window.alert(noProducts)
+    return
+  }
+
+  window.location.href = '../entrega/index.html'
 })
 
 document.addEventListener('DOMContentLoaded', ()=>{

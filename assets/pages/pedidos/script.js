@@ -1,6 +1,8 @@
 //const BASE_URL = 'https://max-menu-server.onrender.com'
 //const BASE_URL = 'https://max-menu-server.vercel.app'
-const BASE_URL = 'http://10.23.1.19:3003'
+//const BASE_URL = 'http://10.23.1.19:3003'
+const popupAlert = document.querySelector('.popup-alert')
+
 
 
 document.addEventListener('DOMContentLoaded', ()=>{
@@ -258,6 +260,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }
             return res.json()
         }).then(objectData=>{
+            console.log(objectData)
             const data = objectData.flavors
             
             if(currentStep === objectData.maxStep){
@@ -371,9 +374,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
             const maxStep = data.maxStep
 
             if(data.total_quantity === 0 && currentStep === 1){
-                popupAlert.textContent = 'Voce deve adiciohnar pelo menos um sabor'
-                popupAlert.classList.add('active')
-                setTimeout(() => popupAlert.classList.remove('active'), 3000)
+                if(window.innerWidth <= 768){
+                    window.alert('Voce deve adiciohnar pelo menos um sabor')
+                }else{
+                    popupAlert.textContent = 'Voce deve adiciohnar pelo menos um sabor'
+                    popupAlert.classList.add('active')
+                    setTimeout(() => popupAlert.classList.remove('active'), 3000)
+                }
             }else if(currentStep < maxStep){
                 currentStep++
                 getFlavorsByProduct(productId, currentStep)

@@ -8,9 +8,6 @@ const ref = document.getElementById('referencia')
 //const cancelBtn = document.querySelector('.back-shopping')
 const endBtn = document.querySelector('.end-orders')
 const token = localStorage.getItem('token')
-//const BASE_URL = 'https://max-menu-server.onrender.com'
-//const BASE_URL = 'https://max-menu-server.vercel.app'
-const BASE_URL = 'http://localhost:3003'
 
 
 
@@ -34,19 +31,18 @@ const getProfile = async()=>{
     }
 }
 
-const renderProfile = (data)=>{
+/* const renderProfile = (data)=>{
     if(!data) return
-    /* ENDEREÇO */
     document.getElementById('street').innerText = data.street
     document.getElementById('cep').innerText = data.cep
     document.getElementById('neighbourhood').innerText = data.neighbourhood
     document.getElementById('complement').innerText = data.complement    
-}
+} */
 
 
-document.getElementById('updateAddress').addEventListener('click', ()=>{
+/* document.getElementById('updateAddress').addEventListener('click', ()=>{
     window.location.href = '../endereco/index.html'
-})
+}) */
 
 
 const groupedProducts = async() => {
@@ -162,7 +158,7 @@ const mp = new MercadoPago('TEST-39d56206-34f1-40ff-93b5-f5be9b5c7a80', {
     locale: 'pt-BR'
 });
 /* CARTÃO */
-const cardForm = mp.cardForm({
+/* const cardForm = mp.cardForm({
     amount: "100.50", // Valor do pagamento
     iframe: true,
     form: {
@@ -253,7 +249,7 @@ const cardForm = mp.cardForm({
             }
         }
     }
-});
+}) */
 /* PIX */
 document.getElementById('pix-button').addEventListener('click', async () => {
   const cart = JSON.parse(localStorage.getItem('data'))
@@ -289,7 +285,7 @@ document.getElementById('pix-button').addEventListener('click', async () => {
   })
   
   try {
-      const res = await fetch('https://meu-delivery-server.vercel.app/pay', {
+      const res = await fetch(`${BASE_URL}/pay`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -308,13 +304,14 @@ document.getElementById('pix-button').addEventListener('click', async () => {
       }
 
       const data = await res.json()
-      const qrCodeContainer = document.getElementById('qr-code-container');
+      const qrCodeContainer = document.getElementById('qr-code-container')
+      qrCodeContainer.innerHTML = ''
       
       if (data.qr_code_base64) {
         qrCodeContainer.innerHTML += `
             <p>Escaneie o QR Code para pagar:</p>
             <img src="data:image/jpeg;base64,${data.qr_code_base64}" alt="QR Code Pix">
-        `
+        `        
       }
 
       if(data.qr_code){
@@ -322,7 +319,7 @@ document.getElementById('pix-button').addEventListener('click', async () => {
           <p>Ou use o Pix Copia e Cola:</p><br>
             <p class='copy-paste'>${data.qr_code}</p>
           <button onclick="copiarTexto()">Copiar</button>
-        `
+        `       
       }
 
       if(data.qr_code_link){
@@ -330,7 +327,7 @@ document.getElementById('pix-button').addEventListener('click', async () => {
           <p>
               <a href="${data.qr_code_link}" target="_blank">Clique aqui para ver o ticket de pagamento</a>
           </p>
-        `
+        `        
       }
 
       window.copiarTexto = ()=>{
@@ -343,26 +340,24 @@ document.getElementById('pix-button').addEventListener('click', async () => {
             console.log('Erro ao copiar código: ', e)
             window.alert('Erro ao copiar código. Tente novamente.')
           })
-        /* copyArea.select()
-        document.execCommand('copy') */
       }
 
       // Lógica de polling (igual à sua)
-      const orderId = data.orderId;
+      /* const orderId = data.orderId;
       const interval = setInterval(async () => {
-          const statusRes = await fetch(`https://meu-delivery-server.vercel.app/payments/status/${orderId}`);
+          const statusRes = await fetch(`${BASE_URL}/payments/status/${orderId}`);
           const statusData = await statusRes.json();
           if (statusData.status === 'approved') {
               clearInterval(interval);
               alert('Pagamento com Pix aprovado! 🎉');
           }
-      }, 5000);
+      }, 5000); */
 
   } catch (e) {
       console.error('Erro ao processar pagamento Pix:', e);
       alert('Erro ao processar pagamento Pix.');
   }
-});
+})
 /* FIM DA INTEGRAÇÃO */
 
 
@@ -441,7 +436,6 @@ document.addEventListener('DOMContentLoaded', async()=>{
       return
   }
 
-  const profile = await getProfile()
-
-    renderProfile(profile)
+  await getProfile()
+  /*renderProfile(profile) */
 })

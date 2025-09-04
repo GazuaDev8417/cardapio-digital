@@ -9,10 +9,6 @@ mostrarSenha.textContent = 'Mostrar'
 /* BOTÕES */
 const clear = document.getElementById('clear')
 const send = document.getElementById('send')
-/* BASE URL */
-//const BASE_URL = 'https://max-menu-server.onrender.com'
-//const BASE_URL = 'https://max-menu-server.vercel.app'
-const BASE_URL = 'http://10.23.1.19:3003'
 const token = localStorage.getItem('token')
 const turnBack = document.querySelector('.back')
 
@@ -44,14 +40,14 @@ clear.onclick = ()=>{
 
 const signup = async()=>{
     const body = {
-        user: username.value, 
+        username: username.value, 
         email: email.value,
         phone: phone.value, 
-        password: senha.value, 
+        senha: senha.value, 
         role: 'NORMAL' 
     }
 
-    if(!body.user || !body.email || !body.phone || !body.password){
+    if(!body.username || !body.email || !body.phone || !body.senha){
         window.alert('Preencha todos os campos')
         return
     }
