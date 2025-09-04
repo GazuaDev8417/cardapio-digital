@@ -13,24 +13,6 @@ const token = localStorage.getItem('token')
 
 
 
-const getProfile = async()=>{
-    try{
-        const res = await fetch(`${BASE_URL}/user`, {
-            headers: { 'Authorization': token }
-        })
-
-        if(!res.ok){
-            const error = await res.text()
-            throw new Error(`Erro ao buscar dados do cliente: ${error}`)
-        }
-        const data = await res.json()
-        localStorage.setItem('email', data.email)
-        return data
-    }catch(e){
-        console.error(e)
-    }
-}
-
 /* const renderProfile = (data)=>{
     if(!data) return
     document.getElementById('street').innerText = data.street
@@ -250,39 +232,19 @@ const mp = new MercadoPago('TEST-39d56206-34f1-40ff-93b5-f5be9b5c7a80', {
         }
     }
 }) */
-/* PIX */
+
+/* ====================== PIX =========================== */
 document.getElementById('pix-button').addEventListener('click', async () => {
-  const cart = JSON.parse(localStorage.getItem('data'))
-  const total = cart.reduce((acc, currentItem)=>{
-    let subtotal = 0
-    subtotal += Number(currentItem.product.total)
+  const noProducts = localStorage.getItem('noProducts')
+  if(noProducts){
+    window.alert(noProducts)
+    window.location.href = '../../../index.html'
+    return
+  }
 
-    if(currentItem.items && currentItem.items.length > 0){
-      subtotal += currentItem.items.reduce(
-        (itemsAcc, item) => itemsAcc + Number(item.total), 0
-      )
-    }
-    return acc + subtotal
-  }, 0)
-
-  const requestItems = []
-  cart.forEach(item=>{
-    requestItems.push({
-      title: item.product.product,
-      quantity: item.product.quantity,
-      unit_price: Number(item.product.price)
-    })
-
-    if(item.items && item.items.length > 0){
-      item.items.forEach(subItem=>{
-        requestItems.push({
-          title: subItem.flavor || 'Item Adicional',
-          quantity: subItem.quantity,
-          unit_price: Number(subItem.price)
-        })
-      })
-    }
-  })
+  const total = getCart()
+  const profile = await getProfile()
+  const requestItems = getRequestItems()
   
   try {
       const res = await fetch(`${BASE_URL}/pay`, {
@@ -292,7 +254,7 @@ document.getElementById('pix-button').addEventListener('click', async () => {
           },
           body: JSON.stringify({
               paymentMethodId: 'pix',
-              email: localStorage.getItem('email'),
+              email: profile.email,
               items: requestItems,
               total: total
           })
@@ -304,7 +266,6 @@ document.getElementById('pix-button').addEventListener('click', async () => {
       }
 
       const data = await res.json()
-      const qrCodeContainer = document.getElementById('qr-code-container')
       qrCodeContainer.innerHTML = ''
       
       if (data.qr_code_base64) {
@@ -328,18 +289,6 @@ document.getElementById('pix-button').addEventListener('click', async () => {
               <a href="${data.qr_code_link}" target="_blank">Clique aqui para ver o ticket de pagamento</a>
           </p>
         `        
-      }
-
-      window.copiarTexto = ()=>{
-        const copyArea = qrCodeContainer.querySelector('.copy-paste')
-        const textToCopy = copyArea.textContent
-
-        navigator.clipboard.writeText(textToCopy)
-          .then(() => window.alert('Copiado para área de transferência'))
-          .catch(e =>{
-            console.log('Erro ao copiar código: ', e)
-            window.alert('Erro ao copiar código. Tente novamente.')
-          })
       }
 
       // Lógica de polling (igual à sua)
@@ -399,7 +348,14 @@ document.getElementById('pix-button').addEventListener('click', async () => {
 }) */
 
 endBtn.addEventListener('click', async()=>{
-  window.alert('Lembrando que aqui você só notifica o seu pedido para o entregador. A realização de pagamento ainda fia pendente')
+  const noProducts = localStorage.getItem('noProducts')
+  if(noProducts){
+    window.alert(noProducts)
+    window.location.href = '../../../index.html'
+    return
+  }
+  
+  window.alert('Lembrando que aqui você só notifica o seu pedido para o entregador. O pagamento ainda fica pendente')
   /* if (
       rua.value.trim() === '' ||
       bairro.value.trim() === '' ||
@@ -422,7 +378,7 @@ endBtn.addEventListener('click', async()=>{
   /* const produtos = cart
   const mensagemFormatada = await groupedProducts() */
   const profile = await getProfile()
-  const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${profile.user.trim()}\n${profile.street.trim()},\n${profile.neighbourhood.trim()}\nCEP: ${profile.cep},\n${profile.phone}\nPonto de referência: ${profile.complement}\n${obs.value !== '' ? `Obs.: ${obs.value}` : ''}`
+  const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${profile.user.trim()}\n${profile.street.trim()},\n${profile.neighbourhood.trim()}\nCEP: ${profile.cep},\n${profile.phone}\nPonto de referência: ${profile.complement}`
   const url = `https://wa.me/5571982551522?text=${encodeURIComponent(mensagemUrl)}`
   
   
@@ -436,6 +392,14 @@ document.addEventListener('DOMContentLoaded', async()=>{
       return
   }
 
-  await getProfile()
+  const noProducts = localStorage.getItem('noProducts')
+  if(noProducts){
+    window.alert(noProducts)
+    window.location.href = '../../../index.html'
+    return
+  }
+
+  /* const profile = await getProfile() */
+  
   /*renderProfile(profile) */
 })

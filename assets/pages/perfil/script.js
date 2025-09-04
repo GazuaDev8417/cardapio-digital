@@ -36,23 +36,6 @@ const formatPhoneNumber = (phone)=>{
 }
 
 
-const getProfile = async()=>{
-    try{
-        const res = await fetch(`${BASE_URL}/user`, {
-            headers: { 'Authorization': token }
-        })
-
-        if(!res.ok){
-            const error = await res.text()
-            throw new Error(`Erro ao buscar dados do cliente: ${error}`)
-        }
-
-        return await res.json()
-    }catch(e){
-        console.error(e)
-    }
-}
-
 const renderProfile = (data)=>{
     if(!data) return
     /* DADOS CADASTRAIS */
@@ -108,9 +91,11 @@ document.addEventListener('DOMContentLoaded', async()=>{
     }
 
     const profile = await getProfile()
+    
     if(!profile){
-        document.querySelector('.profile')
-            .innerHTML = '<p>Não foi possível carregar os dados do cliente.</p>'
+        window.alert('Não foi possível carregar os dados do cliente. Efetue login novamente')
+        localStorage.clear()
+        window.location.href = '../login/index.html'
         return
     }
 

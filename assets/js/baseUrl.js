@@ -1,4 +1,3 @@
-//const BASE_URL = 'https://max-menu-server.onrender.com'
 const BASE_URL = 'https://max-menu-server.vercel.app'
 //const BASE_URL = 'http://10.23.1.19:3003'
 
@@ -6,6 +5,22 @@ const BASE_URL = 'https://max-menu-server.vercel.app'
 
 
 /* FUNÇÕES */
+const getProfile = async()=>{
+    try{
+        const res = await fetch(`${BASE_URL}/user`, {
+            headers: { 'Authorization': token }
+        })
+
+        if(!res.ok){
+            const error = await res.text()
+            throw new Error(`Erro ao buscar dados do cliente: ${error}`)
+        }
+
+        return await res.json()
+    }catch(e){
+        console.error(e)
+    }
+}
 /* const generateToken = ()=>{
   const token = localStorage.getItem('token')
   if(token) return

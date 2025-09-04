@@ -321,6 +321,7 @@ endOrders.addEventListener('click', ()=>{
   const noProducts = localStorage.getItem('noProducts')
   if(noProducts){
     window.alert(noProducts)
+    window.location.href = '../../../index.html'
     return
   }
 

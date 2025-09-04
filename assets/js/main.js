@@ -1,5 +1,6 @@
 const horariosBtn = document.getElementById('horariosBtn')
 const popup = document.getElementById('popup')
+const popupAlert = document.querySelector('.popup-alert')
 const closePopup = document.getElementById('close-popup')
 /* VARIAVEIS DE HORÁRIOS E DIAS */
 const days = ['DOMINGO', 'SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO']
@@ -51,8 +52,8 @@ const addDrinkToCart = async(product) => {
             credentials: 'include'
         })
         if(!response.ok){
-            res.text().then(error => console.log(error))
-            throw new Error('Erro ao adicionar ao carrinho')
+            const error = await response.text()
+            throw new Error('Erro ao adicionar ao carrinho: ', error)
         } 
 
         window.location.href = 'assets/pages/carrinho/index.html'
@@ -103,7 +104,7 @@ const displayProducts = ()=>{
                         
                         cardHtml.addEventListener('click', () =>{
                             if(dayName === dayWeek){
-                                if(totalMinutes <= time[0] /* && totalMinutes < time[1] */){
+                                if(totalMinutes >= time[0] /* && totalMinutes < time[1] */){
                                     localStorage.setItem('title', d.product)
                                     localStorage.setItem('productId', d.id)
                                     localStorage.setItem('category', d.category)

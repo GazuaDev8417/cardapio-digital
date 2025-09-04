@@ -158,7 +158,7 @@
     background-color: rgba(0, 100, 0, .2);
 } */
 
-.qrcode{
+/* .qrcode{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -172,17 +172,54 @@
 .qrcode .copy-paste{
     text-align: center;
 }
+*/
 
-.qrcode button{
-    margin: 15px 0;
-    padding: 5px 10px;
-    cursor: pointer;
+/* ================= PIX / QR Code ================= */
+.qrcode {
+  max-width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.qrcode img {
+  max-width: 250px;   /* garante que não estoure a tela */
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+.qrcode .copy-paste {
+  display: block;
+  max-width: 100%;
+  word-break: break-all;
+  white-space: normal;
+  background: #f5f5f5;
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-size: 14px;
+  margin: 0.5rem auto;
+  text-align: left;
+  overflow-x: auto;
+}
+
+.qrcode button {
+  margin: 15px 0;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background: #0077ff;
+  color: #fff;
+  cursor: pointer;
 }
 
 .qrcode a{
     color: blue;
 }
 
+/* ================= Footer ================= */
 .footer-btn-container{
     position: fixed;
     bottom: 5px;
@@ -192,6 +229,17 @@
     align-items: center;
     justify-content: space-around;
 }
+/* .footer-btn-container {
+  position: fixed; 
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  padding: 0.8rem;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+} */
 
 .footer-btn-container button{
     border: none;
