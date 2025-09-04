@@ -15,178 +15,6 @@ const BASE_URL = 'http://localhost:3003'
 
 
 
-/* INTEGRAÇÃO MERADO PAGO */
-const mp = new MercadoPago('TEST-39d56206-34f1-40ff-93b5-f5be9b5c7a80', {
-    locale: 'pt-BR'
-});
-/* CARTÃO */
-const cardForm = mp.cardForm({
-    amount: "100.50", // Valor do pagamento
-    iframe: true,
-    form: {
-        id: "form-checkout",
-        cardNumber: {
-            id: "form-checkout__cardNumber",
-            placeholder: "Número do cartão"
-        },
-        expirationDate: {
-            id: "form-checkout__expirationDate",
-            placeholder: "MM/YY"
-        },
-        securityCode: {
-            id: "form-checkout__securityCode",
-            placeholder: "CVC"
-        },
-        cardholderName: {
-            id: "form-checkout__cardholderName",
-            placeholder: "Nome e sobrenome"
-        },
-        cardholderEmail: {
-            id: "form-checkout__cardholderEmail",
-            placeholder: "E-mail"
-        },
-        installments: {
-            id: "form-checkout__installments",
-            placeholder: "Parcelas"
-        },
-        issuer: {
-            id: "form-checkout__issuer",
-            placeholder: "Banco emissor"
-        },
-    },
-    callbacks: {
-        onReady: function() {
-            console.log('Formulário de cartão carregado.');
-        },
-        onFormMounted: function(error) {
-            if (error) return console.warn("Form Mounted failed: ", error);
-            console.log("Form Mounted");
-        },
-        onError: function(error) {
-            console.error(error);
-        },
-        onSubmit: async function(event) {
-            event.preventDefault();
-            const formData = cardForm.get().formData
-            const {
-                token,
-                paymentMethodId,
-                issuerId,
-                installments,
-                cardholderEmail,
-                cardholderName
-            } = formData
-
-            try {
-                const res = await fetch('SUA_URL_DO_BACKEND/pay', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        token,
-                        paymentMethodId,
-                        email: cardholderEmail,
-                        installments: Number(installments)
-                    })
-                });
-
-                const data = await res.json();
-                console.log('Pagamento processado:', data);
-                
-                // Lógica de polling (igual à sua)
-                const orderId = data.orderId;
-                const interval = setInterval(async () => {
-                    const statusRes = await fetch(`SUA_URL_DO_BACKEND/payments/status/${orderId}`);
-                    const statusData = await statusRes.json();
-                    if (statusData.status === 'approved') {
-                        clearInterval(interval);
-                        alert('Pagamento com cartão aprovado! 🎉');
-                    }
-                }, 5000);
-
-            } catch (e) {
-                console.error('Erro ao processar pagamento:', e);
-                alert('Erro ao processar pagamento.');
-            }
-        }
-    }
-});
-/* PIX */
-document.getElementById('pix-button').addEventListener('click', async () => {
-    try {
-        const res = await fetch('http://localhost:3000/pay', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                paymentMethodId: 'pix',
-                email: 'email-do-usuario@exemplo.com', // E-mail do usuário
-                items: [{
-                    title: 'Produto',
-                    quantity: 1,
-                    unit_price: 100.50
-                }]
-            })
-        });
-
-        const data = await res.json();
-        console.log('Resposta do Pix:', data);
-        
-        if (data.qr_code_base64) {
-            const qrCodeContainer = document.getElementById('qr-code-container');
-            qrCodeContainer.innerHTML = `
-                <p>Escaneie o QR Code para pagar:</p>
-                <img src="data:image/jpeg;base64,${data.qr_code_base64}" alt="QR Code Pix">
-                <p>Ou use o código Pix Copia e Cola:</p>
-                <textarea>${data.qr_code}</textarea>
-            `;
-        }
-
-        // Lógica de polling (igual à sua)
-        const orderId = data.orderId;
-        const interval = setInterval(async () => {
-            const statusRes = await fetch(`SUA_URL_DO_BACKEND/payments/status/${orderId}`);
-            const statusData = await statusRes.json();
-            if (statusData.status === 'approved') {
-                clearInterval(interval);
-                alert('Pagamento com Pix aprovado! 🎉');
-            }
-        }, 5000);
-
-    } catch (e) {
-        console.error('Erro ao processar pagamento Pix:', e);
-        alert('Erro ao processar pagamento Pix.');
-    }
-});
-/* ======================= */
-
-
-/* const addressByCep = ()=>{
-    
-    fetch(`https://viacep.com.br/ws/${cep?.value}/json/`)
-    .then(async res=>{
-        if(!res.ok){
-            return await res.text().then(error => console.log(error))
-        }
-        return await res.json()
-    }).then(data=>{
-        rua.value = data.logradouro
-        bairro.value = data.bairro
-        cep.value = data.cep
-    }).catch(e => console.error(e.message))
-}
-
-const clearForm = ()=>{
-    rua.value = ''
-    bairro.value = ''
-    cep.value = ''
-    clientName.value = ''
-    phone.value = ''
-    ref.value = ''
-} */
-
 
 const getProfile = async()=>{
     try{
@@ -198,8 +26,9 @@ const getProfile = async()=>{
             const error = await res.text()
             throw new Error(`Erro ao buscar dados do cliente: ${error}`)
         }
-
-        return await res.json()
+        const data = await res.json()
+        localStorage.setItem('email', data.email)
+        return data
     }catch(e){
         console.error(e)
     }
@@ -213,6 +42,7 @@ const renderProfile = (data)=>{
     document.getElementById('neighbourhood').innerText = data.neighbourhood
     document.getElementById('complement').innerText = data.complement    
 }
+
 
 document.getElementById('updateAddress').addEventListener('click', ()=>{
     window.location.href = '../endereco/index.html'
@@ -326,6 +156,215 @@ const removeProductAndItsFlavor = async()=>{
 
   }
 }
+
+/* INTEGRAÇÃO MERADO PAGO */
+const mp = new MercadoPago('TEST-39d56206-34f1-40ff-93b5-f5be9b5c7a80', {
+    locale: 'pt-BR'
+});
+/* CARTÃO */
+const cardForm = mp.cardForm({
+    amount: "100.50", // Valor do pagamento
+    iframe: true,
+    form: {
+        id: "form-checkout",
+        cardNumber: {
+            id: "form-checkout__cardNumber",
+            placeholder: "Número do cartão"
+        },
+        expirationDate: {
+            id: "form-checkout__expirationDate",
+            placeholder: "MM/YY"
+        },
+        securityCode: {
+            id: "form-checkout__securityCode",
+            placeholder: "CVC"
+        },
+        cardholderName: {
+            id: "form-checkout__cardholderName",
+            placeholder: "Nome e sobrenome"
+        },
+        cardholderEmail: {
+            id: "form-checkout__cardholderEmail",
+            placeholder: "E-mail"
+        },
+        installments: {
+            id: "form-checkout__installments",
+            placeholder: "Parcelas"
+        },
+        issuer: {
+            id: "form-checkout__issuer",
+            placeholder: "Banco emissor"
+        },
+    },
+    callbacks: {
+        onReady: function() {
+            console.log('Formulário de cartão carregado.');
+        },
+        onFormMounted: function(error) {
+            if (error) return console.warn("Form Mounted failed: ", error);
+            console.log("Form Mounted");
+        },
+        onError: function(error) {
+            console.error(error);
+        },
+        onSubmit: async function(event) {
+            event.preventDefault();
+            const formData = cardForm.get().formData
+            const {
+                token,
+                paymentMethodId,
+                issuerId,
+                installments,
+                cardholderEmail,
+                cardholderName
+            } = formData
+
+            try {
+                const res = await fetch('https://meu-delivery-server.vercel.app/pay', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        token,
+                        paymentMethodId,
+                        email: cardholderEmail,
+                        installments: Number(installments)
+                    })
+                });
+
+                const data = await res.json();
+                console.log('Pagamento processado:', data);
+                
+                // Lógica de polling (igual à sua)
+                const orderId = data.orderId;
+                const interval = setInterval(async () => {
+                    const statusRes = await fetch(`https://meu-delivery-server.vercel.app/payments/status/${orderId}`);
+                    const statusData = await statusRes.json();
+                    if (statusData.status === 'approved') {
+                        clearInterval(interval);
+                        alert('Pagamento com cartão aprovado! 🎉');
+                    }
+                }, 5000);
+
+            } catch (e) {
+                console.error('Erro ao processar pagamento:', e);
+                alert('Erro ao processar pagamento.');
+            }
+        }
+    }
+});
+/* PIX */
+document.getElementById('pix-button').addEventListener('click', async () => {
+  const cart = JSON.parse(localStorage.getItem('data'))
+  const total = cart.reduce((acc, currentItem)=>{
+    let subtotal = 0
+    subtotal += Number(currentItem.product.total)
+
+    if(currentItem.items && currentItem.items.length > 0){
+      subtotal += currentItem.items.reduce(
+        (itemsAcc, item) => itemsAcc + Number(item.total), 0
+      )
+    }
+    return acc + subtotal
+  }, 0)
+
+  const requestItems = []
+  cart.forEach(item=>{
+    requestItems.push({
+      title: item.product.product,
+      quantity: item.product.quantity,
+      unit_price: Number(item.product.price)
+    })
+
+    if(item.items && item.items.length > 0){
+      item.items.forEach(subItem=>{
+        requestItems.push({
+          title: subItem.flavor || 'Item Adicional',
+          quantity: subItem.quantity,
+          unit_price: Number(subItem.price)
+        })
+      })
+    }
+  })
+  
+  try {
+      const res = await fetch('https://meu-delivery-server.vercel.app/pay', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              paymentMethodId: 'pix',
+              email: localStorage.getItem('email'),
+              items: requestItems,
+              total: total
+          })
+      })
+
+      if(!res.ok){
+        const error = await res.text()
+        throw new Error(error)
+      }
+
+      const data = await res.json()
+      const qrCodeContainer = document.getElementById('qr-code-container');
+      
+      if (data.qr_code_base64) {
+        qrCodeContainer.innerHTML += `
+            <p>Escaneie o QR Code para pagar:</p>
+            <img src="data:image/jpeg;base64,${data.qr_code_base64}" alt="QR Code Pix">
+        `
+      }
+
+      if(data.qr_code){
+        qrCodeContainer.innerHTML += `
+          <p>Ou use o Pix Copia e Cola:</p><br>
+            <p class='copy-paste'>${data.qr_code}</p>
+          <button onclick="copiarTexto()">Copiar</button>
+        `
+      }
+
+      if(data.qr_code_link){
+        qrCodeContainer.innerHTML += `
+          <p>
+              <a href="${data.qr_code_link}" target="_blank">Clique aqui para ver o ticket de pagamento</a>
+          </p>
+        `
+      }
+
+      window.copiarTexto = ()=>{
+        const copyArea = qrCodeContainer.querySelector('.copy-paste')
+        const textToCopy = copyArea.textContent
+
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => window.alert('Copiado para área de transferência'))
+          .catch(e =>{
+            console.log('Erro ao copiar código: ', e)
+            window.alert('Erro ao copiar código. Tente novamente.')
+          })
+        /* copyArea.select()
+        document.execCommand('copy') */
+      }
+
+      // Lógica de polling (igual à sua)
+      const orderId = data.orderId;
+      const interval = setInterval(async () => {
+          const statusRes = await fetch(`https://meu-delivery-server.vercel.app/payments/status/${orderId}`);
+          const statusData = await statusRes.json();
+          if (statusData.status === 'approved') {
+              clearInterval(interval);
+              alert('Pagamento com Pix aprovado! 🎉');
+          }
+      }, 5000);
+
+  } catch (e) {
+      console.error('Erro ao processar pagamento Pix:', e);
+      alert('Erro ao processar pagamento Pix.');
+  }
+});
+/* FIM DA INTEGRAÇÃO */
+
 
 /* const singupClient = async(pedido)=>{
   const body = {

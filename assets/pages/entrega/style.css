@@ -149,8 +149,30 @@
     background-color: rgba(0, 100, 0, .2);
 }
 
+.qrcode{
+    margin: 40px 0 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .qrcode img{
     width: 200px;
+}
+
+.qrcode .copy-paste{
+    text-align: center;
+}
+
+.qrcode button{
+    margin: 15px 0;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.qrcode a{
+    color: blue;
 }
 
 .footer-btn-container{

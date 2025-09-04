@@ -79,6 +79,7 @@ const groupedProducts = () => {
       }
       return await res.json()
     }).then(data => {
+      localStorage.setItem('data', JSON.stringify(data))
       const container = document.getElementById('main-container')
       const subtotal = document.querySelector('.subtotal')
       let grandTotal = 0
@@ -297,6 +298,7 @@ const groupedProducts = () => {
     })
     .catch(e => console.error(e.message));
 }
+
 const subtotalBtn = document.querySelector('.subtotal')
 
 subtotalBtn.addEventListener('click', ()=>{
