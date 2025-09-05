@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             window.history.back()
         }
     })
-
+    /* ADICIONAR BEBIDA AO CARRINHO */
     const addDrinkToCart = async(product) => {
         if(!token){
             const decide = window.confirm('Necessário estar logado para fazer pedidos')
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     /* ALTERA QUANTIDADE DO PRODUTO NO CARRO */
     const updateCartProductQnt = async(quantity, flavor, product_id, max_quantity, price)=>{
-        if(!token){
+        if(!token && quantity !== -1){
             const decide = window.confirm('Necessário estar logado para fazer pedidos')
             if(decide){
                 window.location.href = '../login/index.html'
@@ -276,6 +276,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }
         }).catch(e => console.error(e.message)) */
     }
+    
     
    /* BUSCAR SABORES */
     const getFlavorsByProduct = (id, currentStep)=>{
@@ -355,7 +356,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     }
                 })
 
-                plusBtn.addEventListener('click', () =>{
+                plusBtn.addEventListener('click', async() =>{
                     const current = parseInt(quantitySpan.textContent)
                     const totalCurrent = getTotalQuantity()
                     
