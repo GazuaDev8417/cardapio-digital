@@ -8,10 +8,6 @@ mostrarSenha.textContent = 'Mostrar'
 /* BOTÕES */
 const clear = document.getElementById('clear')
 const send = document.getElementById('send')
-/* BASE URL */
-//const BASE_URL = 'https://max-menu-server.onrender.com'
-//const BASE_URL = 'https://max-menu-server.vercel.app'
-//const BASE_URL = 'http://10.23.1.19:3003'
 const token = localStorage.getItem('token')
 const turnBack = document.querySelector('.back')
 

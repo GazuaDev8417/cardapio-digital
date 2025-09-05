@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     /* ALTERA QUANTIDADE DO PRODUTO NO CARRO */
-    const updateCartProductQnt = (quantity, flavor, product_id, max_quantity, price)=>{
+    const updateCartProductQnt = async(quantity, flavor, product_id, max_quantity, price)=>{
         if(!token){
             const decide = window.confirm('Necessário estar logado para fazer pedidos')
             if(decide){
@@ -231,7 +231,34 @@ document.addEventListener('DOMContentLoaded', ()=>{
             quantity
         }
         
-        fetch(`${BASE_URL}/update_qnt`, {
+        try{
+            const res = await fetch(`${BASE_URL}/update_qnt`, {
+                method:'PATCH',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `${token}`
+                },
+                body: JSON.stringify(body),
+                credentials: 'include'
+            })
+            if(!res.ok){
+                const error = await res.text()
+                if(error.includes('Produto não encontrado')){
+                    addToCart(price, quantity, flavor, product_id, max_quantity)
+                }
+                throw new Error(error)
+            }
+        }catch(e){  
+            console.error(e.message)
+            if(e.message.includes('Cliente não encontrado') && quantity !== -1){
+                window.alert('Necessário estar logado para fazer pedidos')
+                localStorage.clear()
+                window.location.href = '../login/index.html'
+            }
+        }
+        
+        
+        /* fetch(`${BASE_URL}/update_qnt`, {
             method:'PATCH',
             headers: {
                 'Content-type': 'application/json',
@@ -247,7 +274,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     }
                 })                
             }
-        }).catch(e => console.error(e.message))
+        }).catch(e => console.error(e.message)) */
     }
     
    /* BUSCAR SABORES */
@@ -372,8 +399,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
             if(!response.ok){
                 const error = await response.text()
-                console.error(error)
-                return
+                throw new Error(error)
             }
 
             const data = await response.json()
@@ -399,6 +425,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
         }catch(e){
             console.error(e.message)
+            if(e.message.includes('Cliente não encontrado')){
+                window.alert('Necessário estar logado para fazer pedidos')
+                localStorage.clear()
+                window.location.href = '../login/index.html'
+            }
         }
     })   
     

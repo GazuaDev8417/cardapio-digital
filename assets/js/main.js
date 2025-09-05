@@ -53,12 +53,17 @@ const addDrinkToCart = async(product) => {
         })
         if(!response.ok){
             const error = await response.text()
-            throw new Error('Erro ao adicionar ao carrinho: ', error)
+            throw new Error(error)
         } 
 
         window.location.href = 'assets/pages/carrinho/index.html'
     }catch(e){
-        console.error(e)    
+        console.error(e.message)
+        if(e.message.includes('Cliente não encontrado')){
+            window.alert('Necessário estar logado para fazer pedidos')
+            localStorage.clear()
+            window.location.href = '../login/index.html'
+        }
     }
 }
 
