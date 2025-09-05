@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 credentials: 'include'
             })
             if(!response.ok){
-                res.text().then(error => console.log(error))
+                res.text().then(error => console.error(error))
                 throw new Error('Erro ao adicionar ao carrinho')
             } 
 
@@ -101,10 +101,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 sidebar.classList.remove('active')
                 overlay.classList.remove('active')
             })
+
+            const corrections = {
+                pirao: 'Pirão',
+                acai: 'Açaí',
+                porcao: 'Porção'
+            }
             
             const link = document.createElement('a')
             link.className = `link-${categoryName.toLocaleLowerCase()}`
-            link.textContent = categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
+            const formattedName = categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
+            const finalName = corrections[categoryName] || formattedName
+            link.textContent = finalName
 
             const emoji = getEmojiForCategory(categoryName)
             if(emoji) link.innerHTML += `<span>${emoji}</span>`
@@ -234,7 +242,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }).then(res=>{
             if(!res.ok){
                 res.text().then(error=>{
-                    console.log(error)
                     if(error === 'Produto não encontrado'){
                         addToCart(price, quantity, flavor, product_id, max_quantity)
                     }
@@ -260,7 +267,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }
             return res.json()
         }).then(objectData=>{
-            console.log(objectData)
             const data = objectData.flavors
             
             if(currentStep === objectData.maxStep){
