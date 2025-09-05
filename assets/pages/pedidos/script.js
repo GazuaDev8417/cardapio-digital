@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     }
                 })
 
-                plusBtn.addEventListener('click', async() =>{
+                plusBtn.addEventListener('click', () =>{
                     const current = parseInt(quantitySpan.textContent)
                     const totalCurrent = getTotalQuantity()
                     

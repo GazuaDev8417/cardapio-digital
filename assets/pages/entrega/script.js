@@ -140,8 +140,8 @@ const mp = new MercadoPago('TEST-39d56206-34f1-40ff-93b5-f5be9b5c7a80', {
     locale: 'pt-BR'
 });
 /* CARTÃO */
-/* const cardForm = mp.cardForm({
-    amount: "100.50", // Valor do pagamento
+const cardForm = mp.cardForm({
+    amount: getCart(), // Valor do pagamento
     iframe: true,
     form: {
         id: "form-checkout",
@@ -231,7 +231,7 @@ const mp = new MercadoPago('TEST-39d56206-34f1-40ff-93b5-f5be9b5c7a80', {
             }
         }
     }
-}) */
+})
 
 /* ====================== PIX =========================== */
 document.getElementById('pix-button').addEventListener('click', async () => {
