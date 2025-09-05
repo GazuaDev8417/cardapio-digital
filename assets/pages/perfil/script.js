@@ -61,7 +61,9 @@ document.getElementById('updateAddress').addEventListener('click', ()=>{
 })
 
 document.getElementById('delUser').addEventListener('click', async()=>{
-    const decide = window.confirm('Essa operação é irreversível! Tem certeza que deseja excluir sua conta?')
+    const decide = window.confirm(
+        'Essa operação irá deletar seus dados e seus pedidos. E é irreversível! Tem certeza que deseja excluir sua conta?'
+    )
 
     if(!decide) return
 

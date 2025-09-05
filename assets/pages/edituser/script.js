@@ -62,3 +62,9 @@ send.onclick = async() =>{
         console.error('Erro ao cadastrar cliente: ', e)
     }
 }
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    if(!token){
+        window.location.href = '../../../index.html'
+    }
+})

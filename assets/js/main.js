@@ -104,7 +104,7 @@ const displayProducts = ()=>{
                         
                         cardHtml.addEventListener('click', () =>{
                             if(dayName === dayWeek){
-                                if(totalMinutes >= time[0] /* && totalMinutes < time[1] */){
+                                if(totalMinutes <= time[0] /* && totalMinutes < time[1] */){
                                     localStorage.setItem('title', d.product)
                                     localStorage.setItem('productId', d.id)
                                     localStorage.setItem('category', d.category)

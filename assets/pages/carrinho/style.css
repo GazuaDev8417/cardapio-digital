@@ -13,8 +13,8 @@
     height: 60px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 0 .3rem 0 1rem;
+    justify-content: space-between;
+    padding: 0 1rem;
     box-shadow: 0  2px 4px rgba(0, 0, 0, .8);
     z-index: 3;
 }
@@ -22,6 +22,10 @@
 .header h2{
     color: #000;
     text-shadow: 2px 2px 4px;
+}
+
+.header .profile{
+    cursor: pointer;
 }
 
 /* POPUP ALERT */

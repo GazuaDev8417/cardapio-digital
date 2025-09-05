@@ -1,5 +1,5 @@
 /* INPUTS */
-const email = document.getElementById('email').value = 'visitante@email.com'
+const email = document.getElementById('email').value = 'mesmo245@gmail.com'
 //const phone = document.getElementById('phone')
 /* MOSTRAR OCULTAR SENHA */
 const senha = document.getElementById('senha').value = '123456'

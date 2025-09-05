@@ -21,45 +21,6 @@ const getProfile = async()=>{
         console.error(e)
     }
 }
-/* const generateToken = ()=>{
-  const token = localStorage.getItem('token')
-  if(token) return
-  
-  fetch(`${BASE_URL}/generate-user-id`, {
-    credentials: 'include'
-  })
-    .then(res => res.text()).then(data=>{
-      localStorage.setItem('token', data)
-    }).catch(e => console.log(e.message))
-} */
-
-/* const addProductToCart = (product)=>{
-    const body = {
-        product: product.product,
-        price: product.price,
-        quantity: product.quantity,
-        total: product.total,
-        product_id: product.id,
-        category: product.category
-    }
-    
-    fetch(`${BASE_URL}/products/cart`, {
-        method:'POST',
-        headers: {
-          'Authorization': `${localStorage.getItem('token')}`,
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify(body),
-        credentials: 'include'
-    }).then(async res=>{
-        if(!res.ok){
-            return await res.text().then(error => console.log(error))
-        }
-        return await res.text()
-    }).then(data=>{
-        console.log(data)        
-    }).catch(e => console.error(e.message))
-} */
 
 /* function formatPhone(input) {
   let digits = input.value.replace(/\D/g, ''); // só números
