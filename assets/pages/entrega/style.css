@@ -44,135 +44,124 @@
     margin-bottom: 20px;
 }
 
-/* .inputs{
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 5rem 0 10px;
-}
-
-.profile-card {
-    margin-top: 100px;
-    background: rgba(169, 169, 169, .3);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0, .3);
-}
-
-.profile-info {
-  margin-top: 15px;
-}
-
-.profile-info h3 {
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-  color: green; /* cor destaque 
-}
-
-.profile-info p {
-  margin: 5px 0;
-  color: #444;
-  font-size: 1rem;
-}
-
-.edit-btn {
-  margin-top: 10px;
-  background: red;
-  color: #fff;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: 0.3s ease;
-  font-weight: bold;
-} */
-
-/* .obs{
-    padding: .5rem;
-    margin: 100px 20px 0 0;
-    display: flex;
-    gap: 15px;
-    flex-direction: column;
-    border: 2px solid #006400;  
-    box-shadow: 2px 2px 4px #006400;
-    border-radius: 8px; 
-    
-    width: 30%;
-} */
-
-/* .obs-input {
+/* ==================== CARTÃO ======================= */
+.modal{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .8);
     width: 100%;
-    max-width: 500px;
-    height: 150px;
-    outline: none;
-    padding: 10px;
-    box-sizing: border-box;
-} */
+    height: 100%;
+    z-index: 100;
+    overflow: auto;
+}
 
-/* .input-container{
+.modal-content{
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 40px 20px;
+    border-radius: 10px;
+    max-width: 40%;
+    position: relative;
+    transform: scale(0);
+    opacity: 0;
+    transition: transform .3s ease, opacity .3s ease;
+}
+
+.close{
+    position: absolute;
+    right: 3%;
+    top: 3%;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-content.active{
+    transform: scale(1);
+    opacity: 1;
+}
+
+.form{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: 15vh;
-    width: 100%;
-} */
-
-/* .input:first-of-type{
-    width: 500px;
+    gap: 10px;
 }
 
-.input:nth-child(2){
-    width: 400px;
-}
-
-.input:nth-child(3),
-.input:nth-child(4),
-.input:nth-child(5){
-    width: 300px;
-}
-
-.input:last-of-type{
-    width: 500px;
-} */
-
-
-/* .input {
-    height: 35px;
+.form .container{
+    height: 40px;
+    border: 1px solid;
     padding-left: 10px;
-    font-size: 1.1rem;
-    margin: 3px 0;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid #006400;
-    border-left: 3px solid #FF0000;
-    background: transparent;
-    width: 100%;
-    max-width: 500px;
-    box-sizing: border-box; 
 }
 
-.input:focus{
-    border: 1px solid #006400;
-    box-shadow: .5px .5px 4px #006400;
+.fomr .container:empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  pointer-events: none; /* So clicks go through the placeholder */
+  user-select: none; /* Prevent placeholder text selection */
+}
+
+#form-checkout__cardNumber{
+    width: 70%;
+}
+
+#form-checkout__expirationDate{
+    width: 35%;
+}
+
+#form-checkout__securityCode{
+    width: 20%;
+}
+
+.form input{
+    height: 40px;
+    width: 90%;
+    padding-left: 10px;
     border-radius: 5px;
-    background-color: rgba(0, 100, 0, .2);
-} */
-
-/* .qrcode{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    font-size: 16px;
 }
 
-.qrcode img{
-    width: 200px;
+.form input::placeholder{
+    font-size: 17px;
 }
 
-.qrcode .copy-paste{
-    text-align: center;
+.form input::-webkit-input-placeholder {
+  font-size: 17px;
 }
-*/
+
+.form input::-moz-placeholder {
+  font-size: 17px;
+}
+
+.form input:-ms-input-placeholder {
+  font-size: 17px;
+}
+
+.form select{
+    width: 70%;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 17px;
+}
+
+.form button{
+    padding: 5px;
+    background-color: #00AEEF;
+    outline: none;
+    box-shadow: 0 0 8px black;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+    padding: 5px 20px;
+    font-weight: bold;
+    transition: .3s ease-in;
+    width: 70%;
+}
+
+.form button:active{
+    transform: scale(.9);
+}
 
 /* ================= PIX / QR Code ================= */
 .qrcode {
@@ -185,7 +174,7 @@
 }
 
 .qrcode img {
-  max-width: 250px;   /* garante que não estoure a tela */
+  max-width: 250px;
   height: auto;
   display: block;
   margin: 1rem auto;
@@ -229,17 +218,6 @@
     align-items: center;
     justify-content: space-around;
 }
-/* .footer-btn-container {
-  position: fixed; 
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #fff;
-  display: flex;
-  justify-content: space-around;
-  padding: 0.8rem;
-  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
-} */
 
 .footer-btn-container button{
     border: none;

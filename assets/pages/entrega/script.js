@@ -1,8 +1,3 @@
-/* const rua = document.getElementById('street')
-const bairro = document.getElementById('neighborhood')
-const cep = document.getElementById('cep')
-const clientName = document.getElementById('client')
-const phone = document.getElementById('phone') */
 const obs = document.getElementById('obs-content')
 const ref = document.getElementById('referencia')
 //const cancelBtn = document.querySelector('.back-shopping')
@@ -20,11 +15,6 @@ const token = localStorage.getItem('token')
     document.getElementById('neighbourhood').innerText = data.neighbourhood
     document.getElementById('complement').innerText = data.complement    
 } */
-
-
-/* document.getElementById('updateAddress').addEventListener('click', ()=>{
-    window.location.href = '../endereco/index.html'
-}) */
 
 
 const groupedProducts = async() => {
@@ -45,7 +35,7 @@ const groupedProducts = async() => {
     const data = await res.json();
 
     let totalGeral = 0;
-    let mensagem = `📦 *Novo Pedido Recebido para:*\n${clientName.value.trim()}\n${rua.value.trim()},\n${bairro.value.trim()}\nCEP: ${cep.value},\n${phone.value}\nPonto de referência: ${ref.value}\n${obs.value !== '' ? `Obs.: ${obs.value}` : ''}\n`;
+    let mensagem = `📦 *Novo Pedido Recebido para:*\n${clientName.value.trim()}\n${rua.value.trim()},\n${bairro.value.trim()}\nCEP: ${cep.value},\n${phone.value}\nPonto de referência: ${ref.value}`;
 
     data.forEach(({ product, items }) => {
       const preco = parseFloat(product.price);
@@ -140,97 +130,101 @@ const mp = new MercadoPago('TEST-39d56206-34f1-40ff-93b5-f5be9b5c7a80', {
     locale: 'pt-BR'
 });
 /* CARTÃO */
-const cardForm = mp.cardForm({
-    amount: getCart(), // Valor do pagamento
-    iframe: true,
-    form: {
-        id: "form-checkout",
-        cardNumber: {
-            id: "form-checkout__cardNumber",
-            placeholder: "Número do cartão"
-        },
-        expirationDate: {
-            id: "form-checkout__expirationDate",
-            placeholder: "MM/YY"
-        },
-        securityCode: {
-            id: "form-checkout__securityCode",
-            placeholder: "CVC"
-        },
-        cardholderName: {
-            id: "form-checkout__cardholderName",
-            placeholder: "Nome e sobrenome"
-        },
-        cardholderEmail: {
-            id: "form-checkout__cardholderEmail",
-            placeholder: "E-mail"
-        },
-        installments: {
-            id: "form-checkout__installments",
-            placeholder: "Parcelas"
-        },
-        issuer: {
-            id: "form-checkout__issuer",
-            placeholder: "Banco emissor"
-        },
-    },
-    callbacks: {
-        onReady: function() {
-            console.log('Formulário de cartão carregado.');
-        },
-        onFormMounted: function(error) {
-            if (error) return console.warn("Form Mounted failed: ", error);
-            console.log("Form Mounted");
-        },
-        onError: function(error) {
-            console.error(error);
-        },
-        onSubmit: async function(event) {
-            event.preventDefault();
-            const formData = cardForm.get().formData
-            const {
-                token,
-                paymentMethodId,
-                issuerId,
-                installments,
-                cardholderEmail,
-                cardholderName
-            } = formData
+const cardModal = document.getElementById('modal-card')
+const cardContent = document.querySelector('.modal-content')
+const cardBtn = document.getElementById('card-button')
 
-            try {
-                const res = await fetch('https://meu-delivery-server.vercel.app/pay', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
+const cartTotal = getCart()
+const amount = (cartTotal !== null && cartTotal !== undefined && cartTotal !== '')
+
+cardForm = mp.cardForm({
+        amount: String(getCart()),
+        iframe: true,
+        form: {
+            id: "form-checkout",
+            cardNumber: { id: "form-checkout__cardNumber", placeholder: "Número do cartão" },
+            expirationDate: { id: "form-checkout__expirationDate", placeholder: "MM/YY" },
+            securityCode: { id: "form-checkout__securityCode", placeholder: "CVC" },
+            cardholderName: { id: "form-checkout__cardholderName", placeholder: "Nome e sobrenome" },
+            cardholderEmail: { id: "form-checkout__cardholderEmail", placeholder: "E-mail" },
+            installments: { id: "form-checkout__installments", placeholder: "Parcelas" },
+            issuer: { id: "form-checkout__issuer", placeholder: "Banco emissor" },
+        },
+        callbacks: {
+            onReady: () => console.log('Formulário carregado.'),
+            onFormMounted: (error) => error && console.warn('Form Mounted failed: ', error),
+            onError: (error) => console.error('Erro no cardForm:', error),
+            onSubmit: (event) => {
+                event.preventDefault();
+                console.log('Submit detectado')
+
+                cardForm.submit({
+                    onSuccess: async (cardData) => {
+                      console.log('Dados do cartão: ', cardData)
+                        const {
+                            token,
+                            payment_method_id: paymentMethodId,
+                            installments,
+                            email
+                        } = cardData;
+
+                        try {
+                            const res = await fetch(`${BASE_URL}/pay`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    token,
+                                    paymentMethodId,
+                                    email,
+                                    installments: Number(installments)
+                                })
+                            });
+
+                            const data = await res.json();
+                            console.log('Pagamento processado:', data);
+
+                            const orderId = data.orderId;
+                            const interval = setInterval(async () => {
+                                const statusRes = await fetch(`${BASE_URL}/payments/status/${orderId}`);
+                                const statusData = await statusRes.json();
+                                if (statusData.status === 'approved') {
+                                    clearInterval(interval);
+                                    alert('Pagamento com cartão aprovado! 🎉');
+                                }
+                            }, 5000);
+
+                        } catch (e) {
+                            console.error('Erro ao processar pagamento:', e);
+                            alert('Erro ao processar pagamento.');
+                        }
                     },
-                    body: JSON.stringify({
-                        token,
-                        paymentMethodId,
-                        email: cardholderEmail,
-                        installments: Number(installments)
-                    })
-                });
-
-                const data = await res.json();
-                console.log('Pagamento processado:', data);
-                
-                // Lógica de polling (igual à sua)
-                const orderId = data.orderId;
-                const interval = setInterval(async () => {
-                    const statusRes = await fetch(`https://meu-delivery-server.vercel.app/payments/status/${orderId}`);
-                    const statusData = await statusRes.json();
-                    if (statusData.status === 'approved') {
-                        clearInterval(interval);
-                        alert('Pagamento com cartão aprovado! 🎉');
+                    onError: (error) => {
+                        console.error('Erro no submit do cardForm:', error);
+                        onsole.log('Detalhes do erro:', JSON.stringify(error, null, 2));
+                        alert('Erro ao criar token do cartão.');
                     }
-                }, 5000);
-
-            } catch (e) {
-                console.error('Erro ao processar pagamento:', e);
-                alert('Erro ao processar pagamento.');
+                });
             }
         }
-    }
+});
+
+cardBtn.addEventListener('click', ()=>{
+  cardModal.style.display = 'block'
+  setTimeout(() => cardContent.classList.add('active'), 100)
+})
+
+cardContent.addEventListener('click', (e) => e.stopPropagation())
+
+window.addEventListener('click', (e)=>{
+  if(e.target === cardModal){
+    cardContent.classList.remove('active')
+    setTimeout(() => cardModal.style.display = 'none', 100)
+  }
+})
+
+document.querySelector('.close').addEventListener('click', ()=>{
+  cardContent.classList.remove('active')
+  setTimeout(() => cardModal.style.display = 'none', 100)
 })
 
 /* ====================== PIX =========================== */
