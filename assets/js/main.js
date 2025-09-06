@@ -62,7 +62,7 @@ const addDrinkToCart = async(product) => {
         if(e.message.includes('Cliente não encontrado')){
             window.alert('Necessário estar logado para fazer pedidos')
             localStorage.clear()
-            window.location.href = '../login/index.html'
+            window.location.href = 'assets/pages/login/index.html'
         }
     }
 }

@@ -210,6 +210,7 @@ cardForm = mp.cardForm({
 
 cardBtn.addEventListener('click', ()=>{
   cardModal.style.display = 'block'
+  qrCodeContainer.innerHTML = ''
   setTimeout(() => cardContent.classList.add('active'), 100)
 })
 
@@ -303,37 +304,6 @@ document.getElementById('pix-button').addEventListener('click', async () => {
 })
 /* FIM DA INTEGRAÇÃO */
 
-
-/* const singupClient = async(pedido)=>{
-  const body = {
-    pedido: pedido?.trim() || ''
-  }
-
-  try {
-    const res = await fetch(`${BASE_URL}/regist/client`, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-        'Authorization': token
-      },
-      body: JSON.stringify(body),
-      credentials: 'include'
-    });
-
-    if (!res.ok) {
-      const errorText = await res.text();
-      console.log(errorText);
-      return;
-    }
-
-    await removeProductAndItsFlavor();
-    clearForm()
-    localStorage.removeItem('token');
-  } catch (e) {
-    console.error(e.message);
-  }
-} */
-
 /* cancelBtn.addEventListener('click', async()=>{
     await removeProductAndItsFlavor();
     clearForm()
@@ -350,18 +320,6 @@ endBtn.addEventListener('click', async()=>{
   }
   
   window.alert('Lembrando que aqui você só notifica o seu pedido para o entregador. O pagamento ainda fica pendente')
-  /* if (
-      rua.value.trim() === '' ||
-      bairro.value.trim() === '' ||
-      cep.value.trim() === '' ||
-      clientName.value.trim() === '' ||
-      phone.value.trim() === '' ||
-      ref.value.trim() === ''
-  ) {
-      window.alert('Por favor, preencha todos os campos.')
-      return 
-  }  */ 
-  
   const cart = await getCartFromClient()
   //const products = await getProductCartFromClient()
   if(!cart || cart.length === 0){
