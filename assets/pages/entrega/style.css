@@ -95,13 +95,6 @@
     padding-left: 10px;
 }
 
-.fomr .container:empty::before {
-  content: attr(data-placeholder);
-  color: #999;
-  pointer-events: none; /* So clicks go through the placeholder */
-  user-select: none; /* Prevent placeholder text selection */
-}
-
 #form-checkout__cardNumber{
     width: 70%;
 }
@@ -288,23 +281,25 @@
     .qrcode img{
         width: 200px;
     }
-    /* .inputs {
-        flex-direction: column;
-        margin: 10px;
-    } */
+    
+    .modal-content{
+        max-width: 80%;
+    }
 
-    /* .reset{
-        width: 30%;
-        padding: 7px;
-        font-size: 1rem;
-        font-weight: bold;
-    } */
-
-    /* .obs {
-        margin: 20px 0;
+    .close{
+        top: 1%;
+    }
+    
+    .form input,
+    .form select,
+    .form button{
         width: 100%;
-    } */
-     
+    }
+
+    #form-checkout__cardNumber{
+        width: 100%;
+    }
+
     .footer-btn-container{
         width: 90%;
         margin-top: 70px;
