@@ -102,6 +102,37 @@ body{
   transition: 0.3s ease;
 }
 
+/* MAIN CONTAINER */
+#main-container{
+    padding-top: 13vh;
+    padding-bottom: 30vh;
+}
+
+.item-container{
+    padding: 10px;
+    box-shadow: 2px 2px 4px;
+    margin: 10px 50px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.items-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 12px;
+  border-radius: 8px;  
+}
+/* ============== */
 .delete-user{
   background: red;
   color: #fff;

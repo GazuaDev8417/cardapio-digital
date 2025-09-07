@@ -209,6 +209,13 @@ cardForm = mp.cardForm({
 });
 
 cardBtn.addEventListener('click', ()=>{
+  const noProducts = localStorage.getItem('noProducts')
+  if(noProducts){
+    window.alert(noProducts)
+    window.location.href = '../../../index.html'
+    return
+  }
+
   cardModal.style.display = 'block'
   qrCodeContainer.innerHTML = ''
   setTimeout(() => cardContent.classList.add('active'), 100)
@@ -320,18 +327,19 @@ endBtn.addEventListener('click', async()=>{
   }
   
   window.alert('Lembrando que aqui você só notifica o seu pedido para o entregador. O pagamento ainda fica pendente')
-  const cart = await getCartFromClient()
-  //const products = await getProductCartFromClient()
+  /* const cart = await getCartFromClient()
+  const products = await getProductCartFromClient()
   if(!cart || cart.length === 0){
     window.alert('Seu carrinho ainda está vazio')
     return
-  } 
+  } */ 
 
   /* const produtos = cart
   const mensagemFormatada = await groupedProducts() */
   const profile = await getProfile()
-  const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${profile.user.trim()}\n${profile.street.trim()},\n${profile.neighbourhood.trim()}\nCEP: ${profile.cep},\n${profile.phone}\nPonto de referência: ${profile.complement}`
-  const url = `https://wa.me/5571982551522?text=${encodeURIComponent(mensagemUrl)}`
+  const orderLink = 'https://max-menu.vercel.app/'
+  const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${profile.user.trim()}\n${profile.street.trim()},\n${profile.neighbourhood.trim()}\nCEP: ${profile.cep},\n${profile.phone}\nPonto de referência: ${profile.complement}\nVeja aqui o seu pedido: ${orderLink}`
+  const url = `https://wa.me/5571984407882?text=${encodeURIComponent(mensagemUrl)}`
   
   
   window.open(url, '_blank')

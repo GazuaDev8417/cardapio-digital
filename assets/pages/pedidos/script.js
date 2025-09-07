@@ -52,7 +52,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
             flavor: product.product,
             productId: product.id,
             max_quantity: 1,
-            step: 1
+            step: 1,
+            momentString: new Date().toISOString()
         }
         
         try{
@@ -276,7 +277,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }
         }).catch(e => console.error(e.message)) */
     }
-    
     
    /* BUSCAR SABORES */
     const getFlavorsByProduct = (id, currentStep)=>{

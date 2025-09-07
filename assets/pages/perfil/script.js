@@ -85,6 +85,62 @@ document.getElementById('delUser').addEventListener('click', async()=>{
     }
 })
 
+/* HISTÓRICO DE PRODUTOS */
+const groupedProducts = async() => {
+  const data = await fetchDataProducts()
+
+  const container = document.getElementById('main-container')
+  
+  data.forEach(group => {     
+    const { product, items } = group
+
+    // Container principal de um produto
+    const itemContainer = document.createElement('div');
+    itemContainer.classList.add('item-container');
+
+    // Bloco de informações do produto
+    const productDiv = document.createElement('div');
+    
+    productDiv.classList.add('product');
+    productDiv.innerHTML = `
+      <strong>Nome do produto:</strong> ${product.product}<br>
+      <strong>Preço:</strong> R$ ${product.price}<br>
+      <strong>Quantidade:</strong> ${product.quantity}<br>
+      <strong>Total:</strong> R$ ${product.total}<br>
+      <strong>Pedido feito às:</strong> ${product.moment.split('às')[1]}
+    `;
+    itemContainer.appendChild(productDiv)
+    /* CONTAINER DOS SABORES */
+    const itemsDiv = document.createElement('div');
+    itemsDiv.classList.add('items');
+
+    items.forEach(flavor => {
+      // Card individual de cada sabor
+      const itemCard = document.createElement('div');
+      itemCard.classList.add('items-card');
+
+      // Informações do sabor
+      const flavorDiv = document.createElement('div');
+      flavorDiv.classList.add('flavor');
+      flavorDiv.innerHTML = `
+        <strong>Sabor:</strong> ${flavor.flavor}<br>
+        <strong>Preço:</strong> ${!flavor.price || Number(flavor.price) === 0 ? 'Incluso' : 'R$ ' + flavor.price}<br>
+        <strong>Quantidade:</strong> ${flavor.quantity}<br>
+        <strong>Total:</strong> R$ ${flavor.total}
+      `;
+      itemCard.appendChild(flavorDiv)
+      
+      // Adicionar o item-card à lista de sabores
+      itemsDiv.appendChild(itemCard);
+    });
+    
+    // Adicionar os sabores ao container principal
+    itemContainer.appendChild(itemsDiv);
+
+    // Adicionar o item-container ao DOM
+    container.appendChild(itemContainer);
+  })
+}
 
 document.addEventListener('DOMContentLoaded', async()=>{
     if(!token){
@@ -102,4 +158,5 @@ document.addEventListener('DOMContentLoaded', async()=>{
     }
 
     renderProfile(profile)
+    groupedProducts()
 })
