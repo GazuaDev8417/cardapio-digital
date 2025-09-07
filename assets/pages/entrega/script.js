@@ -244,7 +244,7 @@ document.getElementById('pix-button').addEventListener('click', async () => {
     return
   }
 
-  const total = getCart()
+  /* const total = getCart() */
   const profile = await getProfile()
   const requestItems = getRequestItems()
   
@@ -257,11 +257,11 @@ document.getElementById('pix-button').addEventListener('click', async () => {
           body: JSON.stringify({
               paymentMethodId: 'pix',
               email: profile.email,
-              items: requestItems,
-              total: total
+              items: requestItems
+              /* total */
           })
       })
-
+      
       if(!res.ok){
         const error = await res.text()
         throw new Error(error)
@@ -337,7 +337,7 @@ endBtn.addEventListener('click', async()=>{
   /* const produtos = cart
   const mensagemFormatada = await groupedProducts() */
   const profile = await getProfile()
-  const orderLink = 'https://max-menu.vercel.app/'
+  const orderLink = `${BASE_URL}/assets/pages/perfil/#main-container`
   const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${profile.user.trim()}\n${profile.street.trim()},\n${profile.neighbourhood.trim()}\nCEP: ${profile.cep},\n${profile.phone}\nPonto de referência: ${profile.complement}\nVeja aqui o seu pedido: ${orderLink}`
   const url = `https://wa.me/5571984407882?text=${encodeURIComponent(mensagemUrl)}`
   

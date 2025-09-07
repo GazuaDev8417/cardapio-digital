@@ -133,7 +133,6 @@ const groupedProducts = async() => {
       // Adicionar o item-card à lista de sabores
       itemsDiv.appendChild(itemCard);
     });
-    
     // Adicionar os sabores ao container principal
     itemContainer.appendChild(itemsDiv);
 
