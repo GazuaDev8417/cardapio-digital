@@ -326,7 +326,9 @@ endBtn.addEventListener('click', async()=>{
     return
   }
   
-  window.alert('Lembrando que aqui você só notifica o seu pedido para o entregador. O pagamento ainda fica pendente')
+  window.alert(
+    'Acesse os seus pedidos no perfil do cliente. Clicando no ícone 👤 superior direito desta mesma tela'  
+  )
   /* const cart = await getCartFromClient()
   const products = await getProductCartFromClient()
   if(!cart || cart.length === 0){
@@ -337,7 +339,7 @@ endBtn.addEventListener('click', async()=>{
   /* const produtos = cart
   const mensagemFormatada = await groupedProducts() */
   const profile = await getProfile()
-  const orderLink = `${BASE_URL}/assets/pages/perfil/#main-container`
+  const orderLink = `https://max-menu.vercel.app/assets/pages/perfil/#main-container`
   const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${profile.user.trim()}\n${profile.street.trim()},\n${profile.neighbourhood.trim()}\nCEP: ${profile.cep},\n${profile.phone}\nPonto de referência: ${profile.complement}\nVeja aqui o seu pedido: ${orderLink}`
   const url = `https://wa.me/5571984407882?text=${encodeURIComponent(mensagemUrl)}`
   
