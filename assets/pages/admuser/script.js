@@ -91,13 +91,15 @@ const groupedProducts = async(role) => {
         
         productDiv.classList.add('product');
         productDiv.innerHTML = `
-            <strong>Nome do produto:</strong> ${product.product}<br>
-            <strong>Preço:</strong> R$ ${product.price}<br>
-            <strong>Quantidade:</strong> ${product.quantity}<br>
-            <strong>Total:</strong> R$ ${product.total}<br>
-            <strong>Pedido feito às:</strong> ${product.moment.split('às')[1]}<br>      
-            <a href="../perfil/index.html?userId=${product.client}&mode=delivery&role=${role}">Ver cliente</a>      
-        `;
+            <div>
+                <strong>Nome do produto:</strong> ${product.product}<br>
+                <strong>Preço:</strong> R$ ${product.price}<br>
+                <strong>Quantidade:</strong> ${product.quantity}<br>
+                <strong>Total:</strong> R$ ${product.total}<br>
+                <strong>Pedido feito às:</strong> ${product.moment.split('às')[1]}<br>
+                <strong>Situação:</strong> ${product.status}<br>
+            </div>
+        `
         itemContainer.appendChild(productDiv)
         /* CONTAINER DOS SABORES */
         const itemsDiv = document.createElement('div');
@@ -122,8 +124,16 @@ const groupedProducts = async(role) => {
         // Adicionar o item-card à lista de sabores
         itemsDiv.appendChild(itemCard);
         });
+        const btnContainer = document.createElement('div')
+        btnContainer.classList.add('buttons')
+        btnContainer.innerHTML = `
+            <button onclick="window.location.href='../perfil/index.html?userId=${product.client}&mode=delivery&role=${role}'">Ver cliente</button>
+            <button>Excluir pedido</button>
+        `
+
         // Adicionar os sabores ao container principal
         itemContainer.appendChild(itemsDiv);
+        itemContainer.appendChild(btnContainer)
 
         // Adicionar o item-container ao DOM
         container.appendChild(itemContainer);
@@ -143,6 +153,8 @@ document.addEventListener('DOMContentLoaded', async()=>{
         localStorage.clear()
         window.location.href = '../login/index.html'
         return
+    }else if(profile.role !== 'ADM'){
+        window.location.href = '../perfil/index.html'
     }
 
     renderProfile(profile)

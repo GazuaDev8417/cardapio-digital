@@ -64,7 +64,7 @@ const groupedProducts = async() => {
 }
 
 
-const getCartFromClient = async()=>{
+/* const getCartFromClient = async()=>{
   try{
     const res = await fetch(`${BASE_URL}/clients/cart`, {
       headers: { 'Authorization': token },
@@ -80,7 +80,7 @@ const getCartFromClient = async()=>{
   }catch(e){
     console.error(e.message)
   }  
-}
+} */
 
 const getProductCartFromClient = async()=>{
   try{
@@ -100,7 +100,7 @@ const getProductCartFromClient = async()=>{
   }  
 }
 
-const removeProductAndItsFlavor = async()=>{
+/* const removeProductAndItsFlavor = async()=>{
   try{
     const res = await fetch(`${BASE_URL}/product/client`, {
       method: 'DELETE',
@@ -122,7 +122,7 @@ const removeProductAndItsFlavor = async()=>{
   }catch(e){
 
   }
-}
+} */
 
 /* cancelBtn.addEventListener('click', async()=>{
     await removeProductAndItsFlavor();

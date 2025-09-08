@@ -149,12 +149,14 @@ document.addEventListener('DOMContentLoaded', async()=>{
     }
 
     const profile = userRole === 'ADM' ? await getProfileByAdm(userId) : await getProfile()
-    
+    console.log(profile.role)
     if(!profile){
         window.alert('Não foi possível carregar os dados do cliente. Efetue login novamente')
         localStorage.clear()
         window.location.href = '../login/index.html'
         return
+    }else if(profile.role === 'ADM'){
+        document.getElementById('delUser').style.display = 'none'
     }
 
     renderProfile(profile)

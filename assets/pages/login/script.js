@@ -1,6 +1,5 @@
 /* INPUTS */
 const email = document.getElementById('email').value = 'visitante@email.com'
-//const phone = document.getElementById('phone')
 /* MOSTRAR OCULTAR SENHA */
 const senha = document.getElementById('senha').value = '123456'
 const mostrarSenha = document.querySelector('.mostrar-senha')
@@ -32,14 +31,12 @@ mostrarSenha.addEventListener('click', ()=>{
 
 clear.onclick = ()=>{
     email = ''
-    /* phone.value = '' */
     senha = ''
 }
 
 const login = async()=>{
     const body = { 
         email,
-        /* phone: phone.value, */ 
         senha
     }
 
