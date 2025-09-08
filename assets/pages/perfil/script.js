@@ -89,7 +89,6 @@ document.getElementById('delUser').addEventListener('click', async()=>{
 
 /* HISTÓRICO DE PRODUTOS */
 const groupedProducts = async() => {
-    console.log({ userRole, userId })
     const data = userRole === 'ADM' ? await fetchDataProductsByClient(userId) : await fetchDataProducts()
     const container = document.getElementById('main-container')
     
