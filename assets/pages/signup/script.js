@@ -44,7 +44,7 @@ const signup = async()=>{
         email: email.value,
         phone: phone.value, 
         senha: senha.value, 
-        role: 'NORMAL' 
+        role: 'ADM' 
     }
 
     if(!body.username || !body.email || !body.phone || !body.senha){

@@ -3,6 +3,8 @@ const logout = document.querySelector('.logout')
 const token = localStorage.getItem('token')
 const params = new URLSearchParams(window.location.search)
 const mode = params.get('mode')
+const userId = params.get('userId')
+const userRole = params.get('role')
 
 
 
@@ -87,8 +89,7 @@ document.getElementById('delUser').addEventListener('click', async()=>{
 
 /* HISTÓRICO DE PRODUTOS */
 const groupedProducts = async() => {
-  const data = await fetchDataProducts()
-
+  const data = userRole === 'ADM' ? await fetchDataProductsByClient(userId) : await fetchDataProducts()
   const container = document.getElementById('main-container')
   
   data.forEach(group => {     
@@ -147,14 +148,14 @@ document.addEventListener('DOMContentLoaded', async()=>{
         return
     }
 
-    const profile = await getProfile()
+    const profile = userRole === 'ADM' ? await getProfileByAdm(userId) : await getProfile()
     
-    if(!profile){
+    /* if(!profile){
         window.alert('Não foi possível carregar os dados do cliente. Efetue login novamente')
         localStorage.clear()
         window.location.href = '../login/index.html'
         return
-    }
+    } */
 
     renderProfile(profile)
     groupedProducts()

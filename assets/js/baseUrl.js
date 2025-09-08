@@ -22,6 +22,23 @@ const getProfile = async()=>{
     }
 }
 
+const getProfileByAdm = async(id)=>{
+    try{
+        const res = await fetch(`${BASE_URL}/client/${id}`, {
+            headers: { 'Authorization': token }
+        })
+
+        if(!res.ok){
+            const error = await res.text()
+            throw new Error(`Erro ao buscar dados do cliente: ${error}`)
+        }
+
+        return await res.json()
+    }catch(e){
+        console.error(e)
+    }
+}
+
 /* function formatPhone(input) {
   let digits = input.value.replace(/\D/g, ''); // só números
   
