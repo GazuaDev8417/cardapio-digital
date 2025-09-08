@@ -152,7 +152,7 @@ endBtn.addEventListener('click', async()=>{
   /* const produtos = cart
   const mensagemFormatada = await groupedProducts() */
   const profile = await getProfile()
-  const orderLink = `https://max-menu.vercel.app/assets/pages/perfil/#main-container?userId=${profile.id}`
+  const orderLink = `https://max-menu.vercel.app/assets/pages/perfil/#main-container?userId=${profile.id}&userRole=${profile.role}`
   const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${profile.user.trim()}\n${profile.street.trim()},\n${profile.neighbourhood.trim()}\nCEP: ${profile.cep},\n${profile.phone}\nPonto de referência: ${profile.complement}\nVeja aqui o seu pedido: ${orderLink}`
   const url = `https://wa.me/5571984407882?text=${encodeURIComponent(mensagemUrl)}`
   

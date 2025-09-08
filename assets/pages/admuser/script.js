@@ -1,13 +1,8 @@
-const turnBack = document.querySelector('.back')
 const logout = document.querySelector('.logout')
 const token = localStorage.getItem('token')
 
 
 
-
-turnBack.addEventListener('click', ()=>{
-    window.location.href = '../../../index.html'
-})
 
 logout.addEventListener('click', ()=>{
     const decide = window.confirm('Tem certeza que deseja sair da sua conta?')
