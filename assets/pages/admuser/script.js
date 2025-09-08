@@ -1,20 +1,13 @@
 const turnBack = document.querySelector('.back')
 const logout = document.querySelector('.logout')
 const token = localStorage.getItem('token')
-/* const params = new URLSearchParams(window.location.search)
-const mode = params.get('mode')
 
 
 
-if(mode === 'delivery'){
-    turnBack.addEventListener('click', ()=>{
-        window.history.back()
-    })
-}else{
-    turnBack.addEventListener('click', ()=>{
-        window.location.href = '../../../index.html'
-    })
-} */
+
+turnBack.addEventListener('click', ()=>{
+    window.location.href = '../../../index.html'
+})
 
 logout.addEventListener('click', ()=>{
     const decide = window.confirm('Tem certeza que deseja sair da sua conta?')
@@ -54,7 +47,7 @@ const renderProfile = (data)=>{
 
 
 document.getElementById('updateProfile').addEventListener('click', ()=>{
-    window.location.href = '../edituser/index.html'
+    window.location.href = '../edituser/index.html?mode=adm'
 })
 
 /* document.getElementById('updateAddress').addEventListener('click', ()=>{

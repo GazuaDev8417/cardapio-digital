@@ -1,11 +1,22 @@
 //const BASE_URL = 'https://max-menu-server.onrender.com'
 //const BASE_URL = 'https://max-menu-server.vercel.app'
 //const BASE_URL = 'http://10.23.1.19:3003'
-const popupAlert = document.querySelector('.popup-alert')
 
 
 
-document.addEventListener('DOMContentLoaded', ()=>{
+
+document.addEventListener('DOMContentLoaded', async()=>{
+    if(localStorage.getItem('token')){
+        const profile = await getProfile()
+        if(profile.role === 'ADM'){
+            window.location.href = '../admuser/index.html'
+            return
+        }
+    }
+    
+
+
+    const popupAlert = document.querySelector('.popup-alert')
     const turnBackBtn = document.querySelector('.back')
     const headerTitle = document.querySelector('.header-title')
     const openMenu = document.getElementById('menuIcon')

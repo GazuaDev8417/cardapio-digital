@@ -109,7 +109,7 @@ const displayProducts = ()=>{
                         
                         cardHtml.addEventListener('click', () =>{
                             if(dayName === dayWeek){
-                                if(totalMinutes >= time[0] /* && totalMinutes < time[1] */){
+                                if(totalMinutes <= time[0] /* && totalMinutes < time[1] */){
                                     localStorage.setItem('title', d.product)
                                     localStorage.setItem('productId', d.id)
                                     localStorage.setItem('category', d.category)
@@ -230,7 +230,7 @@ document.querySelector('.wp-link').addEventListener('click', ()=>{
     window.open('https://portfolio-x22d.onrender.com/', '_blank')
 }) */
 
-document.addEventListener('DOMContentLoaded', ()=>{   
+document.addEventListener('DOMContentLoaded', async()=>{   
     /* ============= RENDERIZAÇÃO DOS PRODUTOS ==================== */
     const linkCart = document.querySelector('.link-cart')
     const linkLogin = document.querySelector('.link-login')
@@ -240,6 +240,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
         linkCart.style.display = 'none'
         linkPerfil.style.display = 'none'
     }else{
+        const profile = await getProfile()
+        if(profile.role === 'ADM'){
+            window.location.href = 'assets/pages/admuser/index.html'
+        }
         linkLogin.style.display = 'none'
     }
     

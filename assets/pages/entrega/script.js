@@ -7,7 +7,6 @@ const token = localStorage.getItem('token')
 
 
 
-
 /* const renderProfile = (data)=>{
     if(!data) return
     document.getElementById('street').innerText = data.street
@@ -125,6 +124,65 @@ const removeProductAndItsFlavor = async()=>{
   }
 }
 
+/* cancelBtn.addEventListener('click', async()=>{
+    await removeProductAndItsFlavor();
+    clearForm()
+    localStorage.removeItem('token');
+    window.location.href = '../../../index.html'
+}) */
+
+endBtn.addEventListener('click', async()=>{
+  const noProducts = localStorage.getItem('noProducts')
+  if(noProducts){
+    window.alert(noProducts)
+    window.location.href = '../../../index.html'
+    return
+  }
+  
+  window.alert(
+    'Acesse os seus pedidos no perfil do cliente. Clicando no ícone 👤 superior direito desta mesma tela'  
+  )
+  /* const cart = await getCartFromClient()
+  const products = await getProductCartFromClient()
+  if(!cart || cart.length === 0){
+    window.alert('Seu carrinho ainda está vazio')
+    return
+  } */ 
+
+  /* const produtos = cart
+  const mensagemFormatada = await groupedProducts() */
+  const profile = await getProfile()
+  const orderLink = `https://max-menu.vercel.app/assets/pages/perfil/#main-container?userId=${profile.id}`
+  const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${profile.user.trim()}\n${profile.street.trim()},\n${profile.neighbourhood.trim()}\nCEP: ${profile.cep},\n${profile.phone}\nPonto de referência: ${profile.complement}\nVeja aqui o seu pedido: ${orderLink}`
+  const url = `https://wa.me/5571984407882?text=${encodeURIComponent(mensagemUrl)}`
+  
+  
+  window.open(url, '_blank')
+  /*singupClient(mensagemFormatada) */
+})
+
+document.addEventListener('DOMContentLoaded', async()=>{
+  if(!token){
+      window.location.href = '../../../index.html'
+      return
+  }
+
+  const profile = await getProfile()
+  
+  if(profile.role === 'ADM'){
+      window.location.href = '../admuser/index.html'
+      return
+  }
+
+  const noProducts = localStorage.getItem('noProducts')
+  if(noProducts){
+    window.alert(noProducts)
+    window.location.href = '../../../index.html'
+    return
+  }
+
+})
+
 /* INTEGRAÇÃO MERADO PAGO */
 const mp = new MercadoPago('TEST-39d56206-34f1-40ff-93b5-f5be9b5c7a80', {
     locale: 'pt-BR'
@@ -156,11 +214,10 @@ cardForm = mp.cardForm({
             onError: (error) => console.error('Erro no cardForm:', error),
             onSubmit: (event) => {
                 event.preventDefault();
-                console.log('Submit detectado')
-
+                
                 cardForm.submit({
                     onSuccess: async (cardData) => {
-                      console.log('Dados do cartão: ', cardData)
+                      
                         const {
                             token,
                             payment_method_id: paymentMethodId,
@@ -310,58 +367,3 @@ document.getElementById('pix-button').addEventListener('click', async () => {
   }
 })
 /* FIM DA INTEGRAÇÃO */
-
-/* cancelBtn.addEventListener('click', async()=>{
-    await removeProductAndItsFlavor();
-    clearForm()
-    localStorage.removeItem('token');
-    window.location.href = '../../../index.html'
-}) */
-
-endBtn.addEventListener('click', async()=>{
-  const noProducts = localStorage.getItem('noProducts')
-  if(noProducts){
-    window.alert(noProducts)
-    window.location.href = '../../../index.html'
-    return
-  }
-  
-  window.alert(
-    'Acesse os seus pedidos no perfil do cliente. Clicando no ícone 👤 superior direito desta mesma tela'  
-  )
-  /* const cart = await getCartFromClient()
-  const products = await getProductCartFromClient()
-  if(!cart || cart.length === 0){
-    window.alert('Seu carrinho ainda está vazio')
-    return
-  } */ 
-
-  /* const produtos = cart
-  const mensagemFormatada = await groupedProducts() */
-  const profile = await getProfile()
-  const orderLink = `https://max-menu.vercel.app/assets/pages/perfil/#main-container`
-  const mensagemUrl = `📦 *Novo Pedido Recebido para:*\n${profile.user.trim()}\n${profile.street.trim()},\n${profile.neighbourhood.trim()}\nCEP: ${profile.cep},\n${profile.phone}\nPonto de referência: ${profile.complement}\nVeja aqui o seu pedido: ${orderLink}`
-  const url = `https://wa.me/5571984407882?text=${encodeURIComponent(mensagemUrl)}`
-  
-  
-  window.open(url, '_blank')
-  /*singupClient(mensagemFormatada) */
-})
-
-document.addEventListener('DOMContentLoaded', async()=>{
-  if(!token){
-      window.location.href = '../../../index.html'
-      return
-  }
-
-  const noProducts = localStorage.getItem('noProducts')
-  if(noProducts){
-    window.alert(noProducts)
-    window.location.href = '../../../index.html'
-    return
-  }
-
-  /* const profile = await getProfile() */
-  
-  /*renderProfile(profile) */
-})

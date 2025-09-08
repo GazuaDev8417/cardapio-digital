@@ -311,9 +311,15 @@ endOrders.addEventListener('click', ()=>{
   })
 })
 
-document.addEventListener('DOMContentLoaded', ()=>{
+document.addEventListener('DOMContentLoaded', async()=>{
   if(!token){
       window.location.href = '../../../index.html'
+      return
+  }
+
+  const profile = await getProfile()
+  if(profile.role === 'ADM'){
+      window.location.href = '../admuser/index.html'
       return
   }
   groupedProducts()

@@ -7,12 +7,14 @@ const clear = document.getElementById('clear')
 const send = document.getElementById('send')
 const token = localStorage.getItem('token')
 const turnBack = document.querySelector('.back')
+const params = new URLSearchParams(window.location.search)
+const mode = params.get('mode')
 
 
 
 
 turnBack.addEventListener('click', ()=>{
-    window.location.href = '../perfil/index.html'
+    mode === 'adm' ? window.location.href = '../admuser/index.html' : window.location.href = '../perfil/index.html'
 })
 
 

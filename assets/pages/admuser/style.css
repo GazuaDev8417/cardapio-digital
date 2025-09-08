@@ -54,7 +54,7 @@ body{
   color: #333;
 }
 
-/* .profile-card {
+ .profile-card {
   background: rgba(169, 169, 169, .3);
   border-radius: 16px;
   padding: 10px 20px;
@@ -75,7 +75,7 @@ body{
   margin: 5px 0;
   color: #444;
   font-size: 1rem;
-} */
+}
 
 .edit-btn {
   margin-top: 10px;
@@ -97,7 +97,7 @@ body{
 
 #main-container{
     padding-bottom: 10vh;
-    max-height: 400px;
+    max-height: 300px;
     overflow-y: auto;
 }
 
@@ -109,7 +109,7 @@ body{
     display: flex;
     flex-direction: column;
     border: 1px solid;
-    width: 90%;
+    width: 98%;
 }
 
 .product{

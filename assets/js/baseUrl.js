@@ -3,12 +3,11 @@ const BASE_URL = 'https://max-menu-server.vercel.app'
 
 
 
-
 /* FUNÇÕES */
 const getProfile = async()=>{
     try{
         const res = await fetch(`${BASE_URL}/user`, {
-            headers: { 'Authorization': token }
+            headers: { 'Authorization': localStorage.getItem('token') }
         })
 
         if(!res.ok){
