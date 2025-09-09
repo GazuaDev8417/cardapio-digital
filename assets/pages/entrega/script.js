@@ -240,13 +240,15 @@ cardForm = mp.cardForm({
                             const data = await res.json();
                             console.log('Pagamento processado:', data);
 
-                            const orderId = data.orderId;
+                            const orderId = data.id;
                             const interval = setInterval(async () => {
-                                const statusRes = await fetch(`${BASE_URL}/payments/status/${orderId}`);
+                                const statusRes = await fetch(`${BASE_URL}/payment-status/${orderId}`);
                                 const statusData = await statusRes.json();
                                 if (statusData.status === 'approved') {
                                     clearInterval(interval);
                                     alert('Pagamento com cartão aprovado! 🎉');
+                                }else if(statusData.status === 'pending'){
+                                  console.error('Pagmento pendente')
                                 }
                             }, 5000);
 
@@ -351,15 +353,17 @@ document.getElementById('pix-button').addEventListener('click', async () => {
       }
 
       // Lógica de polling (igual à sua)
-      /* const orderId = data.orderId;
+      const orderId = data.id;
       const interval = setInterval(async () => {
-          const statusRes = await fetch(`${BASE_URL}/payments/status/${orderId}`);
+          const statusRes = await fetch(`${BASE_URL}/payment-status/${orderId}`)
           const statusData = await statusRes.json();
           if (statusData.status === 'approved') {
               clearInterval(interval);
               alert('Pagamento com Pix aprovado! 🎉');
+          }else if(statusData.status === 'pending'){
+            console.error('Pagemento pendente')
           }
-      }, 5000); */
+      }, 5000);
 
   } catch (e) {
       console.error('Erro ao processar pagamento Pix:', e);

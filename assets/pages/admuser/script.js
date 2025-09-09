@@ -128,7 +128,7 @@ const groupedProducts = async(role) => {
         btnContainer.classList.add('buttons')
         btnContainer.innerHTML = `
             <button onclick="window.location.href='../perfil/index.html?userId=${product.client}&mode=delivery&role=${role}'">Ver cliente</button>
-            <button>Excluir pedido</button>
+            <button onclick="delOrder(this, '${product.client}', '${product.product_id}')" >Excluir pedido</button>
         `
 
         // Adicionar os sabores ao container principal
@@ -138,6 +138,33 @@ const groupedProducts = async(role) => {
         // Adicionar o item-container ao DOM
         container.appendChild(itemContainer);
     })
+}
+
+
+const delOrder = async(btn, client, product)=>{
+    const decide = window.confirm('Tem certeza que deseja excluir o pedido?')
+    if(!decide) return
+    
+    const body = {
+        userId: client,
+        productId: product
+    }
+
+    try{
+        const res = await fetch(`${BASE_URL}/orders`, {
+            method:'DELETE',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(body)
+        })
+
+        if(!res.ok){
+            const error = await res.text()
+            throw new Error(error)
+        }
+        btn.closest('.item-container').remove()
+    }catch(e){
+        console.error(e)
+    }
 }
 
 document.addEventListener('DOMContentLoaded', async()=>{

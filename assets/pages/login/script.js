@@ -1,7 +1,7 @@
 /* INPUTS */
-const email = document.getElementById('email').value = 'visitante@email.com'
+const email = document.getElementById('email')
 /* MOSTRAR OCULTAR SENHA */
-const senha = document.getElementById('senha').value = '123456'
+const senha = document.getElementById('senha')
 const mostrarSenha = document.querySelector('.mostrar-senha')
 mostrarSenha.textContent = 'Mostrar'
 /* BOTÕES */
@@ -9,7 +9,6 @@ const clear = document.getElementById('clear')
 const send = document.getElementById('send')
 const token = localStorage.getItem('token')
 const turnBack = document.querySelector('.back')
-
 
 
 
@@ -36,8 +35,8 @@ clear.onclick = ()=>{
 
 const login = async()=>{
     const body = { 
-        email,
-        senha
+        email: email.value,
+        senha: senha.value
     }
 
     if(!body.email || !body.senha){

@@ -1,6 +1,7 @@
 const turnBack = document.querySelector('.back')
 const logout = document.querySelector('.logout')
 const token = localStorage.getItem('token')
+const delUser = document.getElementById('delUser')
 const params = new URLSearchParams(window.location.search)
 const mode = params.get('mode')
 const userId = params.get('userId')
@@ -62,7 +63,7 @@ document.getElementById('updateAddress').addEventListener('click', ()=>{
     window.location.href = '../endereco/index.html?mode=update'
 })
 
-document.getElementById('delUser').addEventListener('click', async()=>{
+delUser.addEventListener('click', async()=>{
     const decide = window.confirm(
         'Essa operação irá deletar seus dados e seus pedidos. E é irreversível! Tem certeza que deseja excluir sua conta?'
     )
@@ -104,11 +105,12 @@ const groupedProducts = async() => {
         
         productDiv.classList.add('product');
         productDiv.innerHTML = `
-        <strong>Nome do produto:</strong> ${product.product}<br>
-        <strong>Preço:</strong> R$ ${product.price}<br>
-        <strong>Quantidade:</strong> ${product.quantity}<br>
-        <strong>Total:</strong> R$ ${product.total}<br>
-        <strong>Pedido feito às:</strong> ${product.moment.split('às')[1]}
+            <strong>Nome do produto:</strong> ${product.product}<br>
+            <strong>Preço:</strong> R$ ${product.price}<br>
+            <strong>Quantidade:</strong> ${product.quantity}<br>
+            <strong>Total:</strong> R$ ${product.total}<br>
+            <strong>Pedido feito às:</strong> ${product.moment.split('às')[1]}<br>
+            <strong>Situação:</strong> ${product.status}
         `;
         itemContainer.appendChild(productDiv)
         /* CONTAINER DOS SABORES */
@@ -149,14 +151,14 @@ document.addEventListener('DOMContentLoaded', async()=>{
     }
 
     const profile = userRole === 'ADM' ? await getProfileByAdm(userId) : await getProfile()
-    console.log(profile.role)
+    const currentUser = await getProfile()
     if(!profile){
         window.alert('Não foi possível carregar os dados do cliente. Efetue login novamente')
         localStorage.clear()
         window.location.href = '../login/index.html'
         return
-    }else if(profile.role === 'ADM'){
-        document.getElementById('delUser').style.display = 'none'
+    }else if(currentUser.role === 'ADM'){
+        delUser.style.display = 'none'
     }
 
     renderProfile(profile)

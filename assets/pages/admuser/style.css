@@ -100,7 +100,6 @@ body{
 }
 
 #main-container{
-    padding-bottom: 10vh;
     max-height: 300px;
     overflow-y: auto;
 }
@@ -144,11 +143,17 @@ body{
 }
 
 .buttons button{
-  padding: 5px;
+  padding: 5px 10px;
+  font-size: 1rem;
   border-radius: 5px;
   border: none;
   box-shadow: 0 0 4px black;
-  cursor: pointer;  
+  cursor: pointer; 
+  transition: .3s ease-in; 
+}
+
+.buttons button:active{
+  transform: scale(.9);
 }
 
 .buttons button:nth-of-type(1){

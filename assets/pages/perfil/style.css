@@ -96,7 +96,6 @@ body{
 }
 
 #main-container{
-    padding-bottom: 10vh;
     max-height: 400px;
     overflow-y: auto;
 }
@@ -110,6 +109,10 @@ body{
     flex-direction: column;
     border: 1px solid;
     width: 98%;
+
+    @media(max-width: 768px){
+      width: 95%;
+    }
 }
 
 .product{
