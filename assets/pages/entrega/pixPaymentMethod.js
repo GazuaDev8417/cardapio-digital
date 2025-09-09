@@ -22,17 +22,17 @@ const getRequestItems = ()=>{
     const requestItems = []
     cart.forEach(item=>{
         requestItems.push({
-        title: item.product.product,
-        quantity: item.product.quantity,
-        unit_price: Number(item.product.price)
+            title: item.product.product,
+            quantity: item.product.quantity,
+            unit_price: Number(item.product.price)
         })
 
         if(item.items && item.items.length > 0){
         item.items.forEach(subItem=>{
             requestItems.push({
-            title: subItem.flavor || 'Item Adicional',
-            quantity: subItem.quantity,
-            unit_price: Number(subItem.price)
+                title: subItem.flavor || 'Item Adicional',
+                quantity: subItem.quantity,
+                unit_price: Number(subItem.price)
             })
         })
         }

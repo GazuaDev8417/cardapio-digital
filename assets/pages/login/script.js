@@ -29,8 +29,8 @@ mostrarSenha.addEventListener('click', ()=>{
 })
 
 clear.onclick = ()=>{
-    email = ''
-    senha = ''
+    email.value = ''
+    senha.value = ''
 }
 
 const login = async()=>{
