@@ -17,6 +17,6 @@ Abaixo estão o carrinho de produtos e a página de meios de pagamento, onde o c
 A primeira página é a do carrinho, nela você pode alterar a quantidade de sabores ou até removê-los caso queira. As demais páginas são as formas de pagamento, pix, cartõ ou falar diretamente via Whatsapp. Após finalizado o pedido o cliente poderá vê-lo na página do seu perfil clicando no ícone 👤 superior direito da tela.
 <br><br>
 
->Link da aplicação: https://gazuadev8417.github.io/meu-delivery/
+>Link da aplicação: https://max-menu.vercel.app/
 
->Documentação: https://documenter.getpostman.com/view/48121909/2sB3HjM1z7  
+>Documentação: https://app.swaggerhub.com/apis-docs/MESMO245/APICardapioDigital/1.0.0  
