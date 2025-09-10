@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', async()=>{
                     
                     getFlavorsByProduct(product.id, currentStep)
                     
-                    if(product.category === 'bebida'){
+                    if(product.category === 'bebida' || product.category === 'porcao'){
                         addDrinkToCart(product)
                     }
                     

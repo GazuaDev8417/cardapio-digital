@@ -109,12 +109,12 @@ const displayProducts = ()=>{
                         
                         cardHtml.addEventListener('click', () =>{
                             if(dayName === dayWeek){
-                                if(totalMinutes >= time[0] /* && totalMinutes < time[1] */){
+                                if(totalMinutes <= time[0] /* && totalMinutes < time[1] */){
                                     localStorage.setItem('title', d.product)
                                     localStorage.setItem('productId', d.id)
                                     localStorage.setItem('category', d.category)
                                     
-                                    if(d.category === 'bebida'){
+                                    if(d.category === 'bebida' || d.category === 'porcao'){
                                         addDrinkToCart(d)
                                     }else{
                                         window.location.href = 'assets/pages/pedidos/index.html'

@@ -106,7 +106,7 @@ const groupedProducts = async() => {
     itemContainer.appendChild(productDiv);
 
     /* CARD DAS BEBIDAS */        
-    if(product.category === 'bebida'){
+    if(product.category === 'bebida' || product.category === 'porcao'){
       const btnContainer = document.createElement('div')
       btnContainer.classList.add('btn-container')
 
