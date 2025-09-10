@@ -210,14 +210,13 @@ cardForm = mp.cardForm({
         },
         callbacks: {
             onReady: () => console.log('Formulário carregado.'),
-            onFormMounted: (error) => error && console.warn('Form Mounted failed: ', error),
+            onFormMounted: (error) => error && console.error('Form Mounted failed: ', error),
             onError: (error) => console.error('Erro no cardForm:', error),
             onSubmit: (event) => {
                 event.preventDefault();
                 
                 cardForm.submit({
-                    onSuccess: async (cardData) => {
-                      
+                    onSuccess: async (cardData) => {                      
                         const {
                             token,
                             payment_method_id: paymentMethodId,
@@ -259,7 +258,6 @@ cardForm = mp.cardForm({
                     },
                     onError: (error) => {
                         console.error('Erro no submit do cardForm:', error);
-                        onsole.log('Detalhes do erro:', JSON.stringify(error, null, 2));
                         alert('Erro ao criar token do cartão.');
                     }
                 });

@@ -19,4 +19,4 @@ A primeira página é a do carrinho, nela você pode alterar a quantidade de sab
 
 >Link da aplicação: https://max-menu.vercel.app/
 
->Documentação: https://app.swaggerhub.com/apis-docs/MESMO245/APICardapioDigital/1.0.0  
+>Documentação da API: https://app.swaggerhub.com/apis-docs/MESMO245/APICardapioDigital/1.0.0  
