@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', async()=>{
         linkPerfil.style.display = 'none'
     }else{
         const profile = await getProfile()
-        if(profile.role === 'ADM'){
+        if(profile?.role === 'ADM'){
             window.location.href = 'assets/pages/admuser/index.html'
         }
         linkLogin.style.display = 'none'

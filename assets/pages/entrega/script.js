@@ -1,4 +1,3 @@
-const obs = document.getElementById('obs-content')
 const ref = document.getElementById('referencia')
 //const cancelBtn = document.querySelector('.back-shopping')
 const endBtn = document.querySelector('.end-orders')

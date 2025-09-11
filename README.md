@@ -1,4 +1,3 @@
-
 # Cardápio Digital
 
 O projeto Cardápio Digital é uma plataforma delivery fast-food, que gerencia usuários, pedidos, pagamentos e produtos.
