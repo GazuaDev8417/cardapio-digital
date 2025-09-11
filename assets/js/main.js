@@ -226,9 +226,9 @@ document.querySelector('.wp-link').addEventListener('click', ()=>{
     window.open('https://wa.me/5571984407882', '_blank')
 })
 
-/* document.getElementById('portolioLInk').addEventListener('click', ()=>{
+document.getElementById('portolioLInk').addEventListener('click', ()=>{
     window.open('https://portfolio-x22d.onrender.com/', '_blank')
-}) */
+})
 
 document.addEventListener('DOMContentLoaded', async()=>{   
     /* ============= RENDERIZAÇÃO DOS PRODUTOS ==================== */

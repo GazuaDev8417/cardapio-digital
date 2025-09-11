@@ -1,21 +1,47 @@
-# Cardápio Digital
+# Cardápio Digital 🍽️
 
-O projeto Cardápio Digital é uma plataforma delivery fast-food, que gerencia usuários, pedidos, pagamentos e produtos.
-Segue abaixo sua página inicial que lista os produtos por categoria. No ícone de menu no canto superior esquerdo é possível acessar a lista das categorias dos produtos.
+Aplicação **full-stack** de cardápio digital com integração à **API de pagamentos do Mercado Pago** para simulação de pedidos online.  
 
-<br><img src='./imgReadme/home.png' >
-Clicando na imagem do produto o usuário é redirecionado para a página de sabores, onde pode adicioná-los ao produto escolhido, fazendo assim uma espécie de pegue e monte digital.
+---
 
-<img src='./imgReadme/sabores.png'>
+## 🛠️ Tecnologias
 
-Abaixo estão o carrinho de produtos e a página de meios de pagamento, onde o cliente pode optar por cartão ou pix. E se caso ache melhor pode realizar o pagamento diretamente com o vendedor via Whatsapp.
+- **Frontend:** HTML5, CSS3, JavaScript  
+- **Backend:** Node.js (Express) hospedado na **Vercel**  
+- **Banco de Dados:** PostgreSQL na **Neon**  
+- **Integração:** API de pagamentos do Mercado Pago  
 
-<img src='./imgReadme/carrinho.png' width='320'>
-<img src='./imgReadme/finalizr_pedido.png' width='320'>
-<img src='./imgReadme/finalizr_pedido_cartao.png' width='320'><br>
-A primeira página é a do carrinho, nela você pode alterar a quantidade de sabores ou até removê-los caso queira. As demais páginas são as formas de pagamento, pix, cartõ ou falar diretamente via Whatsapp. Após finalizado o pedido o cliente poderá vê-lo na página do seu perfil clicando no ícone 👤 superior direito da tela.
-<br><br>
+---
 
->Link da aplicação: https://max-menu.vercel.app/
+## 🚀 Funcionalidades
 
->Documentação da API: https://app.swaggerhub.com/apis-docs/MESMO245/APICardapioDigital/1.0.0  
+- Exibição de produtos e categorias  
+- Carrinho de compras com cálculo automático  
+- Simulação de pagamento via Mercado Pago  
+- API REST para gerenciamento de pedidos e usuários  
+- Banco de dados remoto para persistência  
+
+---
+
+## 📂 Estrutura
+
+- **Frontend**: Interface do cardápio e fluxo de compra  
+- **Backend**: API em nuvem (Vercel)  
+- **Database**: PostgreSQL na Neon
+- **Documentação**: API documentada no SwaggerHub
+
+---
+
+## 🎯 Destaques
+
+- Projeto **full-stack funcional** (não apenas front)  
+- Integração real com **serviço externo de pagamentos** 
+- Foco em responsividade e usabilidade  
+
+---
+
+## Links
+
+> Frontend da aplicação: [Cardápio Digital](https://max-menu.vercel.app/)  
+
+> Documentação da API: [APICardapioDigital 1.0.0](https://app.swaggerhub.com/apis-docs/MESMO245/APICardapioDigital/1.0.0)

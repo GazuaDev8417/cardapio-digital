@@ -1,4 +1,11 @@
 /*====== CABEÇALHO ====== */
+@media(max-width: 768px){
+    .header .back,
+    .header .profile{
+        font-size: 1rem;
+    }
+}
+
 @media(max-width: 500px){
     .header{
         font-size: 13px;
@@ -15,7 +22,6 @@
         max-width: 100px;
     }
 }
-/* ======POUPUP-ALERT====== */
 
 /* CORPO DA PÁGINA 1 */
 @media(max-width: 520px){
