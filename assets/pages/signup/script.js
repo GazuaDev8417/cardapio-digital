@@ -63,8 +63,9 @@ const signup = async()=>{
             const error = await res.text()
             throw new Error(`Erro ao cadastrar cliente: ${error}`)
         }
-        const data = await res.text()
-        localStorage.setItem('token', data)
+        const text = await res.text()
+        const data = text ? JSON.parse(text) : {}
+        localStorage.setItem('token', data.token)
         window.location.href = '../endereco/index.html?mode=create'
     }catch(e){
         console.error(e)

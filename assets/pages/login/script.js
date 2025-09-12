@@ -55,9 +55,11 @@ const login = async()=>{
             const error = await res.text()
             throw new Error(error)
         }
-        const data = await res.text()
-        localStorage.setItem('token', data)
-        window.location.href = '../../../index.html'
+
+        const text = await res.text()
+        const data = text ? JSON.parse(text) : {}
+        localStorage.setItem('token', data.token)
+        data.role === 'ADM' ? window.location.href = '../admuser/index.html' : window.location.href = '../../../index.html'
     }catch(e){
         console.error(e)
         window.alert(e)
