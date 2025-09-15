@@ -19,13 +19,14 @@ Aplicação **full-stack** de cardápio digital com integração à **API de pag
 - Carrinho de compras com cálculo automático  
 - Simulação de pagamento via Mercado Pago  
 - API REST para gerenciamento de pedidos e usuários  
-- Banco de dados remoto para persistência  
+- Banco de dados remoto para persistência
+- Conta de usuário administrativo para gerenciamento de pedidos e entregas
 
 ---
 
 ## 📂 Estrutura
 
-- **Frontend**: Interface do cardápio e fluxo de compra  
+- **Frontend**: Interface do cardápio, fluxo de compra e gerenciamento de pedidos e entrega  
 - **Backend**: API em nuvem (Vercel)  
 - **Database**: PostgreSQL na Neon
 - **Documentação**: API documentada no SwaggerHub
@@ -39,6 +40,19 @@ Aplicação **full-stack** de cardápio digital com integração à **API de pag
 - Foco em responsividade e usabilidade  
 
 ---
+
+## 🔑 Credencias para Teste
+
+### Usuário Normal
+
+- **Email**: visitante@email.com
+- **Seha**: 123456
+
+### Usuário ADM
+
+- **Email**: adm@email.com
+- **Senha**: 123456
+
 
 ## Links
 
